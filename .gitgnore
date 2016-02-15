@@ -1,0 +1,7 @@
+ $ git status
+
+  # ignore generated html files,
+  *.html
+  
+  # except 
+  !pass.json
