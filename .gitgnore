@@ -4,4 +4,4 @@
   *.html
   
   # except 
-  !pass.js
+  !/pass.js
