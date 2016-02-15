@@ -1,5 +1,3 @@
-// Ed lägger in en onödig kommentar, det är bra med kommentarer
-
 var Stomp = require('stomp-client');
 var destination = '/topic/HelloWorld';
 var topic1= '/topic/elvisDiff';
