@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<script src="script/jquery-1.12.0.min.js"></script>
+		<script src="script/myFun.js"></script>
+		
+		<script>
+		$(document).ready(loadLocations());
+		
+		function loadLocations(){
+			var path = 'locations.json';
+			$.getJSON( path, {})
+			    .done(function( data ) {
+					console.log(data);
+					data = JSON.stringify(data);
+					data = data.replace(/,/g, ' ');
+					data = data.replace(/"/g, ' ');
+					$('#demo').text(data);
+				}
+			);	
+		}
+			
+		</script>
+	</head>
+	<body>
+		<p id="demo"></p>
+
+		<button
+			onclick="loadLocations()">AJAX request
+		</button>
+	
+		<div>
+			<h1>It works yao</h1>
+		</div>
+	</body>
+</html>
