@@ -1,4 +1,4 @@
-  # ignore generated html files,
+# ignore generated html files,
   
-  # except passwords
-  /pass.js
+# except passwords
+pass.js
