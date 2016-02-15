@@ -1,0 +1,4 @@
+# ignore generated html files,
+  
+# except passwords
+pass.js
