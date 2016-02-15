@@ -1,12 +1,16 @@
+
+var credentials = require('../pass.js');
 var Stomp = require('stomp-client');
-var client = new Stomp(); //<-fix
+var client = new Stomp(credentials.ip, credentials.port, credentials.user,credentials.pass); //<-fix
+console.log(credentials);
+
 var destination = '/topic/HelloWorld';
 var topic1= '/topic/elvisDiff';
 var topic2= '/topic/elvisSnapShot';
 
 var newBody;
 var locations = null;
-var savePath = '../apacheHTTP/htdocs/'
+var savePath = '../htdocs/'
 
 console.log("Hello, World!")
 client.connect(function(sessionId) {
