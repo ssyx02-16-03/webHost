@@ -1,4 +1,4 @@
-# ignore generated html files,
+*.json
 
 #ignore http webserver
 Apache24/*
