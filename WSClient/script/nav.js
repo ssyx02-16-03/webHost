@@ -7,7 +7,19 @@ jQuery(document).ready(function() {
  
         // Change/remove current tab to active
         jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
- 
-        e.preventDefault();
+
+		//prevents default button to be clicked again at start.
+		e.preventDefault();
+
+    	if( currentAttrValue == "#tab4"){
+			$("#tab4").load("diffLog.html");
+		 }
+		if( currentAttrValue == "#tab3"){
+			$("#tab3").load("webSocketInclude.html");
+			require(['webSocketConnect.js'], function (data){
+            	webSocketConnect();
+        	});
+			
+		 } 
     });
 });

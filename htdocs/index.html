@@ -18,17 +18,20 @@
 				}
 			);	
 		}
+		
+		$("#button1").click(function(){
+			$("#content").load(diffLog3.html);
+		})
 			
 		</script>
 	</head>
 	<body>
 		<p id="demo"></p>
 
-		<button
-			onclick="loadLocations()">AJAX request
+		<button id="button1" >AJAX request
 		</button>
 	
-		<div>
+		<div id="content">
 			<h1>It works yao</h1>
 		</div>
 	</body>

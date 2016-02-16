@@ -1,7 +1,10 @@
-# ignore generated html files,
+# ignore generated json files,
+*.json
+
 
 #ignore http webserver
 Apache24/*
 
 # except passwords
 pass.js
+pass.json
