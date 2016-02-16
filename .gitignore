@@ -1,4 +1,7 @@
 # ignore generated html files,
-  
+
+#ignore webhost software
+/Apache24/*
+
 # except passwords
 pass.js
