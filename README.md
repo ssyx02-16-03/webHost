@@ -2,7 +2,7 @@
 Webserver
 
 
-To use the websocket put the activemq credentials in the file: ./WSClient/pass.json 
+To use websockets put the activemq credentials in the file: ./WSClient/pass.json 
 contents:
 ```
 {
@@ -14,20 +14,14 @@ contents:
 
 ```
 
-
-<br />
-<br />
-
-
-
-To use the NodeJS service 
-put your active mq credentials in the gitignored file: ./pass.js
-<br />
-pass.js contains: <br />
+To use stomp with Node.js put the activemq credentials in the file: ./NodeJS/pass.json 
+contents:
 ```
-exports.ip = '0.0.0.0';  
-exports.port = 61613;
-exports.user = 'xxx';  
-exports.pass = 'xxx';  
-```
+{
+	"ip" : "x.x.x.x",
+	"port" :  61613,
+	"user" : "xx",
+	"pass" : "xx"
+}
 
+```

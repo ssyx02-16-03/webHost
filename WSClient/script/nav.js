@@ -11,12 +11,17 @@ jQuery(document).ready(function() {
 		//prevents default button to be clicked again at start.
 		e.preventDefault();
 
-    	if( currentAttrValue == "#tab4"){
+        if( currentAttrValue == "#tab2"){
+            require(['script/readLocations.js'], function(data){
+                readLocationsFromJSON();
+            });
+        }
+    	else if( currentAttrValue == "#tab4"){
 			$("#tab4").load("diffLog.html");
 		 }
-		if( currentAttrValue == "#tab3"){
+		else if( currentAttrValue == "#tab3"){
 			$("#tab3").load("webSocketInclude.html");
-			require(['webSocketConnect.js'], function (data){
+			require(['script/webSocketConnect.js'], function (data){
             	webSocketConnect();
         	});
 			

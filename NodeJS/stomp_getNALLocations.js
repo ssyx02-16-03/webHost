@@ -1,18 +1,19 @@
+console.log("Hello, World!")
+var Stomp = require('stomp-client'); //stomp client library
 
-var credentials = require('../pass.js');
-var Stomp = require('stomp-client');
-var client = new Stomp(credentials.ip, credentials.port, credentials.user,credentials.pass); //<-fix
+//get credentials
+var credentials = require('./pass.json')
 console.log(credentials);
 
-var destination = '/topic/HelloWorld';
 var topic1= '/topic/elvisDiff';
 var topic2= '/topic/elvisSnapShot';
 
-var newBody;
 var locations = null;
-var savePath = '../htdocs/'
+var savePath = '../WSClient/'; //savepath for locations.json
 
-console.log("Hello, World!")
+
+console.log('connecting to', credentials.ip);
+var client = new Stomp(credentials.ip, credentials.port, credentials.user, credentials.pass);
 client.connect(function(sessionId) {
 	console.log('subscribing to:', topic2)
 	client.subscribe(topic2, function(body, headers) {
@@ -23,7 +24,7 @@ client.connect(function(sessionId) {
 		saveToDisk(locations);
 		console.log(locations);
 		console.log('-------');
-		client.unsubscribe(topic2, headers );
+		//client.unsubscribe(topic2, headers ); //to just run once
 	});
 });
 
@@ -48,7 +49,7 @@ function getAllLocations(obj){
 	return locations;	
 }
 
-/*
+/*  example data
      { CareContactId: 3884978,
        CareContactRegistrationTime: '2016-02-14T07:40:00Z',
        DepartmentComment: '',
@@ -60,15 +61,3 @@ function getAllLocations(obj){
        VisitId: 3958522,
        VisitRegistrationTime: '2016-02-14T07:40:00Z' } ] }
 */
-
-/*function Object_keys(obj,name) {
-	var keys = [], name;
-	for (name in obj) {
-	    if (obj.hasOwnProperty(name)) {
-		  console.log('Found the propterty!')
-		  keys.push(name);
-	    }
-	}
-	return keys;
-}*/
-
