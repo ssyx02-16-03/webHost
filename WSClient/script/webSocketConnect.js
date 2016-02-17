@@ -1,4 +1,11 @@
     
+function printPatients(elvisLocation,data){
+  $('#log').text("");
+  $('#log').append("No of patients: " +elvisLocation.length+ "<br />"); //set textmessage
+  $('#log').append("Rooms:<br />"); 
+  $('#log').append(JSON.stringify(elvisLocation)); 
+}
+
 function webSocketConnect(){
         require(['lib/stomp.js'], function () {
             console.log("imported stomp.js");
@@ -18,6 +25,7 @@ function webSocketConnect(){
 
 
 function socketConnect(data){
+  var div = '#tab3';
       if(window.WebSocket) {
           var client, destination;
           var url = "ws://"+data.ip+":61614" +"/stomp";
@@ -33,14 +41,25 @@ function socketConnect(data){
             console.log(str);
           };
           
-          $("#tab3").append("connecting to " +url);
+          $(div).text("connecting to " +url);
           client.connect(login, passcode, function(frame) {
-            $("#tab3").append("Connected! subcribing to: " +destination);
+            $(div).append("Connected! subcribing to: " +destination);
             console.log("connected to Stomp");
+            $(div).append("<p id=\"log\"></p>")
+            
             client.subscribe(destination, function(message) {
-              var body = message.body //should be JSON format.
-              $("#tab3").text("size: " +body.length+ "<br />"); //set textmessage
-              $("#tab3").append(body); 
+              var data = jQuery.parseJSON(message.body);
+
+              var elvisLocation = [];
+              for(var i=0; i<data.patients.length; i++){
+                elvisLocation[i] = data.patients[i].Location;
+                if(elvisLocation[i] == ""){
+                  elvisLocation[i] = "---";
+                }
+                if(i == data.patients.length-1){
+                  printPatients(elvisLocation,data);
+                }
+              }
             });
           });//client.connect
   
