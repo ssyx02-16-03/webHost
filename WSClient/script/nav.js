@@ -16,15 +16,14 @@ jQuery(document).ready(function() {
                 readLocationsFromJSON();
             });
         }
-    	else if( currentAttrValue == "#tab4"){
-			$("#tab4").load("diffLog.html");
-		 }
+			
 		else if( currentAttrValue == "#tab3"){
 			$("#tab3").load("webSocketInclude.html");
 			require(['script/webSocketConnect.js'], function (data){
             	webSocketConnect();
         	});
-			
-		 } 
+		} else if( currentAttrValue == "#tab4"){
+            $("#tab4").load("diffLog.html");
+        }
     });
 });
