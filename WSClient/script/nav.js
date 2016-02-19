@@ -24,6 +24,10 @@ jQuery(document).ready(function() {
         	});
 		} else if( currentAttrValue == "#tab4"){
             $("#tab4").load("diffLog.html");
+        } else if(currentAttrValue == "#tab1") {
+		require(['script/startPassivLocationsVisare.js'], function(data) {
+			startPassivLocationsVisare();
+		});
         }
     });
 });
