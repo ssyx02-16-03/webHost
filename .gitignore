@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 # ignore generated json files,
 *.json
-
-=======
-*.json
->>>>>>> 61de32587373e5aecad405ca0f46a201e4831892
 
 #ignore http webserver
 Apache24/*

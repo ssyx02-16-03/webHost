@@ -6,8 +6,7 @@ define([], function () {
 		this.subscribe = function() {
 			var Stomp = require('stomp-client'); //stomp client library
 			
-			//get JSON file
-			try{
+			try{ //get JSON file
 				var credentials = JSON.parse(require('fs').readFileSync('./pass.json', 'utf8'));  //credentials to STOMPserver
 				console.log(credentials);
 			}catch(err){
@@ -33,7 +32,7 @@ define([], function () {
 		}//subscribe
 
 		var notify = this.notify = function() {
-			eventEmitter.emit('data_ready');
+			eventEmitter.emit('data_ready',data);
 			console.log('stompC:data ready!');
 		}
 		this.getLatestSnap = function() {
