@@ -1,5 +1,5 @@
 # ignore generated json files,
-*.json
+# not anymore, package.json is important, *.json
 
 #ignore http webserver
 Apache24/*
