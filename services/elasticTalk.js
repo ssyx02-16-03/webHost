@@ -1,37 +1,17 @@
-// config gör att man kan få med .json i define, se AngelClient för exempel
-var requireJS = require('./node_modules/requirejs/bin/r.js');
-requireJS.config({
-	waitSeconds: 2,
-	paths: {
-		text: 'node_modules/requirejs/lib/text',
-		json: 'node_modules/requirejs/lib/json'
-	}
-});
-
-
-
-/*
-requireJS(['./AngelClient.js', './SocketIOServer.js', './LocationsService'],
-		  function(angelClient, socketIOServer, locationsService) {
-		
-	//locationsService.start(angelClient, socketIOServer);
-	
-});
-*/
-
-requireJS(['elasticsearch' ,'json!./pass.json'],
+define(['elasticsearch' ,'json!pass.json'],
 	function(elastic,credentials){
-		var start = function(){
-			var client = new elastic.Client({
+		var client;
+		function start(){
+			client = new elastic.Client({
 			  	host: credentials.ip +':9200',
 			  	log: 'trace',
 			  	sniffOnStart: true,
   				sniffInterval: 300000
 			});
-			return client;
+			return client
 		};
 
-		var ping = function(client){
+		function ping(client){
 			client.ping({
 				  // ping usually has a 3000ms timeout
 				  requestTimeout: Infinity,
@@ -47,16 +27,16 @@ requireJS(['elasticsearch' ,'json!./pass.json'],
 			});
 		};
 
-		var getStatus = function(client){
+		function getStatus(client){
 			client.cluster.health(function (err, resp) {
 				  if (err) {
 				    console.error(err.message);
 				  } else {
 				    console.dir(resp);
 				  }
-				});
-		}
-/*
+			});
+		};
+		/*
 				// index a document
 				client.index({
 				  index: 'blog',
@@ -71,8 +51,9 @@ requireJS(['elasticsearch' ,'json!./pass.json'],
 				  // ...
 				});
 				*/
-		var c = start();
-		ping(c);
-		getStatus(c);
-		
-	});
+	return{
+		start: start,
+		ping: ping,
+		getStatus: getStatus
+	}
+});
