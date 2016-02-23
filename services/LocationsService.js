@@ -4,15 +4,11 @@ define([], function() {
 
 		angelClient.subscribe('/topic/elvisSnapShot', function(body, headers) {
 	
-			snapShot = JSON.parse(body);
-			console.log('\n');
-			locations = getPatientLocations(snapShot);
-			var locationz = locations;
-			console.log(locations); // for testing
-			locations = JSON.stringify(locations);
-			console.log(locations);
+			var snapShot = JSON.parse(body);
+			var patientLocations = getPatientLocations(snapShot);
+			console.log(patientLocations);
 			console.log('-------');
-			socketIOServer.emit('locations', locations);
+			socketIOServer.emit('patientLocations', patientLocations);
 		});
 	}
 	

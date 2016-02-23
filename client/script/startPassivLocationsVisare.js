@@ -12,14 +12,14 @@ function startPassivLocationsVisare() {
 	var socket = io();
 	socket.emit('chat message', 'hej bror');
 
-	socket.on('locations', function(data) {
-		console.log(data);        
+	socket.on('patientLocations', function(patientLocations) {
+		console.log(patientLocations);      
 		try {
-            var json = JSON.parse(data);
+            var json = JSON.stringify(patientLocations);
             console.log(json);
 			$('#tab1').append(json);
         } catch (e) {
-            console.log('This doesn\'t look like a valid JSON: ', message.data);
+            console.log('This doesn\'t look like a valid JSON: ', data);
             return;
         }
 	});
