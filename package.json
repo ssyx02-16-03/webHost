@@ -1,0 +1,26 @@
+{
+  "name": "webHost",
+  "version": "1.0.0",
+  "description": "Webserver using Node.js modules",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssyx02-16-03/webHost.git"
+  },
+  "keywords": [],
+  "author": "Intelligenta-akutmottagningen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ssyx02-16-03/webHost/issues"
+  },
+  "homepage": "https://github.com/ssyx02-16-03/webHost#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "requirejs": "^2.1.22",
+    "socket.io": "^1.4.5",
+    "stomp-client": "^0.8.1"
+  }
+}
