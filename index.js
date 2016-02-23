@@ -8,7 +8,7 @@ requireJS.config({
 	}
 });
 	
-requireJS(['./AngelClient.js', './SocketIOServer.js', './Services'],
+requireJS(['./AngelClient.js', './SocketIOServer.js', './Services.js'],
 		  function(angelClient, socketIOServer, services) {
 		
 	// kommer ändras till start(angelClient, esClient, socketIOServer)
