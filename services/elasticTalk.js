@@ -1,6 +1,13 @@
 define(['elasticsearch' ,'json!pass.json'],
 	function(elastic,credentials){
 		var client;
+		
+		function lazyStart(){
+			client = this.start();
+			this.ping(client);
+			this.getStatus(client);
+		}
+
 		function start(){
 			client = new elastic.Client({
 			  	host: credentials.ip +':9200',
@@ -12,12 +19,9 @@ define(['elasticsearch' ,'json!pass.json'],
 		};
 
 		function ping(client){
-			client.ping({
-				  // ping usually has a 3000ms timeout
-				  requestTimeout: Infinity,
-
-				  // undocumented params are appended to the query string
-				  hello: "elasticsearch!"
+			client.ping({				 
+				  requestTimeout: Infinity,  // ping usually has a 3000ms timeout
+				  hello: "elasticsearch!" // undocumented params are appended to the query string
 				}, function (error) {
 				  if (error) {
 				    console.trace('elasticsearch cluster is down!');
@@ -32,7 +36,7 @@ define(['elasticsearch' ,'json!pass.json'],
 				  if (err) {
 				    console.error(err.message);
 				  } else {
-				    console.dir(resp);
+				    console.log("elasticTalk:" +resp);
 				  }
 			});
 		};
@@ -52,6 +56,7 @@ define(['elasticsearch' ,'json!pass.json'],
 				});
 				*/
 	return{
+		lazyStart: lazyStart,
 		start: start,
 		ping: ping,
 		getStatus: getStatus

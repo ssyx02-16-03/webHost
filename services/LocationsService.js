@@ -1,10 +1,11 @@
 define([], function() {
 	function start(angelClient, socketIOServer) {
 		angelClient.subscribe('/topic/elvisSnapShot', function(body, headers) {
+			console.log('--- Data recieved ---');
 			var snapShot = JSON.parse(body);
 			var patientLocations = getPatientLocations(snapShot);
-			console.log(patientLocations);
-			console.log('-------');
+			//console.log(patientLocations);
+			
 			socketIOServer.emit('patientLocations', patientLocations);
 		});
 	}

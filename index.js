@@ -14,11 +14,3 @@ requireJS(['./AngelClient.js', './SocketIOServer.js', './Services.js'],
 	// kommer ändras till start(angelClient, esClient, socketIOServer)
 	services.start(angelClient, socketIOServer);
 });
-
-
-requireJS(['./services/elasticTalk.js'],
-	function(elastic){
-		var client = elastic.start();
-		elastic.ping(client);
-		elastic.getStatus(client);
-});
