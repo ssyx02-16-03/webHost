@@ -8,9 +8,9 @@ requireJS.config({
 	}
 });
 	
-requireJS(['./stompTalk.js', './SocketIOServer.js', './Services.js'],
-		  function(stompTalk, socketIOServer, services) {
+requireJS(['./stompTalk.js', './elasticTalk.js', './SocketIOServer.js', './Services.js'],
+		  function(stompTalk, elasticTalk, socketIOServer, services) {
 		
 	// kommer ändras till start(angelClient, esClient, socketIOServer)
-	services.start(stompTalk, socketIOServer);
+		services.start(stompTalk, elasticTalk, socketIOServer);
 });

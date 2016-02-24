@@ -1,35 +1,64 @@
-define(['stomp-client', 'json!pass.json'], function(StompClient, pass) {
-	
+define(['stomp-client', 'json!pass.json', 'events','./lib/Queue.js'], 
+	function(StompClient, pass, events, Queue) {
+
 	var stompClient = new StompClient(pass.ip, 
 									  pass.port, 
 									  pass.user, 
 									  pass.pass);
 
+	var connected = false;
+	var tryingToConnect = false;
+	var topicQ = new Queue();
+	var funcQ = new Queue();
+
+	var eventEmitter = new events.EventEmitter();
+	eventEmitter.addListener('subscribe', startSubscribing );
+
 	function connect(onConnectFunction) {
 		stompClient.connect(onConnectFunction);
 	}
+
 	function disconnect(){
 		stompClient.disconnect();
+		connected = false;
 		console.log("stompClient disconnected");
 	}
 	
-	// subscribar och connectar här på samma gång, kan komma att visa sig att connect är användbart
 	function subscribe(topic, onSubscribeFunction) {
-		this.connect(function(sessionId) {
-			console.log("\nstompClient: connected!\nsubscribing to:" +topic);
-			stompClient.subscribe(topic, onSubscribeFunction);
-		});
+		topicQ.enqueue(topic);
+		funcQ.enqueue(onSubscribeFunction);
+
+		if(!connected && !tryingToConnect){
+			tryingToConnect = true;
+			this.connect(function(sessionId){
+				console.log("\nstompClient: connected");
+				tryingToConnect = false;
+				connected = true;
+				eventEmitter.emit('subscribe');
+			});
+		}else{
+			eventEmitter.emit('subscribe');
+		}
 	}
+
+	function startSubscribing(){
+		while(connected && !topicQ.isEmpty()){
+			console.log("Subscribing to:" +topicQ.peek());
+			stompClient.subscribe(topicQ.dequeue(), funcQ.dequeue());
+			console.log("--subscribed!");
+		}
+	}
+
 
 	function unsubscribe(topic){
 		stompClient.unsubscribe(topic);
 		console.log("stompClient unsubscribed from" +topic);	
 	}
-
+	
 	return {
 		connect: connect,
 		disconnect : disconnect,
 		unsubscribe: unsubscribe,
 		subscribe: subscribe
-	}
+	};
 });

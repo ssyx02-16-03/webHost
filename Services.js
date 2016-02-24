@@ -1,11 +1,15 @@
-define(['./services/LocationsService.js', './services/elasticTalk.js', './services/FreeRoomsService.js'],
-	   function(locationsService, elasticTalk, freeRoomsService) {
+define(['./services/LocationService.js', './services/FreeRoomsService.js'],
+	   function(locationService, freeRoomsService) {
 	
-	function start(stompTalk, socketIOServer) {
-		elasticTalk.lazyStart();
-
-		locationsService.start(stompTalk, socketIOServer);
+	function start(stompTalk, elasticTalk, socketIOServer) {
+		locationService.start(stompTalk, socketIOServer);
+		
 		//freeRoomsService.start(stompTalk, socketIOServer);
+		
+		stompTalk.subscribe('/topic/elvisDiff', function(body, headers){
+			console.log("getting data - woho! subscribing again!");
+		});
+		elasticTalk.lazyStart();
 	}
 	
 	return {
