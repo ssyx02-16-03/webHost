@@ -1,11 +1,11 @@
 define(['./services/LocationsService.js', './services/elasticTalk.js', './services/FreeRoomsService.js'],
 	   function(locationsService, elasticTalk, freeRoomsService) {
 	
-	function start(angelClient, socketIOServer) {
+	function start(stompTalk, socketIOServer) {
 		elasticTalk.lazyStart();
 
-		locationsService.start(angelClient, socketIOServer);
-		//freeRoomsService.start(angelClient, socketIOServer);
+		locationsService.start(stompTalk, socketIOServer);
+		//freeRoomsService.start(stompTalk, socketIOServer);
 	}
 	
 	return {
