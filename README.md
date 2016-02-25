@@ -9,7 +9,8 @@ To get going you have to do the following:`<br />
 
 
 
-To use Node.js with activemq and elasticsearch put the credentials in the file: ./pass.json 
+To use the modules elasticTalk(elasticSearch communicator) and stompTalk(activeMQ communicator) put the credentials in the file: ./pass.json
+If you need to connect to different ip:s, create to files and 
 contents:
 ```
 {
