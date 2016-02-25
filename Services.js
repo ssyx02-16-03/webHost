@@ -9,7 +9,9 @@ define(['./services/LocationService.js', './services/FreeRoomsService.js'],
 		stompTalk.subscribe('/topic/elvisDiff', function(body, headers){
 			console.log("getting data - woho! subscribing again!");
 		});
-		elasticTalk.lazyStart();
+		elasticTalk.search('*',function(data){
+			console.log("gotData: " +data);
+		})
 	}
 	
 	return {

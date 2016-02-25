@@ -1,35 +1,49 @@
-define(['elasticsearch' ,'json!pass.json'],
-	function(elastic,credentials){
+define(['elasticsearch' ,'json!passNothingVille.json','events','./lib/Queue.js'],
+	function(elastic,credentials,events,Queue){
 		var client;
+		var connecting = false;
+		var connected = false;
 		
-		function lazyStart(){
-			client = this.start();
-			this.ping(client);
-			this.getStatus(client);
+		var queryQ = new Queue();
+		var callbackQ = new Queue();
+
+		var eventEmitter = new events.EventEmitter(); //not used atm
+		eventEmitter.on('elasticConnected', function(){
+				console.log("XXX elasticSearch: connected!");
+			});
+
+		function connect(){
+			connecting = true;
+			client = establish();
+			ping(client);
 		}
 
-		function start(){
+		function establish(){
 			client = new elastic.Client({
 			  	host: credentials.ip +':9200',
-			  	log: 'trace',
+			  	log: 'error', //error,warning,info,debug,trace
 			  	sniffOnStart: true,
   				sniffInterval: 300000
 			});
 			return client
-		};
+		}
 
 		function ping(client){
+			
 			client.ping({				 
-				  requestTimeout: Infinity,  // ping usually has a 3000ms timeout
+				  requestTimeout: 30000,  // 3000ms/infinity
 				  hello: "elasticsearch!" // undocumented params are appended to the query string
-				}, function (error) {
+			}, function (error) {
 				  if (error) {
 				    console.trace('elasticsearch cluster is down!');
 				  } else {
-				    console.log('All is well');
+				  	connecting = false;
+				  	connected = true;
+				    eventEmitter.emit('elasticConnected');
+				    startSearching(queryQ,callbackQ);
 				}
 			});
-		};
+		}
 
 		function getStatus(client){
 			client.cluster.health(function (err, resp) {
@@ -39,26 +53,73 @@ define(['elasticsearch' ,'json!pass.json'],
 				    console.log("elasticTalk:" +resp);
 				  }
 			});
-		};
-		/*
-				// index a document
-				client.index({
-				  index: 'blog',
-				  type: 'post',
-				  id: 1,
-				  body: {
-				    title: 'JavaScript Everywhere!',
-				    content: 'It all started when...',
-				    date: '2013-12-17'
-				  }
-				}, function (err, resp) {
-				  // ...
+		}
+
+		function search(query, callbackFunc){
+			if(!connected){
+				queryQ.enqueue(query); //queue query
+				callbackQ.enqueue(callbackFunc); 
+				if(!connecting){
+					connect();
+				}
+			}else{
+				goSearch(query,callbackFunc);
+			}
+		}
+
+		function goSearch(query,callback){
+			if(client == null){
+				callback(null);
+			}
+			else{
+				client.search({
+					  q: query
+				}).then( function(body) {
+					  var hits = body.hits.hits;
+					  console.log("hits" +hits);
+					  callback(hits);
+
+					}, function(error) {
+					  callback(null);
+					  console.trace(error.message);
+					  console.log("elasticTalk:error!");
 				});
-				*/
+			}
+		}
+
+		function startSearching(queryQ,callbackQ){
+			if(!conneted){
+				console.log("elasticTalk.startSearching: i've been called but i'm not connected! :(");
+			}
+			while(!queryQ.isEmtpy){
+				goSearch(queryQ.dequeue(), callbackQ.dequeue());
+			}
+		}
+
+
+		function searchSpecified(query,match,body){
+			client.search({
+				  index: '.kibana', 
+				  type: '*',
+				  body: { 
+				    query: {
+				      match: {
+				        body: 'elasticsearch'
+				      }
+				    }
+				  }
+			}).then(function (resp) {
+				    var hits = resp.hits.hits;
+				    return hits;
+				}, function (err) {
+					console.trace(error.message);
+			});	
+		}
+
 	return{
-		lazyStart: lazyStart,
-		start: start,
+		connect: connect,
 		ping: ping,
-		getStatus: getStatus
+		getStatus: getStatus,
+		search:search
 	}
 });

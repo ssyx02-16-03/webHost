@@ -7,3 +7,4 @@ node_modules/*
 # except passwords
 pass.js
 pass.json
+passNothingVille.json
