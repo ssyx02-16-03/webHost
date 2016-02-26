@@ -1,4 +1,11 @@
-define(['elasticsearch' ,'json!passNothingVille.json','events','./lib/Queue.js'],
+/*
+*	Commands:
+*	+ Search: execute a search query and get back search hits that match the query
+*	+ Get:  get a typed JSON document from the index based on its id.
+*	+ Index:  
+*/
+
+define(['elasticsearch' ,'json!pass.json','events','./lib/Queue.js'],
 	function(elastic,credentials,events,Queue){
 		var client;
 		var connecting = false;
@@ -7,12 +14,13 @@ define(['elasticsearch' ,'json!passNothingVille.json','events','./lib/Queue.js']
 		var queryQ = new Queue();
 		var callbackQ = new Queue();
 
-		var eventEmitter = new events.EventEmitter(); //not used atm
+		var eventEmitter = new events.EventEmitter();
 		eventEmitter.on('elasticConnected', function(){
-				console.log("XXX elasticSearch: connected!");
+				console.log("elasticSearch: connected!");
 			});
 
 		function connect(){
+			console.log("elasticSearch: connecting...");
 			connecting = true;
 			client = establish();
 			ping(client);
@@ -20,10 +28,10 @@ define(['elasticsearch' ,'json!passNothingVille.json','events','./lib/Queue.js']
 
 		function establish(){
 			client = new elastic.Client({
-			  	host: credentials.ip +':9200',
-			  	log: 'error', //error,warning,info,debug,trace
-			  	sniffOnStart: true,
-  				sniffInterval: 300000
+			  	'host': credentials.ip +':9200',
+			  	'log': 'error', //error,warning,info,debug,trace
+			  	'sniffOnStart' : true,
+  				'sniffInterval': 300000
 			});
 			return client
 		}
@@ -71,9 +79,7 @@ define(['elasticsearch' ,'json!passNothingVille.json','events','./lib/Queue.js']
 				callback(null);
 			}
 			else{
-				client.search({
-					  q: query
-				}).then( function(body) {
+				client.search(query).then( function(body) {
 					  var hits = body.hits.hits;
 					  callback(hits);
 
@@ -85,7 +91,7 @@ define(['elasticsearch' ,'json!passNothingVille.json','events','./lib/Queue.js']
 			}
 		}
 
-		function startSearching(queryQ,callbackQ){
+		function startSearching(queryQ,callbackQ){ //do queries that was enqued when we weren't connected
 			if(!connected){
 				console.log("elasticTalk.startSearching: i've been called but i'm not connected! :(");
 			}
@@ -94,30 +100,33 @@ define(['elasticsearch' ,'json!passNothingVille.json','events','./lib/Queue.js']
 			}
 		}
 
-
-		function searchSpecified(query,match,body){
-			client.search({
-				  index: '.kibana', 
-				  type: '*',
-				  body: { 
-				    query: {
-				      match: {
-				        body: 'elasticsearch'
-				      }
-				    }
-				  }
-			}).then(function (resp) {
-				    var hits = resp.hits.hits;
-				    return hits;
-				}, function (err) {
-					console.trace(error.message);
-			});	
+		function getLocation(callback){
+			var query = {
+				"size" : 1000,
+				"index" : "on_going_patient_index", //on_going_patient_index, finished_patient_index"
+				"fields": "Location"
+			}
+			search(query,callback);
 		}
+
 
 	return{
 		connect: connect,
 		ping: ping,
 		getStatus: getStatus,
-		search:search
+		search : search,
+		getLocation : getLocation
 	}
 });
+
+
+/**
+
+
+	"index": "on_going_patient_index", //on_going_patient_index, finished_patient_index"
+				"query": {
+					"match": { "2",
+					}
+				}
+
+				*/

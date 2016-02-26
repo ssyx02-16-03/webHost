@@ -2,7 +2,7 @@ define(['stomp-client', 'json!pass.json', 'events','./lib/Queue.js'],
 	function(StompClient, pass, events, Queue) {
 
 	var stompClient = new StompClient(pass.ip, 
-									  pass.port, 
+									  pass.port,
 									  pass.user, 
 									  pass.pass);
 
@@ -15,7 +15,9 @@ define(['stomp-client', 'json!pass.json', 'events','./lib/Queue.js'],
 	eventEmitter.addListener('subscribe', startSubscribing );
 
 	function connect(onConnectFunction) {
-		stompClient.connect(onConnectFunction);
+		stompClient.connect(onConnectFunction, function(){
+			system.log("stompTalk: couldn't connect!");
+		});
 	}
 
 	function disconnect(){
@@ -30,7 +32,7 @@ define(['stomp-client', 'json!pass.json', 'events','./lib/Queue.js'],
 
 		if(!connected && !tryingToConnect){
 			tryingToConnect = true;
-			this.connect(function(sessionId){
+			connect(function(sessionId){
 				console.log("\nstompClient: connected");
 				tryingToConnect = false;
 				connected = true;
@@ -48,7 +50,6 @@ define(['stomp-client', 'json!pass.json', 'events','./lib/Queue.js'],
 			console.log("--subscribed!");
 		}
 	}
-
 
 	function unsubscribe(topic){
 		stompClient.unsubscribe(topic);
