@@ -21,3 +21,10 @@ contents:
 }
 
 ```
+
+# web-app
+web-app built in Angular2 <br />
+
+To see it: <br />
+1. move to the web-app directory and run <code>npm install</code>
+2. either run <code>npm start</code> in the web-app directory OR make sure <code>app.use(express.static('./web-app'));</code> is uncommented in SocketIOServer.js, then run <code>node index</code> from the webHost directory and go to localhost:3000 in a browser
