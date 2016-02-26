@@ -29,7 +29,6 @@ define(['elasticsearch' ,'json!passNothingVille.json','events','./lib/Queue.js']
 		}
 
 		function ping(client){
-			
 			client.ping({				 
 				  requestTimeout: 30000,  // 3000ms/infinity
 				  hello: "elasticsearch!" // undocumented params are appended to the query string
@@ -76,7 +75,6 @@ define(['elasticsearch' ,'json!passNothingVille.json','events','./lib/Queue.js']
 					  q: query
 				}).then( function(body) {
 					  var hits = body.hits.hits;
-					  console.log("hits" +hits);
 					  callback(hits);
 
 					}, function(error) {
@@ -88,10 +86,10 @@ define(['elasticsearch' ,'json!passNothingVille.json','events','./lib/Queue.js']
 		}
 
 		function startSearching(queryQ,callbackQ){
-			if(!conneted){
+			if(!connected){
 				console.log("elasticTalk.startSearching: i've been called but i'm not connected! :(");
 			}
-			while(!queryQ.isEmtpy){
+			while(!queryQ.isEmpty()){
 				goSearch(queryQ.dequeue(), callbackQ.dequeue());
 			}
 		}
