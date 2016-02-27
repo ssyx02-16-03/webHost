@@ -18,17 +18,19 @@ declare var io: any;
 @Component({
 	template: `
 		<h2>Ockuperade rum:</h2>
+		<h3>{{patientLocations}}</h3>
 		`,
 	providers: [LocationsService]
 })
 
 export class LocationsComponent implements OnInit {
 	
-	messages: string[];
+	//messages: string[];
 	socket: any;
+	patientLocations: string = "No locations received yet";
 	
 	constructor() {
-		console.log("are we here?");
+		console.log('are we here?');
 		//this.socket = io();
 		
 	}
@@ -58,7 +60,17 @@ export class LocationsComponent implements OnInit {
 	
 	
 	ngOnInit() {
+		
+		// StackExchange säger att man gör såhär i javascript, själv tycker jag det ser förjävligt ut
+		var thiz = this;
+		
 		this.socket = io('http://localhost:8000');
-		//console.log(LocationsService.getShit());
+		
+		this.socket.on('patientLocations', function(patientLocationss) {
+			console.log(thiz.patientLocations);
+			console.log('patientLocations received!');
+			thiz.patientLocations = JSON.stringify(patientLocationss);
+			//console.log(this.patientLocations);
+		});
 	}
 }
