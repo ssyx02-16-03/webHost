@@ -1,11 +1,12 @@
-import {Component} from 'angular2/core';
+import {Component, View} from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 
 import {Funktion1Component} from './funktion1.component';
 import {Funktion2Component} from './funktion2.component';
 import {LocationsComponent} from './locations.component';
 
-import {Funktion1Service} from './funktion1.service';
+// servicar ska la inte ligga här?
+//import {Funktion1Service} from './funktion1.service';
 import {LocationsService} from './locations.service';
 
 @Component({

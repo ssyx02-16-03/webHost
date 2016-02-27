@@ -22,8 +22,8 @@ define(['express', 'http', 'socket.io'], function(express, http, socketIO) {
 	});
 	
 	// håller tummarna på att man kan göra detta först och definiera eventsvar efteråt utan trubbel...
-	http.listen(3000, function(){
-		console.log('SocketIO server listening on *:3000');
+	http.listen(8000, function(){
+		console.log('SocketIO server listening on *:8000');
 	});
 	
 	function on(event, onEventFunction) {
