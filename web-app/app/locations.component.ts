@@ -2,6 +2,7 @@ import {Component, OnInit} from 'angular2/core';
 
 import {LocationsService} from './locations.service';
 
+
 //import * as io from 'socket.io-client';
 //import 'socket.io-client'; mer fel
 //var socket = io('213');
@@ -68,7 +69,6 @@ export class LocationsComponent implements OnInit {
 			console.log(thiz.patientLocations);
 			console.log('patientLocations received!');
 			thiz.patientLocations = JSON.stringify(patientLocationss);
-			//console.log(this.patientLocations);
 		});
 	}
 }
