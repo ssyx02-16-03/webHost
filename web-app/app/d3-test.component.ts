@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 //import * as d3 from 'd3';
 
-// ska egentligen göras såhär, borde få import att funka istället...
+// ska egentligen inte göras såhär, borde få import att funka istället...
 declare var d3: any;
 
 @Component({
@@ -29,8 +29,5 @@ export class D3TestComponent {
     		.style("width", function(d) { return d * 10 + "px"; })
 			.style("background-color", "red")
     		.text(function(d) { return d; });
-			
-	}
-
-	
+	}	
 }
