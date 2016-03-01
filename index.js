@@ -10,8 +10,8 @@ requireJS.config({
 	}
 });
 	
-requireJS(['./stompTalk.js', './elasticTalk.js', './SocketIOServer.js', './Services.js'],
-		  function(stompTalk, elasticTalk, socketIOServer, services) {
-		
-		services.start(stompTalk, elasticTalk, socketIOServer);
+requireJS(['./serverAPI/stompAPI.js', './serverAPI/elasticAPI.js', './SocketIOServer.js', './Services.js'],
+		  function(stompAPI, elasticAPI, socketIOServer, services) {
+
+			services.start(stompAPI, elasticAPI, socketIOServer);
 });

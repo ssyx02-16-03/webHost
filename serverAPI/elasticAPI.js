@@ -5,7 +5,7 @@
 *	+ Index:  
 */
 
-define(['elasticsearch' ,'json!pass.json','events','./lib/Queue.js'],
+define(['elasticsearch' ,'json!pass.json','events','../lib/Queue.js'],
 	function(elastic,credentials,events,Queue){
 		var client;
 		var connecting = false;
@@ -100,22 +100,12 @@ define(['elasticsearch' ,'json!pass.json','events','./lib/Queue.js'],
 			}
 		}
 
-		function getLocation(callback){
-			var query = {
-				"size" : 1000,
-				"index" : "on_going_patient_index", //on_going_patient_index, finished_patient_index"
-				"fields": "Location"
-			}
-			search(query,callback);
-		}
-
 
 	return{
 		connect: connect,
 		ping: ping,
 		getStatus: getStatus,
 		search : search,
-		getLocation : getLocation
 	}
 });
 

@@ -1,4 +1,4 @@
-define(['stomp-client', 'json!pass.json', 'events','./lib/Queue.js'], 
+define(['stomp-client', 'json!pass.json', 'events','../lib/Queue.js'], 
 	function(StompClient, pass, events, Queue) {
 
 	var stompClient = new StompClient(pass.ip, 
