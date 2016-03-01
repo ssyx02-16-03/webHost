@@ -1,7 +1,7 @@
 define([], function() {
-	function start(stompTalk, socketIOServer) {
-		stompTalk.subscribe('/topic/elvisSnapShot', function(body, headers) {
-			console.log('LocationService--- Data recieved ---');
+	function start(stompAPI, socketIOServer) {
+		stompAPI.subscribe('/topic/elvisSnapShot', function(body, headers) {
+			console.log('StompLocationService--- Data recieved ---');
 			var snapShot = JSON.parse(body);
 			var patientLocations = getPatientLocations(snapShot);
 			//console.log(patientLocations);

@@ -1,4 +1,4 @@
-define(['stomp-client', 'json!pass.json', 'events','./lib/Queue.js'], 
+define(['stomp-client', 'json!pass.json', 'events','../lib/Queue.js'], 
 	function(StompClient, pass, events, Queue) {
 
 	var stompClient = new StompClient(pass.ip, 
@@ -15,8 +15,8 @@ define(['stomp-client', 'json!pass.json', 'events','./lib/Queue.js'],
 	eventEmitter.addListener('subscribe', startSubscribing );
 
 	function connect(onConnectFunction) {
-		stompClient.connect(onConnectFunction, function(){
-			system.log("stompTalk: couldn't connect!");
+		stompClient.connect(onConnectFunction, function(err){
+			console.log("++stompTalk: couldn't connect!" +err);
 		});
 	}
 
