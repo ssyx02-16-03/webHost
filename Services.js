@@ -13,7 +13,7 @@ define(['./services/LocationService.js', './services/FreeRoomsService.js'],
 			console.log("gotData: " +data);
 		})
 		elasticTalk.getLocation(function(data){
-			console.log("roomService!");
+			console.log("rooms: "+data.data);
 		})
 	}
 	
