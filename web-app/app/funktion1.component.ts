@@ -1,10 +1,14 @@
+/**
+ * Created by edvard on 2016-02-25.
+ */
+
 import {Component, OnInit} from 'angular2/core';
 
 import {Funktion1Service} from './funktion1.service';
 
 @Component({
 	template: `
-		<h2>Jag är en funktion</h2>
+		<h2>Jaeg är en funktion</h2>
 		<h3>{{message}}</h3>
 		`,
 	providers: [Funktion1Service]

@@ -1,5 +1,10 @@
+/**
+ * Created by edvard on 2016-02-25.
+ */
+
 import {Component, View} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
+import {RouteConfig, Route, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
+import {bootstrap}    from 'angular2/platform/browser';
 
 import {Funktion1Component} from './funktion1.component';
 import {Funktion2Component} from './funktion2.component';
@@ -13,7 +18,7 @@ import {LocationsService} from './locations.service';
 @Component({
     selector: 'app',
     template: `
-		<h1>My Third Angular 2 App</h1>
+		<h1>Intelligenta akutmottagningen</h1>
 	 	<nav>
 			<a [routerLink]="['Funktion1']">En funktion</a>
 			<a [routerLink]="['Funktion2']">En annan funktion</a>
@@ -27,26 +32,10 @@ import {LocationsService} from './locations.service';
 })
 
 @RouteConfig([
-	{
-		path: '/funktion1',
-		name: 'Funktion1',
-		component: Funktion1Component
-	},
-	{
-		path: '/funktion2',
-		name: 'Funktion2',
-		component: Funktion2Component
-	},
-	{
-		path: '/locations',
-		name: 'Locations',
-		component: LocationsComponent
-	},
-	{
-		path: '/d3-test',
-		name: 'D3Test',
-		component: D3TestComponent
-	}
+	new Route({path: '/funktion1', component: Funktion1Component, name: 'Funktion1'}),
+	new Route({path: '/funktion2', component: Funktion2Component, name: 'Funktion2'}),
+	new Route({path: '/locations', component: LocationsComponent, name: 'Locations'}),
+	new Route({path: '/d3-test', component: D3TestComponent, name: 'D3Test'})
 ])
 
 export class AppComponent { }

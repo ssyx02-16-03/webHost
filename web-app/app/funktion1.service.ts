@@ -1,3 +1,7 @@
+/**
+ * Created by edvard on 2016-02-25.
+ */
+
 import {Injectable} from 'angular2/core';
 
 @Injectable()

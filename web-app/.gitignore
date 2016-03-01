@@ -9,3 +9,6 @@ typings/*
 
 # ignore map files (generated stuff)
 *.map
+
+# ignore .idea directory (some webstorm generated stuff)
+.idea/
