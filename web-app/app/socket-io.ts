@@ -11,19 +11,15 @@ import * as io from 'socket.io-client';
 @Injectable()
 export class SocketIO {
 
-    //static socketIO: SocketIO;
+    private static socket: any;
 
-    private static socket = io.connect('http://localhost:8000');
-
-    /*
-    static getInstance() {
-        if(SocketIO.socketIO == null) {
-
+    static connect() {
+        if (this.socket == null) {
+            this.socket = io.connect('http://localhost:8000');
         }
     }
-    */
 
-    public static on(event: string, onEventFunction: (eventData: any) => void) {
+    static on(event: string, onEventFunction: (eventData: any) => void) {
         this.socket.on(event, onEventFunction);
     }
 }

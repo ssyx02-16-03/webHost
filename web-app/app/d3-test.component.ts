@@ -4,7 +4,7 @@
 
 import {Component, OnInit} from 'angular2/core';
 
-import * as d3 from 'd3';
+//import * as d3 from 'd3';
 
 import {D3TestD3} from './d3-test.d3'
 

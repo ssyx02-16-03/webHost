@@ -9,6 +9,7 @@ import * as d3 from 'd3';
 @Component({
     selector: 'd3',
     template: `
+        <div class='textdiv'></div>
         <div class='chart'></div>
 		<svg class='svgchart'></svg>
 		`
@@ -18,10 +19,17 @@ export class D3TestD3 {
 
     public static draw(data: number[]) {
 
-        d3.select(".chart")
+        d3.select('.textdiv')
+            .selectAll('div')
+            .data(['hejhej'])
+            .enter().append('div')
+            .text(function(d) { return d; });
+
+
+        d3.select('.chart')
             .selectAll("div")
             .data(data)
-            .enter().append("div")
+            .enter().append('div')
             .style("width", function (d) {
                 return d * 10 + "px";
             })
@@ -31,6 +39,8 @@ export class D3TestD3 {
             });
         // chart
 
+
+        /*
         var height = 300,
             width = 400;
 
@@ -61,6 +71,6 @@ export class D3TestD3 {
             .attr("y", function(d) { return y(d) + 3; })
             .attr("dy", ".75em")
             .text(function(d) { return d; });
-
+        */
     }
 }
