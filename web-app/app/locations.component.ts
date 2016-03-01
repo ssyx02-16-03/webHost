@@ -4,56 +4,30 @@
 
 import {Component, OnInit} from 'angular2/core';
 
-import * as io from 'socket.io-client';
+import {SocketIO} from './socket-io';
 
-import {LocationsService} from './locations.service';
+import * as io from 'socket.io-client';
 
 @Component({
 	template: `
 		<h2>Ockuperade rum:</h2>
 		<h3>{{patientLocations}}</h3>
+		<h3>{{patLoc2}}</h3>
 		`,
-	providers: [LocationsService]
+	providers: [SocketIO]
 })
 
 export class LocationsComponent implements OnInit {
-	
-	//messages: string[];
-
-	//socket = io('http://localhost:8000');
 
 	patientLocations: string = "No locations received yet";
+	patLoc2: string = "mååe testa SocketIO";
 	
 	constructor() {
 		console.log('are we here?');
-		//this.socket = io()
-		
 	}
- 
-	
-    //constructor(http: Http) {
-        //this.messages = [];
-		/*
-        http.get("/fetch").subscribe((success) => {
-            var data = success.json();
-            for(var i = 0; i < data.length; i++) {
-                this.messages.push(data[i].message);
-            }
-        }, (error) => {
-            console.log(JSON.stringify(error));
-        });
-		*/
-        //this.chatBox = "";
-		
-	/*	
-		this.socket = io('localhost:8000');
-        this.socket.on("chat_message", (msg) => {
-            this.messages.push(msg);
-        });
-	*/	
-    //}
 
 	socket: any;
+	zocket: any;
 	
 	
 	ngOnInit() {
@@ -64,10 +38,18 @@ export class LocationsComponent implements OnInit {
 		this.socket = io.connect('http://localhost:8000');
 		
 		this.socket.on('patientLocations', function(patientLocationss) {
-			console.log(thiz.patientLocations);
 			console.log('patientLocations received!');
 			thiz.patientLocations = JSON.stringify(patientLocationss);
 		});
+
+		//this.zocket = SocketIO.getInstance();
+
+		SocketIO.on('patientLocations', function(patientLocationss) {
+			thiz.patLoc2 = JSON.stringify(patientLocationss);
+			console.log('patientLocations received via SocketIO!');
+			console.log(patientLocationss);
+		});
+
 
 	}
 }
