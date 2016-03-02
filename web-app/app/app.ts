@@ -4,7 +4,6 @@
 
 import {Component} from 'angular2/core';
 import {RouteConfig, Route, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
-//import {bootstrap}    from 'angular2/platform/browser';
 
 import {COMPONENTS} from './components';
 
@@ -24,7 +23,7 @@ import {COMPONENTS} from './components';
 @RouteConfig(getRoutes())
 
 
-export class AppComponent {
+export class App {
 
 	// *ngFor wants this
 	components = COMPONENTS;

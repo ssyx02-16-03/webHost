@@ -10,9 +10,19 @@ import {SocketIO} from './socket-io';
     providers: [SocketIO]
 })
 
-export abstract class D3Component implements OnInit {
+export abstract class OnlineComponent implements OnInit {
 
+    /**
+     * Eventtypen är en sträng som webservern märker en viss typ av data med, exempelvis märks datan med patientplatser
+     * 'patientLocations'. Låt metoden returnera önskad eventtyp.
+     */
     abstract getEventType(): string;
+
+    /**
+     * Anropas varje gång webservern skickar ut eventData av typen eventType
+     *
+     * @param eventData är data av en viss eventtyp som skickas ut från servern
+     */
     abstract draw(eventData: any);
 
     ngOnInit() {
