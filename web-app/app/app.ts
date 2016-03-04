@@ -10,12 +10,18 @@ import {COMPONENTS} from './components';
 @Component({
     selector: 'app',
     template: `
-		<h1>Intelligenta akutmottagningen</h1>
-	 	<nav>
-	 		<a *ngFor='#component of components' [routerLink]='[component.name]'>{{component.name}}</a>
-		</nav>
-		<router-outlet></router-outlet>
+    	<div id='center'>
+			<h1>Intelligenta akutmottagningen</h1>
+	 		<div id='menubutton' *ngFor='#component of components'
+	 			[routerLink]='[component.name]'>
+	 				{{component.name}}
+	 		</div>
+	 		<div id='outlet'>
+				<router-outlet></router-outlet>
+			</div>
+		</div>
 		`,
+	styleUrls: ['app/app.css'],
 	directives: [ROUTER_DIRECTIVES],
 	providers: [ROUTER_PROVIDERS]
 })
