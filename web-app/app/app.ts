@@ -11,9 +11,11 @@ import {COMPONENTS} from './components';
     selector: 'app',
     template: `
     	<div id='center'>
-			<h1>Intelligenta akutmottagningen</h1>
-	 		<div id='menubutton' *ngFor='#component of components'
-	 			[routerLink]='[component.name]'>
+			<h1 id='title'>{{title}}</h1>
+	 		<div id='menubutton'
+	 			*ngFor='#component of components'
+	 			[routerLink]='[component.name]'
+	 			(click)='title = component.name'>
 	 				{{component.name}}
 	 		</div>
 	 		<div id='outlet'>
@@ -30,6 +32,8 @@ import {COMPONENTS} from './components';
 
 
 export class App {
+
+	title = 'Intelligenta akutmottagningen';
 
 	// *ngFor wants this
 	components = COMPONENTS;

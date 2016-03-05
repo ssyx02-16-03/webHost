@@ -46,9 +46,14 @@
     border-radius: 4px 0 0 4px;
 }
 */
+
+#title {
+    text-align: center;
+    font-family: Arial;
+}
 #center {
     margin: auto;
-    width: 60%;
+    width: 70%;
     padding: 10px;
 }
 #menubutton {
@@ -56,8 +61,8 @@
     font-family: Arial;
     background-color: #eee;
     /*border: 0px 5px;*/
-    padding: 7px 12px;
-    margin: 5px 8px;
+    padding: 7px 18px;
+    margin: 5px 5px;
     border-radius: 4px;
     cursor: pointer;
     cursor: hand;
