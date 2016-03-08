@@ -5,7 +5,7 @@ define(['./services/StompLocationService.js', './services/ElasticLocationService
 		StompLocationService.start(stompAPI, socketIOServer);
 		ElasticLocationService.start(elasticAPI, socketIOServer);
 		
-		//freeRoomsService.start(stompTalk, socketIOServer);
+		freeRoomsService.start(stompAPI, socketIOServer);
 		
 		stompAPI.subscribe('/topic/elvisDiff', function(body, headers){
 			console.log("getting data - woho! subscribing again!");

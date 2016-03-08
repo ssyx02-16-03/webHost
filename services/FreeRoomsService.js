@@ -8,9 +8,8 @@ define(['json!./rooms.json'], function(rooms) {
 			var snapShot = JSON.parse(body);
 			var locations = getPatientLocations(snapShot);
 			var freeRooms = getFreeRooms(rooms, locations);
-			console.log(freeRooms);
-			console.log('-------');
-			socketIOServer.emit('freeRooms', locations);
+			console.log('FreeRoomsService--- Data recieved ---');
+			socketIOServer.emit('freeRooms', freeRooms);
 		});
 	}
 	

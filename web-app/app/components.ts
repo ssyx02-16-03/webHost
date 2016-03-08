@@ -20,7 +20,7 @@ export var COMPONENTS = [
     {'component': Funktion2Component, 'name': 'EnAnnanFunktion', 'path': '/funktion22'},
     {'component': LocationsComponent, 'name': 'OckuperadeRum', 'path': '/locationss'},
     {'component': D3Test2Component, 'name': 'D3Test2', 'path': '/d3-testt2'},
-    {'component': LocationsD3Component, 'name': 'ArvTest', 'path': '/inheritance-testt'},
+    {'component': LocationsD3Component, 'name': 'Lediga Rum', 'path': '/inheritance-testt'},
     {'component': D3Test1Component, 'name': 'D3Test1', 'path': '/d3-test'},
     {'component': D3AreaChartComponent, 'name': "D3 area chart", 'path': '/d3-area-chart'},
     {'component': D3ArgPatientComponent, 'name': "D3 arg patient", 'path': './angry-patient'}

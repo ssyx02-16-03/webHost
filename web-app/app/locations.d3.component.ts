@@ -19,7 +19,7 @@ export class LocationsD3Component extends OnlineComponent {
     ggrRitat = 0;
 
     getEventType(): string {
-        return 'patientLocations';
+        return 'freeRooms';
     }
 
     draw(patientLocations) {
@@ -32,7 +32,20 @@ export class LocationsD3Component extends OnlineComponent {
             .selectAll('div')
             .data([dataStr])
             .enter().append('div')
-            .text(function(d) { return d; });
+            .text(function(d) { return sliceString(d) });
+
+        function sliceString(string) {
+
+            var str = string;
+            //var str = '';
+            for(var i = 0; i < 29; i++) {
+              //  str = str + string.slice(0 + i * 8, i * 8 + string.length/8) + "\n";
+                //if(str.length > i * 30) {
+                    str = str.substr(0, i * 30) + "\n" + str.substr(i * 30);
+                //}
+            }
+            return str;
+        }
 
     }
 
