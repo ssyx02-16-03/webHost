@@ -1,23 +1,15 @@
-define(['./services/StompLocationService.js', './services/ElasticLocationService.js', './services/FreeRoomsService.js'],
-	   function(StompLocationService, ElasticLocationService, freeRoomsService) {
-	
-	function start(stompAPI, elasticAPI, socketIOServer) {
-		StompLocationService.start(stompAPI, socketIOServer);
-		ElasticLocationService.start(elasticAPI, socketIOServer);
-		
-		freeRoomsService.start(stompAPI, socketIOServer);
-		
-		stompAPI.subscribe('/topic/elvisDiff', function(body, headers){
-			console.log("getting data - woho! subscribing again!");
-		});
-		elasticAPI.search('*',function(data){
-			console.log("gotData: " +data);
-		})
-		elasticAPI.getLocation(function(data){
-			console.log("rooms: "+data.data);
-		})
-	}
-	
+define(['./services/StompLocationService.js', './services/ElasticLocationService.js', './services/FreeRoomsService.js', './services/PassiveDataService.js'],
+	   function(StompLocationService, ElasticLocationService, FreeRoomsService, PassiveDataService) {
+
+				function start(stompAPI, elasticAPI, socketIOServer) {
+					StompLocationService.start(stompAPI, socketIOServer);
+					ElasticLocationService.start(elasticAPI, socketIOServer);
+					FreeRoomsService.start(stompAPI, socketIOServer);
+					PassiveDataService.start(stompAPI, socketIOServer); //will outconquer all other data collection services. Maybe they will be slaves to this one.
+
+					//testing..
+				}
+
 	return {
 		start: start
 	}

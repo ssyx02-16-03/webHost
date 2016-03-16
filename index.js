@@ -12,6 +12,5 @@ requireJS.config({
 	
 requireJS(['./serverAPI/stompAPI.js', './serverAPI/elasticAPI.js', './SocketIOServer.js', './Services.js'],
 		  function(stompAPI, elasticAPI, socketIOServer, services) {
-
 			services.start(stompAPI, elasticAPI, socketIOServer);
 });
