@@ -3,18 +3,23 @@ define([], function() {
 
 //implement a hashSet for each webserver_package
     var latestData = {};
-    latestData['webserver_test'] = 'testData';
+    var numOfLabels = 0;
+    var labels = [];
+
+    function addNewType(typeName,typeData){
+      latestData[typeName] = typeData;
+      labels.push(typeName);
+      numOfLabels++;
+      console.log('passiveDataService: new dataType added!');
+    }
 
     function start(angelClient, socketIOServer) {
-        /*
+      addNewType('testType','testData');
         angelClient.subscribe(topic, function(body, headers) {
             console.log('passiveDataService: Data recieved');
             var pack = JSON.parse(body);
-            console.log(pack)
-            //getDataType(pack,socketIOServer);
+            getDataType(pack,socketIOServer);
         });
-        */
-
         //socketIOServer.emit('connectionResponse', 'skickas detta?');
 
         socketIOServer.on('connection', function(socket) {
@@ -23,27 +28,27 @@ define([], function() {
 
             socket.on('eventType', function(eventType) {
                 console.log('mr somebody wants ' + eventType + '!');
+                socket.emit('eventType',latestData['eventType']);
             });
         });
     }
 
-    /*
-    function getDataType(package, socketIO) {
-        var type = package.type;
-        var data = package.data;
-        if(type == null || data == null){
-            //throw "package_type or package_data was NULL"; //commented out for testing purposes
-        }
+    function getDataType(pack, socketIO) {
+      var type = pack.type;
+      var data = pack.data;
+      if(type != null && data != null){
         var eventName = 'webserver_' +type;
-        latestData[eventName] = data; //save latest data if user request it
-        console.log('passiveDataService: type:', eventName, '\tdata:', data);
-        socketIO.on(eventName, function(callbackFunc){ //subscribe to everything we got data on.
-            callbackFunc(latestData[eventName]); //give the user the latest and greatest of our data
-        });
+        if(latestData[eventName] == null){
+          addNewType(eventName,'');
+        }
+        if(latestData[eventName] != data){
+          socketIO.emit(eventName,data);
+          latestData[eventName] = data;
+        }
+      }
+  	}
 
-        console.log(latestData);
-    }
-    */
+
     return {
         start:start
     }
