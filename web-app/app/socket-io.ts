@@ -13,10 +13,28 @@ export class SocketIO {
 
     private static socket: any;
 
-    static connect() {
+    static connect(eventType: string) {
         if (this.socket == null) {
             this.socket = io.connect('http://localhost:8000');
+
+            var thiz = this;
+
+            this.socket.on('connectionResponse', function (wut) {
+                console.log('server responded: ' + wut + "!");
+                thiz.socket.emit('eventType', eventType);
+            });
+
+        } else {
+
+            var thiz = this;
+
+            this.socket.on('connectionResponse', function (wut) {
+                console.log('server responded: ' + wut + "!");
+                thiz.socket.emit('eventType', eventType);
+            });
+
         }
+        //this.socket.emit('eventType', {heej: eventType} );
     }
 
     static on(event: string, onEventFunction: (eventData: any) => void) {
