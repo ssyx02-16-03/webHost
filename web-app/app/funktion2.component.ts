@@ -14,9 +14,10 @@ import {SocketIO} from './socket-io';
 
 export class Funktion2Component implements OnInit {
 
-	private static test_string: string = "Nothing recieved yet";
+	test_string: string = "Nothing recieved yet";
 
 	ngOnInit() {
+        console.log('init..');
 		// behövde visst connecta såhär innan för att hela on-funktionen ska funka, misstänker asynkron-grej
 		SocketIO.connect('webserver_test');
 		SocketIO.on('webserver_test', function(data){

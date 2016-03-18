@@ -14,11 +14,10 @@ define([], function() {
     }
 
     function start(angelClient, socketIOServer) {
-      addNewType('testType','testData');
+      addNewType('webserver_test','testData'); //for testing purposes ofcourse
         angelClient.subscribe(topic, function(body, headers) {
-            console.log('passiveDataService: Data recieved');
             var pack = JSON.parse(body);
-            getDataType(pack,socketIOServer);
+            emitNewData(pack,socketIOServer);
         });
         //socketIOServer.emit('connectionResponse', 'skickas detta?');
 
@@ -28,15 +27,18 @@ define([], function() {
 
             socket.on('eventType', function(eventType) {
                 console.log('mr somebody wants ' + eventType + '!');
-                socket.emit('eventType',latestData['eventType']);
+                if(latestData[eventType] == null){
+                  console.log('--problem, the data mr somebody wanted doesn\'t exist, sending som nullspace to him anyway..');
+                }
+                socket.emit(eventType,latestData[eventType]);
             });
         });
     }
 
-    function getDataType(pack, socketIO) {
+    function emitNewData(pack, socketIO) {
       var type = pack.type;
       var data = pack.data;
-      if(type != null && data != null){
+      if(type != null && data != null){ //is the data in correct form?
         var eventName = 'webserver_' +type;
         if(latestData[eventName] == null){
           addNewType(eventName,'');
