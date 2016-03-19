@@ -25,7 +25,7 @@ export class LocationsComponent implements OnInit {
 		var thiz = this;
 
 		// behövde visst connecta såhär innan för att hela on-funktionen ska funka, misstänker asynkron-grej
-		SocketIO.connect();
+		SocketIO.connect('patientLocations');
 
 		SocketIO.on('patientLocations', function(patientLocationss) {
 			thiz.patientLocations = JSON.stringify(patientLocationss);

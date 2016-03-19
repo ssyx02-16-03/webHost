@@ -28,7 +28,7 @@ export abstract class OnlineComponent implements OnInit {
     ngOnInit() {
 
         // behövde visst connecta såhär innan för att hela on-funktionen ska funka, misstänker asynkron-grej
-        SocketIO.connect();
+        SocketIO.connect(this.getEventType());
 
         // StackExchange säger att man gör såhär i javascript, själv tycker jag det ser förjävligt ut
         var thiz = this;
