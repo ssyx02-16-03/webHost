@@ -25,14 +25,9 @@ export class SocketIO {
             });
 
         } else {
-
-            var thiz = this;
-
-            this.socket.on('connectionResponse', function (wut) {
-                console.log('server responded: ' + wut + "!");
-                thiz.socket.emit('eventType', eventType);
-            });
-
+            var thiz = this
+            console.log('request response!');
+            thiz.socket.emit('eventType', eventType);
         }
         //this.socket.emit('eventType', {heej: eventType} );
     }
