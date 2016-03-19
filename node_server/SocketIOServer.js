@@ -14,7 +14,7 @@ define(['express', 'http', 'socket.io'], function(express, http, socketIO) {
 
 	// här var det __dirname + '/client' som argument förut
 	//app.use(express.static('./client'));
-	app.use(express.static('./web-app'));
+	app.use(express.static('../web-app'));
 
 	on('connection', function(socket) {
 		console.log('a user connected');
