@@ -10,13 +10,16 @@
 import {Component, OnInit} from 'angular2/core';
 
 import * as d3 from 'd3';
+ import {SocketIO} from './socket-io';
+
+
 
 @Component({
-    template: '<svg class="map"></svg>'
+    template: '<svg class="map"></svg>',
+     providers: [SocketIO]
 })
 
 export class MapComponent implements OnInit {
-
 
     rooms = {
         'infection': [
@@ -119,6 +122,13 @@ export class MapComponent implements OnInit {
 
     ngOnInit() {
         this.draw(this.rooms);
+
+        //get data from webserver_com module
+        SocketIO.connect('webserver_rooms');
+        SocketIO.on('webserver_rooms', function(data){
+            console.log(data);
+            console.log('test worked! SocketIO!');
+        });
     }
 
     draw(rooms) {
