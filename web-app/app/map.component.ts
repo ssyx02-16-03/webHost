@@ -11,12 +11,14 @@ import {Component, OnInit} from 'angular2/core';
 
 import * as d3 from 'd3';
  import {SocketIO} from './socket-io';
+ import {room_table} from './map_room_table.ts';
 
 
 
 @Component({
-    template: '<svg class="map"></svg>',
-     providers: [SocketIO]
+    template:    '<svg class="map"></svg>' +
+                 '<div class="abra"></div>', //used by room_table
+    providers: [SocketIO]
 })
 
 export class MapComponent implements OnInit {
@@ -56,7 +58,7 @@ export class MapComponent implements OnInit {
             {'room': '26', 'occupied': true},
             {'room': '27', 'occupied': true}
         ],
-        'jour' : [
+        'jour': [
             {'room': '30', 'occupied': false},
             {'room': '31', 'occupied': false},
             {'room': '32', 'occupied': true},
@@ -65,7 +67,7 @@ export class MapComponent implements OnInit {
             {'room': '35', 'occupied': false},
             {'room': '46', 'occupied': false}
         ],
-        'orthoped':[
+        'orthoped': [
             {'room': '36', 'occupied': false},
             {'room': '37', 'occupied': false},
             {'room': '38', 'occupied': true},
@@ -77,13 +79,13 @@ export class MapComponent implements OnInit {
             {'room': '44', 'occupied': false},
             {'room': '45', 'occupied': false}
         ],
-        'ort_cast':[
+        'ort_cast': [
             {'room': '47A', 'occupied': false},
             {'room': '47B', 'occupied': false},
             {'room': '48A', 'occupied': true},
             {'room': '48B', 'occupied': false}
         ],
-        'surgery':[
+        'surgery': [
             {'room': '50', 'occupied': false},
             {'room': '51', 'occupied': false},
             {'room': '52', 'occupied': true},
@@ -99,13 +101,13 @@ export class MapComponent implements OnInit {
             {'room': '62', 'occupied': false},
             {'room': '63', 'occupied': false}
         ],
-        'acute':[
+        'acute': [
             {'room': 'A1', 'occupied': false},
             {'room': 'A2', 'occupied': false},
             {'room': 'A3', 'occupied': true},
             {'room': 'A4', 'occupied': false}
         ]
-    }
+    };
 
     stdSpace = 25;
     stdRoomWidth = 60;
@@ -122,12 +124,15 @@ export class MapComponent implements OnInit {
 
     ngOnInit() {
         this.draw(this.rooms);
+        room_table.drawTable(this.rooms);
 
         //get data from webserver_com module
         SocketIO.connect('webserver_rooms');
         SocketIO.on('webserver_rooms', function(data){
             console.log(data);
             console.log('test worked! SocketIO!');
+            this.draw(this.rooms);
+            room_table.drawTable(this.rooms);
         });
     }
 
