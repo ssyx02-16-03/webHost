@@ -1,6 +1,9 @@
 /**
  * Created by Oskar on 24-Mar-16.
- * copy cated from: http://www.d3noob.org/2013/02/add-html-table-to-your-d3js-graph.html
+
+ Things to fix:
+ 1. make a list or hashmap out of the occupied rooms.
+    Something that makes creation of rows in the table easy and quick with less complexity than now.
  */
 
 import {Component} from 'angular2/core';
@@ -20,45 +23,48 @@ export class room_table{
     static divName = ".abra";
 
     public static drawTable(data){
-        d3.select(this.divName).text("lite textigt");
+        d3.select(this.divName).text("Lediga rum");
 
-        var columns = Object.keys(data);
-        var peopleTable = this.tabulate(data, columns);
+        var columnKeys = Object.keys(data);
+        var peopleTable = this.tabulate(data, columnKeys);
     }
 
-    public static tabulate(data, columns) {
+    public static tabulate(data, columnKeys) {
         var table = d3.select(this.divName).append("table")
             .attr("style", "margin-left: 40px"),
             thead = table.append("thead"),
             tbody = table.append("tbody");
 
-        // append the header row
-        thead.append("tr")
-            .selectAll("th")
-            .data(columns)
-            .enter()
-            .append("th")
-            .text("column");
+        //header row
+        var tr = thead.append("tr");
+        for(var i=0; i < columnKeys.length; i++) {
+            thead.select("tr")
+                .append("th")
+                .attr("style","padding: 5px")
+                .text(columnKeys[i]);
+        }
 
-        // create a row for each object in the data
-        var rows = tbody.selectAll("tr")
-            .data(data)
-            .enter()
-            .append("tr");
+        // create rows(and content)
+        for(var row=0; row < 14; row++) { //should somehow be done until its done,
+            var id = "table_" +row;
+            tbody.append("tr").attr("id",id); //create empty row
+            var id ="#table_" +row;
+            for (var col=0; col < columnKeys.length; col++) {
 
-        // create a cell in each row for each column
-        var cells = rows.selectAll("td")
-            .data(function(row) {
-                return columns.map(function(column) {
-                    return {column: column, value: row[column]};
-                });
-            })
-            .enter()
-            .append("td")
-            .attr("style", "font-family: Courier", "padding: 3px")
-            .html("cellval");
+                if(data[columnKeys[col]][row] != null) {
+                    if (data[columnKeys[col]][row]['occupied'] == false) {
+                        console.log(data[columnKeys[col]][row]);
+                        tbody.select(id)
+                            .append("td")
+                            .text(data[columnKeys[col]][row]['room']);
+                    }
+                }else{
+                    tbody.select(id)
+                        .append("td")
+                }
+            }
+        }
 
-        return table;
     }
 
 }
