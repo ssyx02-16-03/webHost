@@ -1,10 +1,8 @@
 /**
  * Created by Oskar on 24-Mar-16.
 
- Things to fix:
- 1. make a list or hashmap out of the occupied rooms.
-    Something that makes creation of rows in the table easy and quick with less complexity than now.
- */
+ not working: css styling from external .css file
+*/
 
 import {Component} from 'angular2/core';
 import * as d3 from 'd3';
@@ -14,6 +12,7 @@ import * as d3 from 'd3';
 })
 
 /*
+what the data will look like
 'infection': [
     {'room': '1', 'occupied': true},
 */
@@ -21,47 +20,59 @@ import * as d3 from 'd3';
 export class room_table{
 
     static divName = ".abra";
+    static tdStyle = "padding-left:10px"; //fulfix lyckades inte med en styleUrls: []
 
-    public static drawTable(data){
+    public static drawTable(data) {
         d3.select(this.divName).text("Lediga rum");
 
         var columnKeys = Object.keys(data);
-        var peopleTable = this.tabulate(data, columnKeys);
+        columnKeys.splice('nowhere' ,1);
+        columnKeys.splice('waiting' ,1);
+        var emptyrooms = this.listRooms(data, columnKeys);
+        var roomTable = this.tabulate(emptyrooms, columnKeys);
     }
 
-    public static tabulate(data, columnKeys) {
+    public static listRooms(rawData,columnKeys){
+        var emptyrooms = [];
+        for (var col = 0; col < columnKeys.length; col++) {
+            emptyrooms.push([]);
+            var rows = rawData[columnKeys[col]].length;
+            for (var row = 0; row < rows; row++) {
+                if(rawData[columnKeys[col]][row]['occupied'] == false) {
+                    emptyrooms[col].push(rawData[columnKeys[col]][row]['room']); //push data to specific column
+                }
+            }
+            emptyrooms[col].reverse(); //flip the room order in order to make pop() work. pull() doesn't exist.
+        }
+        return emptyrooms;
+    }
+
+    public static tabulate(emptyrooms, columnKeys) {
+        //create table
         var table = d3.select(this.divName).append("table")
             .attr("style", "margin-left: 40px"),
             thead = table.append("thead"),
             tbody = table.append("tbody");
 
-        //header row
+        //create header row
         var tr = thead.append("tr");
         for(var i=0; i < columnKeys.length; i++) {
             thead.select("tr")
                 .append("th")
-                .attr("style","padding: 5px")
+                .attr("style", this.tdStyle)
                 .text(columnKeys[i]);
         }
 
         // create rows(and content)
-        for(var row=0; row < 14; row++) { //should somehow be done until its done,
-            var id = "table_" +row;
-            tbody.append("tr").attr("id",id); //create empty row
-            var id ="#table_" +row;
+        var roomName = "full";
+        for(var i=0; i<150 && roomName != ""; i++){
+            tbody.append("tr"); //create empty row
+            roomName = "";
             for (var col=0; col < columnKeys.length; col++) {
-
-                if(data[columnKeys[col]][row] != null) {
-                    if (data[columnKeys[col]][row]['occupied'] == false) {
-                        console.log(data[columnKeys[col]][row]);
-                        tbody.select(id)
-                            .append("td")
-                            .text(data[columnKeys[col]][row]['room']);
-                    }
-                }else{
-                    tbody.select(id)
-                        .append("td")
-                }
+                roomName = emptyrooms[col].pop();
+                tbody.append("td")
+                    .attr("style", this.tdStyle)
+                    .text(roomName);
             }
         }
 
