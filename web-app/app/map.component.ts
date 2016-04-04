@@ -23,112 +23,394 @@ import * as d3 from 'd3';
 
 export class MapComponent implements OnInit {
 
-    rooms = {
-        'infection': [
-            {'room': '1', 'occupied': true},
-            {'room': '2', 'occupied': false},
-            {'room': '3', 'occupied': true},
-            {'room': '4', 'occupied': false}
+    rooms =
+    {
+        "infection":[
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"1"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"2"
+            },
+            {
+                "patient_department":"medicineYellow",
+                "occupied":true,
+                "room":"3"
+            },
+            {
+                "patient_department":"medicineBlue",
+                "occupied":true,
+                "room":"4"
+            }
         ],
-        'triage': [
-            {'room': '6', 'occupied': true},
-            {'room': '7', 'occupied': false},
-            {'room': '8', 'occupied': true},
-            {'room': '9', 'occupied': false}
+        "nowhere":[
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"noRoom"
+            }
         ],
-        'medicineYellow': [
-            {'room': '10', 'occupied': true},
-            {'room': '11', 'occupied': true},
-            {'room': '12', 'occupied': true},
-            {'room': '13', 'occupied': true},
-            {'room': '14', 'occupied': true},
-            {'room': '15', 'occupied': true},
-            {'room': '16', 'occupied': false},
-            {'room': '17', 'occupied': false},
-            {'room': '18', 'occupied': false}
+        "medicineYellow":[
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"10"
+            },
+            {
+                "patient_department":"medicineBlue",
+                "occupied":true,
+                "room":"11"
+            },
+            {
+                "patient_department":"medicineYellow",
+                "occupied":true,
+                "room":"12"
+            },
+            {
+                "patient_department":"medicineBlue",
+                "occupied":true,
+                "room":"13"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"14"
+            },
+            {
+                "patient_department":"medicineYellow",
+                "occupied":true,
+                "room":"15"
+            },
+            {
+                "patient_department":"medicineYellow",
+                "occupied":true,
+                "room":"16"
+            },
+            {
+                "patient_department":"medicineYellow",
+                "occupied":true,
+                "room":"17"
+            },
+            {
+                "patient_department":"medicineYellow",
+                "occupied":true,
+                "room":"18"
+            }
         ],
-        'medicineBlue': [
-            {'room': '19', 'occupied': true},
-            {'room': '20', 'occupied': false},
-            {'room': '21', 'occupied': true},
-            {'room': '22', 'occupied': false},
-            {'room': '23', 'occupied': false},
-            {'room': '24', 'occupied': true},
-            {'room': '25', 'occupied': true},
-            {'room': '26', 'occupied': true},
-            {'room': '27', 'occupied': true}
+        "medicineBlue":[
+            {
+                "patient_department":"medicineBlue",
+                "occupied":true,
+                "room":"19"
+            },
+            {
+                "patient_department":"medicineBlue",
+                "occupied":true,
+                "room":"20"
+            },
+            {
+                "patient_department":"medicineBlue",
+                "occupied":true,
+                "room":"21"
+            },
+            {
+                "patient_department":"medicineBlue",
+                "occupied":true,
+                "room":"22"
+            },
+            {
+                "patient_department":"medicineBlue",
+                "occupied":true,
+                "room":"23"
+            },
+            {
+                "patient_department":"medicineBlue",
+                "occupied":true,
+                "room":"24"
+            },
+            {
+                "patient_department":"medicineYellow",
+                "occupied":true,
+                "room":"25"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"26"
+            },
+            {
+                "patient_department":"medicineBlue",
+                "occupied":true,
+                "room":"27"
+            }
         ],
-        'jour': [
-            {'room': '30', 'occupied': false},
-            {'room': '31', 'occupied': false},
-            {'room': '32', 'occupied': true},
-            {'room': '33', 'occupied': false},
-            {'room': '34', 'occupied': false},
-            {'room': '35', 'occupied': false},
-            {'room': '46', 'occupied': false}
+        "ort_cast":[
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"47"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"47a"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"47b"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"48"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"48a"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"48b"
+            }
         ],
-        'orthoped': [
-            {'room': '36', 'occupied': false},
-            {'room': '37', 'occupied': false},
-            {'room': '38', 'occupied': true},
-            {'room': '39', 'occupied': false},
-            {'room': '40', 'occupied': false},
-            {'room': '41', 'occupied': false},
-            {'room': '42', 'occupied': false},
-            {'room': '43', 'occupied': false},
-            {'room': '44', 'occupied': false},
-            {'room': '45', 'occupied': false}
+        "surgery":[
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"50"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"51"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"52"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"53"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"54"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"55"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"56"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"57"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"58"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"59"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"60"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"61"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"62"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"63"
+            }
         ],
-        'ort_cast': [
-            {'room': '47A', 'occupied': false},
-            {'room': '47B', 'occupied': false},
-            {'room': '48A', 'occupied': true},
-            {'room': '48B', 'occupied': false}
+        "triage":[
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"5"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"6"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"7"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"8"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"9"
+            }
         ],
-        'surgery': [
-            {'room': '50', 'occupied': false},
-            {'room': '51', 'occupied': false},
-            {'room': '52', 'occupied': true},
-            {'room': '53', 'occupied': false},
-            {'room': '54', 'occupied': false},
-            {'room': '55', 'occupied': false},
-            {'room': '56', 'occupied': false},
-            {'room': '57', 'occupied': false},
-            {'room': '58', 'occupied': false},
-            {'room': '59', 'occupied': false},
-            {'room': '60', 'occupied': false},
-            {'room': '61', 'occupied': false},
-            {'room': '62', 'occupied': false},
-            {'room': '63', 'occupied': false}
+        "acute":[
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"A1"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"A2"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"A3"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"A4"
+            }
         ],
-        'acute': [
-            {'room': 'A1', 'occupied': false},
-            {'room': 'A2', 'occupied': false},
-            {'room': 'A3', 'occupied': true},
-            {'room': 'A4', 'occupied': false}
+        "jour":[
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"30"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"31"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"32"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"33"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"34"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"35"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"46"
+            }
+        ],
+        "waiting":[
+            {
+                "patient_department":"medicineBlue",
+                "occupied":true,
+                "room":"ivr"
+            }
+        ],
+        "orthoped":[
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"36"
+            },
+            {
+                "patient_department":"default",
+                "occupied":false,
+                "room":"37"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"38"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"39"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"40"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"41"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"42"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"43"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"44"
+            },
+            {
+                "patient_department":"default",
+                "occupied":true,
+                "room":"45"
+            }
         ]
     };
+
 
     stdSpace = 25;
     stdRoomWidth = 60;
     stdRoomHeight = 60;
 
-    color_infec = "gray";
-    color_medYel = "yellow";
-    color_medBlu = "blue";
-    color_triage = "gray";
-    color_jour = "purple";
-    color_ort = "green";
-    color_surg = "red";
-    color_acute = "gray";
-
     ngOnInit() {
         this.draw(this.rooms);
         room_table.drawTable(this.rooms);
-
         //get data from webserver_com module
-        SocketIO.connect('webserver_rooms');
-        SocketIO.on('webserver_rooms', function(data){
+        SocketIO.connect('webserver_room_occupation');
+        SocketIO.on('webserver_room_occupation', function(data){
+            this.rooms = data['data']['rooms'];
             console.log(data);
             console.log('test worked! SocketIO!');
             this.draw(this.rooms);
@@ -138,9 +420,6 @@ export class MapComponent implements OnInit {
 
     draw(rooms) {
 
-        console.log(rooms['infection']);
-        console.log(rooms['bu']);
-
         // ful-satta onödigt stora för tillfället
         var svg = d3.select(".map")
             .attr("width", 1200)
@@ -149,18 +428,18 @@ export class MapComponent implements OnInit {
         //----infection
         var infecRoomWidth = 80;
         var infecRoomHeight = 50;
-        var color = this.color_infec;
+        var color = roomColor.infec;
         var room1: Room = this.drawRoom(".map", 30, 30,
-            infecRoomWidth, infecRoomHeight, "grey", rooms['infection'][0]);
+            infecRoomWidth, infecRoomHeight, color, rooms['infection'][0]);
         var room4: Room = this.drawRoomRow(room1,
             RelativePosition.SOUTH, 0, infecRoomWidth, infecRoomHeight, color, 'infection', 1, RelativePosition.SOUTH, 3);
 
         //----triage
         var room9: Room = this.drawRoomRow(room1,
-            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'triage', 0, RelativePosition.SOUTH, 4);
+            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'triage', 0, RelativePosition.SOUTH, 5);
 
         //----medicine yellow
-        color = this.color_medYel;
+        color = roomColor.medYel;
         var room12: Room = this.drawRoomNextToRoom(room1,
             RelativePosition.EAST, this.stdSpace*4, this.stdRoomWidth, this.stdRoomHeight, color, rooms['medicineYellow'][2]);
         var room10: Room = this.drawRoomRow(room12,
@@ -173,7 +452,7 @@ export class MapComponent implements OnInit {
             RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, color, 'medicineYellow', 7, RelativePosition.SOUTH, 2);
 
         //----medicine blue
-        color = this.color_medBlu;
+        color = roomColor.medBlu;
         var room20: Room = this.drawRoomRow(room18,
             RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'medicineBlue',0, RelativePosition.SOUTH, 2);
         var room25: Room = this.drawRoomRow(room20,
@@ -182,7 +461,7 @@ export class MapComponent implements OnInit {
             RelativePosition.NORTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'medicineBlue',7, RelativePosition.NORTH, 2);
 
         //----jour
-        color = this.color_jour;
+        color = roomColor.jour;
         var room34: Room = this.drawRoomNextToRoom(room16,
             RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, rooms['jour'][4]);
         var room30: Room = this.drawRoomRow(room34,
@@ -190,10 +469,10 @@ export class MapComponent implements OnInit {
         var room35: Room = this.drawRoomNextToRoom(room34,
             RelativePosition.EAST, 0, this.stdRoomWidth, this.stdRoomHeight, color, rooms['jour'][5]);
         var room46: Room = this.drawRoomNextToRoom(room30,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, this.color_jour, rooms['jour'][6]);
+            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, rooms['jour'][6]);
 
         //---ort
-        color = this.color_ort = "green";
+        color = roomColor.ort;
         var room38: Room = this.drawRoomRow(room35,
             RelativePosition.EAST, this.stdSpace*2, this.stdRoomWidth, this.stdRoomHeight, color, 'orthoped',0,RelativePosition.EAST,3);
         var room43: Room = this.drawRoomRow(room38,
@@ -202,11 +481,13 @@ export class MapComponent implements OnInit {
             RelativePosition.WEST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'orthoped',8, RelativePosition.WEST,2);
 
         //----ort_cast
-        var room47A: Room = this.drawRoomRow(room38,
-            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'ort_cast',0,RelativePosition.SOUTH,4);
+        var room47B: Room = this.drawRoomRow(room38,
+            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'ort_cast',1,RelativePosition.SOUTH,2);
+        var room48B: Room = this.drawRoomRow(room47B,
+            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, color, 'ort_cast',4, RelativePosition.SOUTH,2);
 
         //surgery
-        color = this.color_surg;
+        color = roomColor.surg;
         var room58: Room = this.drawRoomNextToRoom(room43,
             RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, rooms['surgery'][8]);
         var room54: Room = this.drawRoomRow(room58,
@@ -219,7 +500,7 @@ export class MapComponent implements OnInit {
             this.stdRoomWidth+this.stdSpace, -this.stdSpace, this.stdRoomWidth,this.stdRoomHeight, color,rooms['surgery'][9]);
 
         //acute
-        color = this.color_acute;
+        color = roomColor.acute;
         var roomA4: Room = this.drawRoomRelativeToRoom(room25,
             0, this.stdSpace*4, this.stdRoomWidth,this.stdRoomHeight, color,rooms['acute'][3]);
         var roomA1: Room = this.drawRoomRow(roomA4,
@@ -295,19 +576,29 @@ class Room {
     y:number;
     width:number;
     height:number;
+    occupied:boolean;
 
     constructor(htmlObject:string, x:number, y:number,
                 width:number, height:number, color:string, jsonRoomObject) {
-
         this.htmlObject = htmlObject;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.occupied = jsonRoomObject['occupied'];
+
+
+        if (this.occupied && jsonRoomObject['patient_department'] != "default"){
+            if(jsonRoomObject['patient_department'] == "medicineBlue"){
+                color = roomColor.medBlu;
+            }else if(jsonRoomObject['patient_department'] == "medicineYellow"){
+                color = roomColor.medYel;
+            }
+        }
 
         var svg = d3.select(htmlObject).append("svg");
 
-        svg.append("rect")
+        var rect = svg.append("rect")
             .attr("x", x)
             .attr("y", y)
             .attr("width", width)
@@ -322,8 +613,7 @@ class Room {
             .attr("dy", ".35em")
             .text(jsonRoomObject['room']);
 
-        if (jsonRoomObject['occupied']) {
-
+        if (this.occupied) {
             svg.append("circle")
                 .attr("cx", x + width / 2 - 15)
                 .attr("cy", y + height / 2)
@@ -332,6 +622,8 @@ class Room {
                 .attr("stroke-width", 1)
                 .attr("stroke", "white")
                 .style("fill", "red");
+
+            rect.style("opacity", 0.8);
         }
     }
 }
@@ -341,4 +633,15 @@ class Room {
      SOUTH,
      EAST,
      WEST
+ }
+
+ enum roomColor {
+     infec = "gray",
+     medYel = "yellow",
+     medBlu = "blue",
+     triage = "gray",
+     jour = "purple",
+     ort = "green",
+     surg = "red",
+     acute = "gray"
  }
