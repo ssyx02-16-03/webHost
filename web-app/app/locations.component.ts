@@ -16,6 +16,7 @@ import {SocketIO} from './socket-io';
 })
 
 export class LocationsComponent implements OnInit {
+	
 
 	private patientLocations: string = "No locations received yet";
 	
