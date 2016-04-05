@@ -16,8 +16,11 @@ import * as d3 from 'd3';
 
 
 @Component({
-    template:    '<svg class="map"></svg>' +
-                 '<div class="abra"></div>', //used by room_table
+    selector: 'map',
+    template: `
+        <svg class="map"></svg>
+        <div class="abra"></div>
+        `, //used by room_table
     providers: [SocketIO]
 })
 
@@ -399,9 +402,11 @@ export class MapComponent implements OnInit {
         ]
     };
 
-    stdSpace = 25;
-    stdRoomWidth = 60;
-    stdRoomHeight = 60;
+    scale = 0.5;
+
+    stdSpace = 25 * this.scale;
+    stdRoomWidth = 60 * this.scale;
+    stdRoomHeight = 60 * this.scale;
 
     ngOnInit() {
         this.draw(this.rooms);
@@ -419,14 +424,13 @@ export class MapComponent implements OnInit {
 
     draw(rooms) {
 
-        // ful-satta onödigt stora för tillfället
         var svg = d3.select(".map")
-            .attr("width", 1200)
-            .attr("height", 750);
+            .attr("width", 1200 * this.scale)
+            .attr("height", 750 * this.scale);
 
         //----infection
-        var infecRoomWidth = 80;
-        var infecRoomHeight = 50;
+        var infecRoomWidth = 80 * this.scale;
+        var infecRoomHeight = 50 * this.scale;
         var room1: Room = this.drawRoom(".map", 30, 30,
             infecRoomWidth, infecRoomHeight, 'infection',0);
         var room4: Room = this.drawRoomRow(room1,
@@ -639,7 +643,7 @@ class Room{
             svg.append("circle")
                 .attr("cx", x + width / 2 - 15)
                 .attr("cy", y + height / 2)
-                .attr("r", 10)
+                .attr("r", 4)
                 .attr("angle", 360)
                 .attr("stroke-width", 1)
                 .attr("stroke", "white")

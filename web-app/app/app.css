@@ -51,11 +51,13 @@
     text-align: center;
     font-family: Arial;
 }
+/*
 #center {
     margin: auto;
     width: 70%;
     padding: 10px;
 }
+*/
 #menubutton {
     float: left;
     font-family: Arial;
