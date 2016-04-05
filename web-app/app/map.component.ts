@@ -399,7 +399,6 @@ export class MapComponent implements OnInit {
         ]
     };
 
-
     stdSpace = 25;
     stdRoomWidth = 60;
     stdRoomHeight = 60;
@@ -428,88 +427,86 @@ export class MapComponent implements OnInit {
         //----infection
         var infecRoomWidth = 80;
         var infecRoomHeight = 50;
-        var color = roomColor.infec;
         var room1: Room = this.drawRoom(".map", 30, 30,
-            infecRoomWidth, infecRoomHeight, color, rooms['infection'][0]);
+            infecRoomWidth, infecRoomHeight, 'infection',0);
         var room4: Room = this.drawRoomRow(room1,
-            RelativePosition.SOUTH, 0, infecRoomWidth, infecRoomHeight, color, 'infection', 1, RelativePosition.SOUTH, 3);
+            RelativePosition.SOUTH, 0, infecRoomWidth, infecRoomHeight, 'infection', 1, RelativePosition.SOUTH, 3);
 
         //----triage
         var room9: Room = this.drawRoomRow(room1,
-            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'triage', 0, RelativePosition.SOUTH, 5);
+            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'triage', 0, RelativePosition.SOUTH, 5);
 
         //----medicine yellow
-        color = roomColor.medYel;
         var room12: Room = this.drawRoomNextToRoom(room1,
-            RelativePosition.EAST, this.stdSpace*4, this.stdRoomWidth, this.stdRoomHeight, color, rooms['medicineYellow'][2]);
+            RelativePosition.EAST, this.stdSpace*4, this.stdRoomWidth, this.stdRoomHeight, 'medicineYellow',2);
         var room10: Room = this.drawRoomRow(room12,
-            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, color, 'medicineYellow', 1, RelativePosition.SOUTH, -2);
+            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, 'medicineYellow', 1, RelativePosition.SOUTH, -2);
         var room15: Room = this.drawRoomRow(room12,
-            RelativePosition.EAST, 0, this.stdRoomWidth, this.stdRoomHeight*0.75, color, 'medicineYellow', 3, RelativePosition.EAST, 3);
+            RelativePosition.EAST, 0, this.stdRoomWidth, this.stdRoomHeight*0.75, 'medicineYellow', 3, RelativePosition.EAST, 3);
         var room16: Room = this.drawRoomNextToRoom(room15,
-            RelativePosition.EAST, 0, this.stdRoomWidth, this.stdRoomHeight, color, rooms['medicineYellow'][6]);
+            RelativePosition.EAST, 0, this.stdRoomWidth, this.stdRoomHeight, 'medicineYellow',6);
         var room18: Room = this.drawRoomRow(room16,
-            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, color, 'medicineYellow', 7, RelativePosition.SOUTH, 2);
+            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, 'medicineYellow', 7, RelativePosition.SOUTH, 2);
 
         //----medicine blue
-        color = roomColor.medBlu;
         var room20: Room = this.drawRoomRow(room18,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'medicineBlue',0, RelativePosition.SOUTH, 2);
+            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'medicineBlue',0, RelativePosition.SOUTH, 2);
         var room25: Room = this.drawRoomRow(room20,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'medicineBlue',2, RelativePosition.WEST, 5);
+            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'medicineBlue',2, RelativePosition.WEST, 5);
         var room27: Room = this.drawRoomRow(room25,
-            RelativePosition.NORTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'medicineBlue',7, RelativePosition.NORTH, 2);
+            RelativePosition.NORTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'medicineBlue',7, RelativePosition.NORTH, 2);
 
         //----jour
-        color = roomColor.jour;
         var room34: Room = this.drawRoomNextToRoom(room16,
-            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, rooms['jour'][4]);
+            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'jour',4);
         var room30: Room = this.drawRoomRow(room34,
-            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, color, 'jour',3, RelativePosition.SOUTH, -4);
+            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, 'jour',3, RelativePosition.SOUTH, -4);
         var room35: Room = this.drawRoomNextToRoom(room34,
-            RelativePosition.EAST, 0, this.stdRoomWidth, this.stdRoomHeight, color, rooms['jour'][5]);
+            RelativePosition.EAST, 0, this.stdRoomWidth, this.stdRoomHeight, 'jour',5);
         var room46: Room = this.drawRoomNextToRoom(room30,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, rooms['jour'][6]);
+            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'jour',6);
 
         //---ort
-        color = roomColor.ort;
         var room38: Room = this.drawRoomRow(room35,
-            RelativePosition.EAST, this.stdSpace*2, this.stdRoomWidth, this.stdRoomHeight, color, 'orthoped',0,RelativePosition.EAST,3);
+            RelativePosition.EAST, this.stdSpace*2, this.stdRoomWidth, this.stdRoomHeight, 'orthoped',0,RelativePosition.EAST,3);
         var room43: Room = this.drawRoomRow(room38,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'orthoped',3, RelativePosition.SOUTH,5);
+            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'orthoped',3, RelativePosition.SOUTH,5);
         var room45: Room = this.drawRoomRow(room43,
-            RelativePosition.WEST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'orthoped',8, RelativePosition.WEST,2);
+            RelativePosition.WEST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'orthoped',8, RelativePosition.WEST,2);
 
         //----ort_cast
         var room47B: Room = this.drawRoomRow(room38,
-            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, 'ort_cast',1,RelativePosition.SOUTH,2);
+            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'ort_cast',1,RelativePosition.SOUTH,2);
         var room48B: Room = this.drawRoomRow(room47B,
-            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, color, 'ort_cast',4, RelativePosition.SOUTH,2);
+            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, 'ort_cast',4, RelativePosition.SOUTH,2);
 
         //surgery
-        color = roomColor.surg;
         var room58: Room = this.drawRoomNextToRoom(room43,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, color, rooms['surgery'][8]);
+            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'surgery',8);
         var room54: Room = this.drawRoomRow(room58,
-            RelativePosition.WEST, 0, this.stdRoomWidth, this.stdRoomHeight, color, 'surgery',7, RelativePosition.WEST,-4);
+            RelativePosition.WEST, 0, this.stdRoomWidth, this.stdRoomHeight, 'surgery',7, RelativePosition.WEST,-4);
         var room63: Room = this.drawRoomRow(room58,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight*0.75, color, 'surgery',10, RelativePosition.SOUTH,4);
+            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight*0.75, 'surgery',10, RelativePosition.SOUTH,4);
         var room50: Room = this.drawRoomRow(room54,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight*0.75, color, 'surgery',3, RelativePosition.SOUTH,-4);
+            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight*0.75,'surgery',3, RelativePosition.SOUTH,-4);
         var room59: Room = this.drawRoomRelativeToRoom(room58,
-            this.stdRoomWidth+this.stdSpace, -this.stdSpace, this.stdRoomWidth,this.stdRoomHeight, color,rooms['surgery'][9]);
+            this.stdRoomWidth+this.stdSpace, -this.stdSpace, this.stdRoomWidth,this.stdRoomHeight, 'surgery',9);
 
         //acute
-        color = roomColor.acute;
         var roomA4: Room = this.drawRoomRelativeToRoom(room25,
-            0, this.stdSpace*4, this.stdRoomWidth,this.stdRoomHeight, color,rooms['acute'][3]);
+            0, this.stdSpace*4, this.stdRoomWidth,this.stdRoomHeight, 'acute',3);
         var roomA1: Room = this.drawRoomRow(roomA4,
-            RelativePosition.EAST, 0, this.stdRoomWidth*1.5, this.stdRoomHeight*1.25, color, 'acute',2, RelativePosition.EAST,-3);
+            RelativePosition.EAST, 0, this.stdRoomWidth*1.5, this.stdRoomHeight*1.25, 'acute',2, RelativePosition.EAST,-3);
 
     }
 
+    drawRoom(htmlObject: string, x: number, y: number,
+             width: number, height: number, roomDep:string, roomNum:number) {
+        return new Room(htmlObject, x, y, width, height, roomDep, this.rooms[roomDep][roomNum]);
+    }
+
     drawRoomRow(relativeRoom: Room, relPos: RelativePosition, relFirstSpace: number,
-                    roomWidth: number, roomHeight: number, color: string, roomName: string, roomNum: number,
+                    roomWidth: number, roomHeight: number, roomDep: string, roomNum: number,
                     rowDirection: RelativePosition, numOfRooms: number){
 
         var inc: number = 1;
@@ -520,7 +517,7 @@ export class MapComponent implements OnInit {
         var space: number = relFirstSpace;
         for(var i:number = 0; i< numOfRooms; i++){
             relativeRoom = this.drawRoomNextToRoom(relativeRoom,
-                relPos, space, roomWidth, roomHeight, color, this.rooms[roomName][roomNum+i*inc]);
+                relPos, space, roomWidth, roomHeight, roomDep, roomNum+i*inc);
             if(i == 0){
                 space = 0;
                 relPos= rowDirection;
@@ -529,13 +526,8 @@ export class MapComponent implements OnInit {
         return relativeRoom;
     }
 
-    drawRoom(htmlObject: string, x: number, y: number,
-             width: number, height: number, color: string, jsonRoomObject) {
-        return new Room(htmlObject, x, y, width, height, color, jsonRoomObject);
-    }
-
     drawRoomNextToRoom(room: Room, relativePosition: RelativePosition, relativeSpace: number,
-                       width: number, height: number, color: string, jsonRoomObject) {
+                       width: number, height: number, roomDep:string, roomNum:number) {
         var x: number;
         var y: number;
 
@@ -558,19 +550,19 @@ export class MapComponent implements OnInit {
                 break;
         }
 
-        return this.drawRoom(room.htmlObject, x, y, width, height, color, jsonRoomObject);
+        return this.drawRoom(room.htmlObject, x, y, width, height, roomDep, roomNum);
     }
 
     drawRoomRelativeToRoom(room: Room, relativeX: number, relativeY: number,
-                           width: number, height: number, color: string, jsonRoomObject) {
+                           width: number, height: number, roomDep:string, roomNum:number) {
 
         return this.drawRoom(room.htmlObject, room.x + relativeX, room.y + relativeY,
-            width, height, color, jsonRoomObject);
+            width, height, roomDep, roomNum);
 
     }
 }
 
-class Room {
+class Room{
     htmlObject:string;
     x:number;
     y:number;
@@ -579,7 +571,7 @@ class Room {
     occupied:boolean;
 
     constructor(htmlObject:string, x:number, y:number,
-                width:number, height:number, color:string, jsonRoomObject) {
+                width:number, height:number, roomDep:string, jsonRoomObject) {
         this.htmlObject = htmlObject;
         this.x = x;
         this.y = y;
@@ -587,12 +579,42 @@ class Room {
         this.height = height;
         this.occupied = jsonRoomObject['occupied'];
 
+        var color = "black";
 
+        //color formatting
         if (this.occupied && jsonRoomObject['patient_department'] != "default"){
             if(jsonRoomObject['patient_department'] == "medicineBlue"){
-                color = roomColor.medBlu;
+                color = roomColors.medBlu;
             }else if(jsonRoomObject['patient_department'] == "medicineYellow"){
-                color = roomColor.medYel;
+                color = roomColors.medYel;
+            }
+        }else{
+            switch(roomDep){
+                case 'acute':
+                    color = roomColors.acute;
+                    break;
+                case 'infection':
+                    color = roomColors.infec;
+                    break;
+                case 'jour':
+                    color = roomColors.jour;
+                    break;
+                case 'medicineBlue':
+                    color = roomColors.medBlu;
+                    break;
+                case 'medicineYellow':
+                    color = roomColors.medYel;
+                    break;
+                case 'ort_cast':
+                case 'orthoped':
+                    color = roomColors.ort;
+                    break;
+                case 'surgery':
+                    color = roomColors.surg;
+                    break;
+                case 'triage':
+                    color = roomColors.triage;
+                    break;
             }
         }
 
@@ -635,13 +657,13 @@ class Room {
      WEST
  }
 
- enum roomColor {
-     infec = "gray",
-     medYel = "yellow",
-     medBlu = "blue",
-     triage = "gray",
-     jour = "purple",
-     ort = "green",
-     surg = "red",
-     acute = "gray"
- }
+ var roomColors = {
+     infec:"gray",
+     medYel:"yellow",
+     medBlu:"blue",
+     triage:"gray",
+     jour:"purple",
+     ort:"green",
+     surg:"red",
+     acute:"gray"
+ };
