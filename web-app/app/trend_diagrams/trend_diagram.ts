@@ -6,22 +6,9 @@ import {Component, OnInit} from 'angular2/core';
 
 import * as d3 from 'd3';
 
-export abstract class TrendDiagram implements OnInit {
+export abstract class TrendDiagram {
 
-    x: any = [-2, -1, 0, 1]
-    y: any = [5, 6, 4, 6]
-
-    //data: any = [];
-    data: any = {'lin': [], 'times': {'blue': 4.5, 'yellow': 4.2, 'orange': 3.5, 'median': 3.9}}
-
-    ngOnInit() {
-
-        for(var i = 0; i < this.x.length; i++) {
-            this.data['lin'].push({'x': this.x[i], 'y': this.y[i]});
-        }
-
-        this.draw(this.data);
-    }
+    abstract getMarkerColors();
 
     draw(data) {
 
@@ -67,10 +54,10 @@ export abstract class TrendDiagram implements OnInit {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        x.domain(d3.extent(data['lin'], function(d: any) { return d.x; }));
-        //y.domain(d3.extent(data['lin'], function(d: any) { return d.y; }));
-        var maxValue = d3.max(data['lin'], function (d) { return d['y']; });
-        var minValue = d3.min(data['lin'], function (d) { return d['y']; });
+        var allData = data['trend'].concat(data['prediction']);
+        x.domain(d3.extent(allData, function(d: any) { return d.x; }));
+        var maxValue = d3.max(allData, function (d) { return d['y']; });
+        var minValue = d3.min(allData, function (d) { return d['y']; });
         console.log(maxValue);
         y.domain([maxValue + 1, minValue - 1]); // gör det som Indraw gjorde förut, fast korrekt
 
@@ -95,7 +82,7 @@ export abstract class TrendDiagram implements OnInit {
             .attr("fill", "green");
 
         svg.append("path")
-            .datum(data['lin'].slice(0,3))
+            .datum(data['trend'])
             .attr("class", "line")
             .attr("d", line)
             .style("fill", "none")
@@ -103,7 +90,7 @@ export abstract class TrendDiagram implements OnInit {
             .style("stroke-width", "2.5px"); // gör det som CSS:en i styles ovan hade gjort
 
         svg.append("path")
-            .datum(data['lin'].slice(2,4))
+            .datum(data['prediction'])
             .attr("class", "line")
             .attr("d", line)
             .style("fill", "none")
@@ -131,33 +118,27 @@ export abstract class TrendDiagram implements OnInit {
 
         var smallR = 10;
         var bigR = 15;
+        var colors;
+
+        colors = this.getMarkerColors();
 
         svg.append("circle")
-            .attr("cx", x(data['lin'][2].x))
-            .attr("cy", y(data['times']['blue']))
-            .attr("r", smallR)
-            .attr("angle", 360)
-            .style("fill", "blue");
-
-        svg.append("circle")
-            .attr("cx", x(data['lin'][2].x))
-            .attr("cy", y(data['times']['yellow']))
-            .attr("r", smallR)
-            .attr("angle", 360)
-            .style("fill", "yellow");
-
-        svg.append("circle")
-            .attr("cx", x(data['lin'][2].x))
-            .attr("cy", y(data['times']['orange']))
-            .attr("r", smallR)
-            .attr("angle", 360)
-            .style("fill", "orange");
-
-        svg.append("circle")
-            .attr("cx", x(data['lin'][2].x))
+            .attr("cx", x(data['trend'][2].x))
             .attr("cy", y(data['times']['median']))
             .attr("r", bigR)
             .attr("angle", 360)
             .style("fill", "black");
+
+        for (var key in data['times']) {
+
+            if(key != undefined) {
+                svg.append("circle")
+                    .attr("cx", x(data['trend'][2].x))
+                    .attr("cy", y(data['times'][key]))
+                    .attr("r", smallR)
+                    .attr("angle", 360)
+                    .style("fill", colors[key]);
+            }
+        }
     }
 }
