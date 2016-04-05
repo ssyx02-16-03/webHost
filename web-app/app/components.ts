@@ -12,6 +12,7 @@ import {D3ArgPatientComponent} from './d3-arg-patient.component';
 import {PassivareComponent} from "./passivare.component";
 import {MapComponent} from "./map.component";
 import {BootstrapTestComponent} from "./bootstrap_test.component";
+import {NyckeltalsPrediktionComponent} from './nyckeltalsprediktion.component';
 
 /**
  * Den här listan används av App för att generera menyn. name är namnet som blir på menyknapparna och path är det som
@@ -27,5 +28,6 @@ export var COMPONENTS = [
     {'component': D3ArgPatientComponent, 'name': "D3 arg patient", 'path': './angry-patient'},
     {'component': PassivareComponent, 'name': "PassivareComp", 'path': "/passivvvisto"},
     {'component': MapComponent, 'name': "Karta", "path": "/map"},
-    {'component': BootstrapTestComponent, 'name': "Bootstrap-test", "path": "/bootstrap"}
+    {'component': BootstrapTestComponent, 'name': "Bootstrap-test", "path": "/bootstrap"},
+    {'component': NyckeltalsPrediktionComponent, 'name': "Nyckeltal", "path": "/indicators"}
 ];
