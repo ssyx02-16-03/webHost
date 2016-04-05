@@ -8,7 +8,7 @@ import {Component} from 'angular2/core';
 import * as d3 from 'd3';
 
 @Component({
-    selector: '.abra.',
+    selector: '.abra',
 })
 
 /*
