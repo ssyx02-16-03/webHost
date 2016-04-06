@@ -11,12 +11,11 @@ import * as d3 from 'd3';
 
 
 @Component({
-
     selector: 'd3',
     template: `
         <header class="header"> </header>
-		<svg class='chart'></svg>
-		`
+		<svg class='barchart'></svg>
+		`// tydligen kan inte klassnamnet va samma som för SVGn till en annan component som ska va med i koordvy /ed
 })
 
 export class barchart_coordinator {
@@ -145,7 +144,7 @@ export class barchart_coordinator {
 
 
         //Chart
-        var chart = d3.select(".chart")
+        var chart = d3.select(".barchart")
             .attr("width", width)
             .attr("height", height);
 

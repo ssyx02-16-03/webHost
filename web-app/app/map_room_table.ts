@@ -8,7 +8,8 @@ import {Component} from 'angular2/core';
 import * as d3 from 'd3';
 
 @Component({
-    selector: '.abra',
+    selector: 'abra',
+    template: '<div class="abra"></div>'
 })
 
 /*
@@ -50,7 +51,7 @@ export class room_table{
     public static tabulate(emptyrooms, columnKeys) {
         //create table
         var table = d3.select(this.divName).append("table")
-            .attr("style", "margin-left: 40px"),
+            .attr("style", "margin-left: 0px"), // ändrade från 40px /ed
             thead = table.append("thead"),
             tbody = table.append("tbody");
 

@@ -12,7 +12,7 @@ export abstract class TrendDiagram {
 
     draw(data) {
 
-        var margin = {top: 20, right: 40, bottom: 20, left: 40},
+        var margin = {top: 20, right: 30, bottom: 20, left: 40},
             width = 350 - margin.left - margin.right,
             height = 150 - margin.top - margin.bottom;
         //hIndraw = 0.1 * width,
