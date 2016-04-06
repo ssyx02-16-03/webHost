@@ -8,6 +8,7 @@ import {Component, OnInit} from 'angular2/core';
 import {SocketIO} from './socket-io';
 
 @Component({
+    selector: 'squarepatients',
     template: `
         <div class="square"></div>
         <div class="waiting"></div>

@@ -6,7 +6,7 @@ import {Component, OnInit} from 'angular2/core';
 import * as d3 from 'd3';
 
 @Component({
-    selector: 'trend-diagrams',
+    selector: 'faces',
     template: `
         <svg class="chart"></svg>
         `
