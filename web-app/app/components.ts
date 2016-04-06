@@ -12,12 +12,10 @@ import {D3ArgPatientComponent} from './d3-arg-patient.component';
 import {PassivareComponent} from "./passivare.component";
 import {MapComponent} from "./map.component";
 import {BootstrapTestComponent} from "./bootstrap_test.component";
-<<<<<<< HEAD
 import {TrendDiagrams} from "./trend_diagrams/trend_diagrams.component.ts";
-=======
-import {NyckeltalsPrediktionComponent} from './nyckeltalsprediktion.component';
-import {SquarePatients} from "./squarePatient.component";
->>>>>>> f4a4b303fc2c14f25d8fa434fce0869092c02ff8
+//import {NyckeltalsPrediktionComponent} from "./nyckeltalsprediktion.component.ts";
+//import {SquarePatients} from "./squarePatient.component";
+import {changeTable} from "./changeTable.component";
 
 /**
  * Den här listan används av App för att generera menyn. name är namnet som blir på menyknapparna och path är det som
@@ -34,11 +32,9 @@ export var COMPONENTS = [
     {'component': PassivareComponent, 'name': "PassivareComp", 'path': "/passivvvisto"},
     {'component': MapComponent, 'name': "Karta", "path": "/map"},
     {'component': BootstrapTestComponent, 'name': "Bootstrap-test", "path": "/bootstrap"},
-<<<<<<< HEAD
-    {'component': TrendDiagrams, 'name': 'Tr3nd Diagram', "path": "/diagram"}
+    {'component': TrendDiagrams, 'name': 'Tr3nd Diagram', "path": "/diagram"},
+    //{'component': NyckeltalsPrediktionComponent, 'name': "Nyckeltal", "path": "/indicators"},
+    //{'component': SquarePatients, 'name': "Square-Patients", "path": "/square"},
+    {'component': changeTable, 'name': "Change table", "path": "/change-table"}
+
 ];
-=======
-    {'component': NyckeltalsPrediktionComponent, 'name': "Nyckeltal", "path": "/indicators"},
-    {'component': SquarePatients, 'name': "Square-Patients", "path": "/square"}
-];
->>>>>>> f4a4b303fc2c14f25d8fa434fce0869092c02ff8
