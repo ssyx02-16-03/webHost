@@ -9,7 +9,7 @@ import {TTKDiagram, TTDDiagram, TTTDiagram} from './trend_diagrams.ts';
 @Component({
     selector: 'trend-diagrams',
     template: `
-        <div style="width:430px">
+        <div style="width:400px">
             <ttkdiagram></ttkdiagram>
             <ttddiagram></ttddiagram>
             <tttdiagram></tttdiagram>

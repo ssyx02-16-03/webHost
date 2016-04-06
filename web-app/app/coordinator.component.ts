@@ -5,25 +5,15 @@
 import {Component} from 'angular2/core';
 import {TrendDiagrams} from './trend_diagrams/trend_diagrams.component';
 import {MapComponent} from './map.component';
+import {barchart_coordinatorComponent} from './barchart_coordinator.component';
 
 @Component({
     template: `
         <trend-diagrams style="float:left"></trend-diagrams>
-        <map></map>
+        <map style="float:left"></map>
+        <coordbarchart></coordbarchart>
         `,
-    /*styles: [`
-        trend-diagrams {
-            resize: horizontal;
-            width: 100px;
-        },
-        trend-diagrams:active {
-            width: auto;
-        }
-        trend-diagrams:focus {
-            min-width: 200px;
-        }
-    `],*/
-    directives: [TrendDiagrams, MapComponent]
+    directives: [TrendDiagrams, MapComponent, barchart_coordinatorComponent]
 })
 
 export class Coordinator {

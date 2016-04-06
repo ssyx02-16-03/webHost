@@ -10,18 +10,19 @@
 import {Component, OnInit} from 'angular2/core';
 
 import * as d3 from 'd3';
- import {SocketIO} from './socket-io';
- import {room_table} from './map_room_table.ts';
-
+import {SocketIO} from './socket-io';
+import {room_table} from './map_room_table.ts';
 
 
 @Component({
     selector: 'map',
     template: `
         <svg class="map"></svg>
-        <div class="abra"></div>
+        <!--<div class="abra"></div>-->
+        <abra></abra>
         `, //used by room_table
-    providers: [SocketIO]
+    providers: [SocketIO],
+    directives: [room_table]
 })
 
 export class MapComponent implements OnInit {
@@ -402,7 +403,7 @@ export class MapComponent implements OnInit {
         ]
     };
 
-    scale = 0.5;
+    scale = 0.62;
 
     stdSpace = 25 * this.scale;
     stdRoomWidth = 60 * this.scale;
@@ -424,14 +425,15 @@ export class MapComponent implements OnInit {
 
     draw(rooms) {
 
+        // ful-satt width o height för att precis rymma allt
         var svg = d3.select(".map")
-            .attr("width", 1200 * this.scale)
-            .attr("height", 750 * this.scale);
+            .attr("width", 945 * this.scale)
+            .attr("height", 710 * this.scale);
 
         //----infection
         var infecRoomWidth = 80 * this.scale;
         var infecRoomHeight = 50 * this.scale;
-        var room1: Room = this.drawRoom(".map", 30, 30,
+        var room1: Room = this.drawRoom(".map", 0, 20,
             infecRoomWidth, infecRoomHeight, 'infection',0);
         var room4: Room = this.drawRoomRow(room1,
             RelativePosition.SOUTH, 0, infecRoomWidth, infecRoomHeight, 'infection', 1, RelativePosition.SOUTH, 3);
@@ -634,15 +636,15 @@ class Room{
             .style("fill", color);
 
         svg.append("text")
-            .attr("x", x + width / 2)
+            .attr("x", x + width / 2 - 10)
             .attr("y", y + height / 2)
             .attr("dy", ".35em")
             .text(jsonRoomObject['room']);
 
         if (this.occupied) {
             svg.append("circle")
-                .attr("cx", x + width / 2 - 15)
-                .attr("cy", y + height / 2)
+                .attr("cx", x + width / 2 - 5)
+                .attr("cy", y + height / 2 + 12)
                 .attr("r", 4)
                 .attr("angle", 360)
                 .attr("stroke-width", 1)
