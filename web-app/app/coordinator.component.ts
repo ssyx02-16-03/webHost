@@ -11,18 +11,6 @@ import {MapComponent} from './map.component';
         <trend-diagrams style="float:left"></trend-diagrams>
         <map></map>
         `,
-    /*styles: [`
-        trend-diagrams {
-            resize: horizontal;
-            width: 100px;
-        },
-        trend-diagrams:active {
-            width: auto;
-        }
-        trend-diagrams:focus {
-            min-width: 200px;
-        }
-    `],*/
     directives: [TrendDiagrams, MapComponent]
 })
 
