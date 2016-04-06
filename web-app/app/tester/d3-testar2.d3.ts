@@ -2,7 +2,7 @@
  * Created by asasoderlund on 2016-03-26.
  */
 
-import {Component} from 'angular2/core';
+import {Component} from '../../node_modules/angular2/core.d';
 
 import * as d3 from 'd3';
 

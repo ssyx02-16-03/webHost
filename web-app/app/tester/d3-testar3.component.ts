@@ -3,7 +3,7 @@
  */
 
 
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '../../node_modules/angular2/core.d';
 
 //import * as d3 from 'd3';
 

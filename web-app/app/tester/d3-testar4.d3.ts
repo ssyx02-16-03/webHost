@@ -4,7 +4,7 @@
  * staplarna fungerar men koden är ful och det finns inga siffror
  */
 
-import {Component} from 'angular2/core';
+import {Component} from '../../node_modules/angular2/core.d';
 
 import * as d3 from 'd3';
 
