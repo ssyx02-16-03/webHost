@@ -2,9 +2,9 @@
  * Created by edvard on 2016-03-01.
  */
 
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '../../node_modules/angular2/core.d';
 
-import {SocketIO} from './socket-io';
+import {SocketIO} from './../socket-io';
 
 @Component({
     providers: [SocketIO]

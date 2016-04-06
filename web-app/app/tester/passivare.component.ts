@@ -3,8 +3,7 @@
  */
 
 import {Component, OnInit} from 'angular2/core';
-
-import {SocketIO} from './socket-io';
+import {SocketIO} from './../socket-io';
 
 @Component({
     template: `

@@ -12,9 +12,9 @@ export abstract class TrendDiagram {
 
     draw(data) {
 
-        var margin = {top: 40, right: 40, bottom: 30, left: 50},
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+        var margin = {top: 20, right: 40, bottom: 20, left: 40},
+            width = 350 - margin.left - margin.right,
+            height = 150 - margin.top - margin.bottom;
         //hIndraw = 0.1 * width,
         //vIndraw = 0.2 * height;
 
@@ -116,8 +116,8 @@ export abstract class TrendDiagram {
         //---------------------------------------------------//
         //-------------------- circles ----------------------//
 
-        var smallR = 10;
-        var bigR = 15;
+        var smallR = 5;
+        var bigR = 8;
         var colors;
 
         colors = this.getMarkerColors();
