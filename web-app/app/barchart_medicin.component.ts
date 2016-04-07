@@ -9,8 +9,8 @@ import {Component, OnInit} from 'angular2/core';
 import {barchart_medicin} from './barchart_medicin.ts'
 
 @Component({
+    selector: 'medbarchart',
     template: `
-		<h2>Stapeldiagram</h2>
 		<d3></d3>
 		`,
     directives: [barchart_medicin]
