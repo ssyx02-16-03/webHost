@@ -13,11 +13,11 @@ import {barchart_coordinatorComponent} from "./barchart_coordinator.component";
 import {changeTable} from "./changeTable.component";
 import {BootstrapTestComponent} from "./tester/bootstrap_test.component.ts";
 import {TrendDiagrams} from "./trend_diagrams/trend_diagrams.component.ts";
-import {SquarePatients} from "./squarePatient.component";
-import {Coordinator} from "./coordinator.component";
-import {barchart_medicinComponent} from "./barchart_medicin.component";
-import {Faces} from "./faces";
-import {SquareComponent} from "./square.component";
+import {SquarePatients} from "./squarePatient.component.ts";
+import {Coordinator} from "./coordinator.component.ts";
+import {barchart_medicinComponent} from "./barchart_medicin.component.ts";
+import {Faces} from "./faces.component.ts";
+import {SquareComponent} from "./square.component.ts";
 
 
 /**
