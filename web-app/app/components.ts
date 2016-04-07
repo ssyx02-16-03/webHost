@@ -16,6 +16,7 @@ import {TrendDiagrams} from "./trend_diagrams/trend_diagrams.component.ts";
 import {SquarePatients} from "./squarePatient.component";
 import {Coordinator} from "./coordinator.component";
 import {Faces} from "./faces";
+import {SquareComponent} from "./square.component";
 
 /**
  * Den här listan används av App för att generera menyn. name är namnet som blir på menyknapparna och path är det som
@@ -33,7 +34,8 @@ export var COMPONENTS = [
     {'component': BootstrapTestComponent, 'name': "Bootstrap-test", "path": "/bootstrap"},
     {'component': TrendDiagrams, 'name': 'Tr3nd Diagram', "path": "/diagram"},
     {'component': changeTable, 'name': "Change table", "path": "/change-table"},
-    {'component': SquarePatients, 'name': "Square-Patients", "path": "/square"},
+    {'component': SquarePatients, 'name': "Square-Patients", "path": "/squaree"},
     {'component': Coordinator, 'name': "Koordinator", "path": "/coordinator"},
-    {'component': Faces, 'name': "Faces", 'path': '/faces'}
+    {'component': Faces, 'name': "Faces", 'path': '/faces'},
+    {'component': SquareComponent, 'name': "Torg", 'path': '/square'}
 ];
