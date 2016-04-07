@@ -14,7 +14,8 @@ import {SocketIO} from './socket-io';
         <div class="others"></div>
 		
 		`,
-    providers: [SocketIO]
+    providers: [SocketIO],
+    //styleUrls: ['./squareStyle.css']
 })
 
 
@@ -40,15 +41,16 @@ export class SquarePatients implements OnInit{
 function paintCardHolders(){
     var height = "400px";
     var cardWidth = 150; //pixels
+    var cardHeight = 100;
     var divs = [];
     divs['squareDiv'] = d3.select(".square")
         .attr("style", "width:" + cardWidth*5 +"px;"
-            +"height: 400px;"
+            +"height:" +cardHeight*3 +"px;"
             + "background-color:black;");
 
     divs['waitingDiv'] = d3.select(".waiting")
         .attr("style", "width: "+cardWidth*4 +"px;"
-            +"height:"+height +";"
+            +"height:"+cardHeight*4 +"px;"
             +"float:left;"
             +"background-color: #E0E0E0; "); //light gray
 
@@ -56,7 +58,7 @@ function paintCardHolders(){
         .attr("style", "float:left;"
             +"clear:right;"
             +"width: "+ cardWidth+"px;"
-            +"height:" +height +";"
+            +"height:" +cardHeight*4 +"px;"
             +"margin-left: 2px;"
             +"background-color: gray");
     return divs;
@@ -160,28 +162,29 @@ function paintSquareCards(grandParent,roomCards){
     }
     var cardStyle = "margin-bottom: 3px;"
         + "display:block; "
-        + "float:left;";
+        + "float:left;"
+        + cssCalcWidth(100,-4);
 
     //paint holder spacing
-    var color = "background-color: gray;";
-    var columnStyle = "width: 20%; height: 66%;" +color;
+    var color = "";
+    var columnStyle = "width: 20%; height: 64%;" +color;
 
     var topRow = grandParent.append("div")
-                    .attr("style","width: 100%; height: 33%;" +color);
+                    .attr("style","width: 100%; height: 32%;" +color);
     var leftColumn = grandParent.append("div")
                     .attr("style", columnStyle +"float:left;");
     var rightColumn = grandParent.append("div")
                     .attr("style", columnStyle +"float:right;");
 
     for(var i=21; i<26; i++){
-        paintCardOrDummy(i,sortedCards[i],topRow,cardStyle + "height: 100%; width: 20%;");
+        paintCardOrDummy(i,sortedCards[i],topRow,cardStyle + "height: 100%;"+ cssCalcWidth(20,-3) + "margin-right:3px;");
     }
     //left column
-    paintCardOrDummy(20,sortedCards[20],leftColumn,cardStyle + "height: 50%; width: 100%;");
-    paintCardOrDummy(19,sortedCards[19],leftColumn,cardStyle + "height: 50%; width: 100%;");
+    paintCardOrDummy(20,sortedCards[20],leftColumn,cardStyle + "height: 50%;");
+    paintCardOrDummy(19,sortedCards[19],leftColumn,cardStyle + "height: 50%;");
     //right column
-    paintCardOrDummy(26,sortedCards[26],rightColumn,cardStyle + "height: 50%; width: 100%;");
-    paintCardOrDummy(27,sortedCards[27],rightColumn,cardStyle + "height: 50%; width: 100%;");
+    paintCardOrDummy(26,sortedCards[26],rightColumn,cardStyle + "height: 50%;");
+    paintCardOrDummy(27,sortedCards[27],rightColumn,cardStyle + "height: 50%;");
 
 
     function paintCardOrDummy(num:number,card:Card, parent,cardStyle){
@@ -219,14 +222,14 @@ function paintDummyCard(num:number,parent,cardStyle){
 function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside parent
 
     //Attention checker
-    var tempStyle = "";
+    var attentionStyle = "";
     if(patientCard.needsAttention){
-        tempStyle = "outline-style: solid; outline-width: 3px; outline-color: "+patientCard.triage +";";
+        attentionStyle = "outline-style: solid; outline-width: 3px; outline-color: "+patientCard.triage +";";
     }
     var card1 = parent.append("li")
         .attr("style", cardStyle
             + "background-color:" +patientCard.triage +";"
-            + tempStyle);
+            + attentionStyle);
 
     //Room nr
     var roomNr = card1.append("p")
@@ -267,6 +270,12 @@ function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside 
     var lastEvent = tr.append("td").attr("style",cellStyle).text(patientCard.lastEvent);
     var status = tr.append("td").attr("style",cellStyle).text(patientCard.doctorName);
 
+}
+
+function cssCalcWidth(percent:number,pixels:number){
+    return "width: -moz-calc(" +percent +"% + " +pixels +"px);"
+    + "width: -webkit-calc(" +percent +"% + " +pixels +"px);"
+    + "width: calc(" +percent +"% + " +pixels +"px);";
 }
 
 
