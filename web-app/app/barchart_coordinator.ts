@@ -1,7 +1,7 @@
 /**
  * Created by asasoderlund on 2016-03-01.
  *
- * staplarna fungerar men koden är ful och det finns inga siffror
+ * staplarna fungerar men koden är ful
  */
 
 import {Component} from 'angular2/core';
@@ -83,9 +83,9 @@ export class barchart_coordinator {
             { "torg": "Jour", "inkommande": 2, "tittade": 1, "otittade": 5, "klara":1, "blue": 0, "green" :1, "yellow": 3, "orange":3, "red":0, "otriagerade": 0, "totalt": 9}];
 
         var total = 0
-        var taxes = jsonData;
-        for (var i = 0; i < taxes.length; i++) {
-            total += taxes[i].totalt;
+        var data = jsonData;
+        for (var i = 0; i < data.length; i++) {
+            total += data[i].totalt;
         }
         var header = d3.select("header");
         var text = header.append("text")
@@ -98,8 +98,8 @@ export class barchart_coordinator {
 
         var color_hash = { //gör om så att den matchar jsonfilen och fixa till stapeln på otriagerade
             0 : ["inkommande", "lightgrey"],
-            1 : ["tittade", "lightgrey"],
-            2 : ["påtittade", "grey"],
+            1 : ["påtittade", "lightgrey"],
+            2 : ["opåtittade", "grey"],
             3 : ["klara", "black"],
             4 : ["blå", "blue"],
             5 : ["grön", "green"],
@@ -242,33 +242,34 @@ export class barchart_coordinator {
             .attr("font-size", fontSize);
 
 
-        //Påtittade
-        bar.append("rect")
-            .attr("x", function (d, i) { return (2 * i + 1) * barSpace - barWidth; })
-            .attr("y", function (d) { return y(d.tittade); })
-            .attr("height", function (d) { return chartHeight - y(d.tittade); })
-            .attr("width", barWidth)
-            .attr("fill", color_hash[String(1)][1]);
-
-        bar.append("text")
-            .attr("x", function (d, i) { return (2 * i + 1) * barSpace - barWidth; })
-            .attr("y", function(d) { if (d.tittade != 0) {return y(d.tittade) + fontSize; } })
-            .text( function (d) { if (d.tittade != 0) {return d.tittade; } })
-            .attr("font-size", fontSize);
-
 
         //Opåtittade
         bar.append("rect")
             .attr("x", function (d, i) { return (2 * i + 1) * barSpace - barWidth; })
-            .attr("y", function(d) { return y(d.otittade) - chartHeight + y(d.tittade); })
+            .attr("y", function(d) { return y(d.otittade); })
             .attr("height", function(d) { return chartHeight - y(d.otittade); })
             .attr("width", barWidth)
             .attr("fill", color_hash[String(2)][1]);
 
         bar.append("text")
             .attr("x", function (d, i) { return (2 * i + 1) * barSpace - barWidth; })
-            .attr("y", function(d) { return y(d.otittade) - chartHeight + y(d.tittade) + fontSize; })
+            .attr("y", function(d) { return y(d.otittade) + fontSize; })
             .text( function (d) { if (d.otittade != 0) {return d.otittade; } })
+            .attr("font-size", fontSize);
+
+
+        //Påtittade
+        bar.append("rect")
+            .attr("x", function (d, i) { return (2 * i + 1) * barSpace - barWidth; })
+            .attr("y", function (d) { return y(d.tittade) - chartHeight + y(d.otittade); })
+            .attr("height", function (d) { return chartHeight - y(d.tittade); })
+            .attr("width", barWidth)
+            .attr("fill", color_hash[String(1)][1]);
+
+        bar.append("text")
+            .attr("x", function (d, i) { return (2 * i + 1) * barSpace - barWidth; })
+            .attr("y", function(d) { if (d.tittade != 0) {return y(d.tittade) - chartHeight + y(d.otittade) + fontSize; } })
+            .text( function (d) { if (d.tittade != 0) {return d.tittade; } })
             .attr("font-size", fontSize);
 
 
