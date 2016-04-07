@@ -9,6 +9,7 @@ import {Component, OnInit} from 'angular2/core';
 import {barchart_coordinator} from './barchart_coordinator.ts'
 
 @Component({
+    selector: 'coordbarchart',
     template: `
 		<h2>Stapeldiagram</h2>
 		<d3></d3>

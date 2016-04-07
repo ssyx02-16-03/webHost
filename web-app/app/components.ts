@@ -16,6 +16,8 @@ import {TrendDiagrams} from "./trend_diagrams/trend_diagrams.component.ts";
 import {SquarePatients} from "./squarePatient.component";
 import {Coordinator} from "./coordinator.component";
 import {barchart_medicinComponent} from "./barchart_medicin.component";
+import {Faces} from "./faces";
+import {SquareComponent} from "./square.component";
 
 
 /**
@@ -35,6 +37,8 @@ export var COMPONENTS = [
     {'component': BootstrapTestComponent, 'name': "Bootstrap-test", "path": "/bootstrap"},
     {'component': TrendDiagrams, 'name': 'Tr3nd Diagram', "path": "/diagram"},
     {'component': changeTable, 'name': "Change table", "path": "/change-table"},
-    {'component': SquarePatients, 'name': "Square-Patients", "path": "/square"},
-    {'component': Coordinator, 'name': "Koordinator", "path": "/coordinator"}
+    {'component': SquarePatients, 'name': "Square-Patients", "path": "/squaree"},
+    {'component': Coordinator, 'name': "Koordinator", "path": "/coordinator"},
+    {'component': Faces, 'name': "Faces", 'path': '/faces'},
+    {'component': SquareComponent, 'name': "Torg", 'path': '/square'}
 ];
