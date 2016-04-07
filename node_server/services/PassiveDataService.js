@@ -39,7 +39,7 @@ define([], function() {
       var type = pack.type;
       var data = pack.data;
       if(type != null && data != null){ //is the data in correct form?
-        var eventName = 'webserver_' +type;
+        var eventName = type;
         if(latestData[eventName] == null){
           addNewType(eventName,'');
         }
