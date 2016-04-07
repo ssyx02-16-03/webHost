@@ -32,7 +32,6 @@ export class SquarePatients implements OnInit{
             console.log('test worked! SocketIO!');
             refreshCards(divs,data);
         });
-
         //for testing purposes
         refreshCards(divs,patients);
     }
@@ -308,19 +307,19 @@ class Card{
 
     determineTriage(jsonPriority){
         switch (jsonPriority){
-            case 'Blue':
+            case 'Blue','Blå':
                 this.triage = triageStatus.blue;
                 break;
-            case 'Green':
+            case 'Green','Grön':
                 this.triage = triageStatus.green;
                 break;
-            case 'Yellow':
+            case 'Yellow','Gul':
                 this.triage = triageStatus.yellow;
                 break;
             case 'Orange':
                 this.triage = triageStatus.orange;
                 break;
-            case 'Red':
+            case 'Red','Röd':
                 this.triage = triageStatus.red;
                 break;
         }

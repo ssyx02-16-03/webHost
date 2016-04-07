@@ -25,7 +25,7 @@ import * as d3 from 'd3';
 })
 
 export class MapComponent implements OnInit {
-    
+
     rooms =
     {
         "infection":[
@@ -411,14 +411,15 @@ export class MapComponent implements OnInit {
     ngOnInit() {
         this.draw(this.rooms);
         room_table.drawTable(this.rooms);
+        var thiz = this;
         //get data from webserver_com module
         SocketIO.connect('room_occupation');
         SocketIO.on('room_occupation', function(data){
-            this.rooms = data['data']['rooms'];
-            console.log(data);
-            console.log('test worked! SocketIO!');
-            this.draw(this.rooms);
-            room_table.drawTable(this.rooms);
+            thiz.rooms = data.rooms;
+            console.log(thiz.rooms);
+            console.log('got data from room_occupation, SocketIO!');
+            thiz.draw(thiz.rooms);
+            room_table.drawTable(thiz.rooms);
         });
     }
 
