@@ -412,8 +412,8 @@ export class MapComponent implements OnInit {
         this.draw(this.rooms);
         room_table.drawTable(this.rooms);
         //get data from webserver_com module
-        SocketIO.connect('webserver_room_occupation');
-        SocketIO.on('webserver_room_occupation', function(data){
+        SocketIO.connect('room_occupation');
+        SocketIO.on('room_occupation', function(data){
             this.rooms = data['data']['rooms'];
             console.log(data);
             console.log('test worked! SocketIO!');

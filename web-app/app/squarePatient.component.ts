@@ -85,8 +85,8 @@ export class SquarePatients implements OnInit{
 
 
         //listen to data
-        SocketIO.connect('webserver_blue_side_overview');
-        SocketIO.on('webserver_blue_side_overview', function(data){
+        SocketIO.connect('blue_side_overview');
+        SocketIO.on('blue_side_overview', function(data){
             console.log(data);
             console.log('test worked! SocketIO!');
             this.cards = this.updateCards(data);
