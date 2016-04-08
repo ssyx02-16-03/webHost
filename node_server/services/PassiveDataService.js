@@ -5,12 +5,13 @@ define([], function() {
     var latestData = {};
     var numOfLabels = 0;
     var labels = [];
+    //future: var hashVersion = [];
 
     function addNewType(typeName,typeData){
       latestData[typeName] = typeData;
       labels.push(typeName);
       numOfLabels++;
-      console.log('passiveDataService: new dataType: ',typeData);
+      console.log('passiveDataService: # new dataType: ' +typeName);
     }
 
     function start(angelClient, socketIOServer) {
@@ -38,15 +39,19 @@ define([], function() {
     function emitNewData(pack, socketIO) {
       var type = pack.type;
       var data = pack.data;
+      //var hash = pack.hash;
       if(type != null && data != null){ //is the data in correct form?
         var eventName = type;
         if(latestData[eventName] == null){
           addNewType(eventName,'');
         }
-        if(latestData[eventName] != data){ //new data!
-          console.log('passiveDataService: ',eventName,' got new data!');
+        //in the future: if(hashVersion[eventName] != hash) //new data?
+
+        if( JSON.stringify( latestData[eventName]) !== JSON.stringify(data) ){ //new data? yep Stringify was the only reasonable option
+          console.log('passiveDataService: +',eventName,' got new data!');
           socketIO.emit(eventName,data);
           latestData[eventName] = data;
+          //future: hashVersion[eventName] = hash;
         }
       }
   	}
