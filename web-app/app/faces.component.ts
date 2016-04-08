@@ -4,19 +4,21 @@
 
 import {Component, OnInit} from 'angular2/core';
 import * as d3 from 'd3';
+import {SocketIO} from './socket-io';
 
 @Component({
     selector: 'faces',
     template: `
         <svg class="chart"></svg>
-        `
+        `,
+    providers: [SocketIO]
 })
 
 export class Faces implements OnInit {
 
     ngOnInit() {
         var data = {
-            'ttl': {
+            'ttd': {
                 'value': 129,
                 'trend': 1, // -1, 0 o 1..?
                 'mood': 0, // -1, 0 o 1..?
@@ -29,26 +31,33 @@ export class Faces implements OnInit {
         }
 
         this.draw(data);
+
+        var thiz = this;
+        SocketIO.subscribe('smile_face_blue', function(data) {
+            thiz.draw(data);
+        });
     }
 
     draw(data) {
+
+        d3.select(".chart").selectAll("*").remove();
 
         var distance = 105, radius = 50, circle1X = radius + 20, circleY = radius;
         var face1X = 30, faceY = 25, faceR = radius * 0.4;
         var arrow1X = 15, arrowY = 50;
 
-        this.drawCircle(circle1X, circleY, radius, data.ttl);
-        this.drawFace(face1X, faceY, faceR, data.ttl);
-        this.drawArrow(arrow1X, arrowY, data.ttl);
+        this.drawCircle(circle1X, circleY, radius, data['ttd']);
+        this.drawFace(face1X, faceY, faceR, data['ttd']);
+        this.drawArrow(arrow1X, arrowY, data['ttd']);
 
-        this.drawCircle(circle1X + distance, circleY, radius, data.ttk);
-        this.drawFace(circle1X + distance + (circle1X - face1X), faceY, faceR, data.ttk);
-        this.drawArrow(circle1X + distance + (circle1X - arrow1X) - 20, arrowY, data.ttk);
-        //this.drawArrow(25, 35, data.ttk);
+        this.drawCircle(circle1X + distance, circleY, radius, data['ttk']);
+        this.drawFace(circle1X + distance + (circle1X - face1X), faceY, faceR, data['ttk']);
+        this.drawArrow(circle1X + distance + (circle1X - arrow1X) - 20, arrowY, data['ttk']);
     }
 
-    drawCircle(circleX, circleY, circleR, datattx) { // datattx är data.ttl eller data.ttk
+    drawCircle(circleX, circleY, circleR, datattx) { // datattx är data['ttd'] eller data['ttk']
 
+        console.log("insiiide: " + datattx);
         var chart = d3.select('.chart');
 
         chart.append("circle")
@@ -61,19 +70,19 @@ export class Faces implements OnInit {
         chart.append("text")
             .attr('x', circleX - circleR * 0.23)
             .attr('y', circleY - circleR * 0.2)
-            .text(datattx.value);
+            .text(datattx['value']);
 
         chart.append("text")
             .attr('x', circleX - circleR * 0.23)
             .attr('y', circleY + circleR * 0.2)
-            .text('TTL');
+            .text('ttd');
     }
 
-    drawFace(faceX, faceY, faceR, datattx) { // datattx är data.ttl eller data.ttk
+    drawFace(faceX, faceY, faceR, datattx) { // datattx är data['ttd'] eller data['ttk']
 
         var chart = d3.select('.chart');
 
-        switch(datattx.mood) {
+        switch(datattx['mood']) {
             case 1:
                 chart.append("circle")
                     .attr("cx", faceX)
@@ -145,7 +154,7 @@ export class Faces implements OnInit {
             .style("fill", "black");
     }
 
-    drawArrow(arrowX, arrowY, datattx) { // datattx är data.ttl eller data.ttk
+    drawArrow(arrowX, arrowY, datattx) { // datattx är data['ttd'] eller data['ttk']
 
         var chart = d3.select('.chart');
 
@@ -172,7 +181,7 @@ export class Faces implements OnInit {
 
         var midX = arrowX + headWidth / 2.0, midY = arrowY + length / 2.0;
         var rotation, color;
-        switch(datattx.trend) {
+        switch(datattx['trend']) {
             case -1:
                 rotation = 0;
                 color = "green";
