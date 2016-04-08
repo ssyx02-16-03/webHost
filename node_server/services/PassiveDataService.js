@@ -1,5 +1,5 @@
 define([], function() {
-    var topic = '/topic/elvisSnapShot'; //IRL should be '/topic/webserver_package'
+    var topic = '/topic/webserver_package'; //IRL should be '/topic/webserver_package'
 
 //implement a hashSet for each webserver_package
     var latestData = {};
@@ -10,7 +10,7 @@ define([], function() {
       latestData[typeName] = typeData;
       labels.push(typeName);
       numOfLabels++;
-      console.log('passiveDataService: new dataType added!');
+      console.log('passiveDataService: new dataType: ',typeData);
     }
 
     function start(angelClient, socketIOServer) {
@@ -43,7 +43,8 @@ define([], function() {
         if(latestData[eventName] == null){
           addNewType(eventName,'');
         }
-        if(latestData[eventName] != data){
+        if(latestData[eventName] != data){ //new data!
+          console.log('passiveDataService: ',eventName,' got new data!');
           socketIO.emit(eventName,data);
           latestData[eventName] = data;
         }
