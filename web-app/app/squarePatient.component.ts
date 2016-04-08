@@ -46,7 +46,7 @@ function paintCardHolders(){
     divs['squareDiv'] = d3.select(".square")
         .attr("style", "width:" + cardWidth*5 +"px;"
             +"height:" +cardHeight*3 +"px;"
-            + "background-color:black;");
+            + "background-color:gray;");
 
     divs['waitingDiv'] = d3.select(".waiting")
         .attr("style", "width: "+cardWidth*4 +"px;"
@@ -104,8 +104,6 @@ function paintWaitingList(grandParent,waitingCards) {
     while(waitingCards.length >0) {
         var patient = waitingCards.pop();
         parent = paintWaitCard(patient,parent,cardStyle);
-        parent = paintWaitCard(patient,parent,cardStyle);
-        parent = paintWaitCard(patient,parent,cardStyle);
     }
 
     function paintWaitCard(patientCard:Card,parent,cardStyle:string){
@@ -123,6 +121,7 @@ function paintWaitingList(grandParent,waitingCards) {
         return parent;
     }
 }
+
 function paintOtherCards(grandParent,cards){
     grandParent.selectAll("*").remove(); //remove old stuff
     var ul = newUl(grandParent,100);
@@ -148,6 +147,7 @@ function paintOtherCards(grandParent,cards){
     }
 
 }
+
 function paintSquareCards(grandParent,roomCards){
     grandParent.selectAll("*").remove(); //remove old stuff
 
@@ -201,7 +201,7 @@ function paintSquareCards(grandParent,roomCards){
 function newUl(gParent,width:number){
     var ulStyle = "width: "+width +"%; height: 100%; float:left; padding:5px;";
     var parent = gParent.append("ul")
-        .attr("style", ulStyle)
+        .attr("style", ulStyle);
     return parent;
 }
 
@@ -307,24 +307,24 @@ class Card{
 
     determineTriage(jsonPriority){
         switch (jsonPriority){
-            case 'Blue'||'Blå':
+            case 'Blue','Blå':
                 this.triage = triageStatus.blue;
                 break;
-            case 'Green'||'Grön':
+            case 'Green','Grön':
                 this.triage = triageStatus.green;
                 break;
-            case 'Yellow'||'Gul':
+            case 'Yellow','Gul':
                 this.triage = triageStatus.yellow;
                 break;
             case 'Orange':
                 this.triage = triageStatus.orange;
                 break;
-            case 'Red'||'Röd':
+            case 'Red','Röd':
                 this.triage = triageStatus.red;
                 break;
             default:
                 console.log("ERROR: triage colour ");
-                this.triage = "purple";
+                this.triage = "white";
         }
     }
 

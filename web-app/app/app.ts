@@ -12,11 +12,13 @@ import {COMPONENTS} from './components';
     template: `
     	<div id='center'>
 			<h1 id='title'>{{title}}</h1>
-	 		<div id='menubutton'
-	 			*ngFor='#component of components'
-	 			[routerLink]='[component.name]'
-	 			(click)='title = component.name'>
-	 				{{component.name}}
+	 		<div id="menu">
+				<div id='menubutton'
+					*ngFor='#component of components'
+					[routerLink]='[component.name]'
+					(click)='title = component.name'>
+						{{component.name}}
+				</div>
 	 		</div>
 	 		<div id='outlet'>
 				<router-outlet></router-outlet>
@@ -27,9 +29,7 @@ import {COMPONENTS} from './components';
 	directives: [ROUTER_DIRECTIVES],
 	providers: [ROUTER_PROVIDERS]
 })
-
 @RouteConfig(getRoutes())
-
 
 export class App {
 
