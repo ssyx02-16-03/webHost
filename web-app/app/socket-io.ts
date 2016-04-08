@@ -15,7 +15,7 @@ export class SocketIO {
 
     static connect(eventType: string) {
         if (this.socket == null) {
-            this.socket = io.connect('http://localhost:8000');
+            this.socket = io.connect(); // stod 'http://localhost:8000' förut
 
             var thiz = this;
 

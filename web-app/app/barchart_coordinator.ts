@@ -15,7 +15,7 @@ import * as d3 from 'd3';
     selector: 'd3',
     template: `
         <header class="header"> </header>
-		<svg class='chart'></svg>
+		<svg class='baarchart'></svg>
 		`
 })
 
@@ -145,7 +145,7 @@ export class barchart_coordinator {
 
 
         //Chart
-        var chart = d3.select(".chart")
+        var chart = d3.select(".baarchart")
             .attr("width", width)
             .attr("height", height);
 
