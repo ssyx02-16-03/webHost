@@ -1,6 +1,9 @@
 # ignore generated json files,
 # not anymore, package.json is important, *.json
 
+#ignore node logs
+npm-debug.log
+
 #ignore node_modules
 node_modules/*
 node_modules
