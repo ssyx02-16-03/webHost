@@ -307,21 +307,24 @@ class Card{
 
     determineTriage(jsonPriority){
         switch (jsonPriority){
-            case 'Blue','Blå':
+            case 'Blue'||'Blå':
                 this.triage = triageStatus.blue;
                 break;
-            case 'Green','Grön':
+            case 'Green'||'Grön':
                 this.triage = triageStatus.green;
                 break;
-            case 'Yellow','Gul':
+            case 'Yellow'||'Gul':
                 this.triage = triageStatus.yellow;
                 break;
             case 'Orange':
                 this.triage = triageStatus.orange;
                 break;
-            case 'Red','Röd':
+            case 'Red'||'Röd':
                 this.triage = triageStatus.red;
                 break;
+            default:
+                console.log("ERROR: triage colour ");
+                this.triage = "purple";
         }
     }
 

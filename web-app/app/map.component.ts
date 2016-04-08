@@ -427,7 +427,8 @@ export class MapComponent implements OnInit {
 
         var svg = d3.select(".map")
             .attr("width", 1200 * this.scale)
-            .attr("height", 750 * this.scale);
+            .attr("height", 750 * this.scale)
+            .selectAll("*").remove();
 
         //----infection
         var infecRoomWidth = 80 * this.scale;
