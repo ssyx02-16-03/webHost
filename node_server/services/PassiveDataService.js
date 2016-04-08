@@ -1,10 +1,7 @@
 define([], function() {
-<<<<<<< HEAD
+
     //var topic = '/topic/elvisSnapShot'; //IRL should be '/topic/webserver_package'
     var topic = '/topic/webserver_package';
-=======
-    var topic = '/topic/webserver_package'; //IRL should be '/topic/webserver_package'
->>>>>>> be2dad27910ed953f498f4a95e13c153e1f71555
 
 //implement a hashSet for each webserver_package
     var latestData = {};
