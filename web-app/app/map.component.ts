@@ -13,8 +13,6 @@ import * as d3 from 'd3';
  import {SocketIO} from './socket-io';
  import {room_table} from './map_room_table.ts';
 
-
-
 @Component({
     selector: 'map',
     template: `
@@ -413,14 +411,13 @@ export class MapComponent implements OnInit {
         room_table.drawTable(this.rooms);
         var thiz = this;
         //get data from webserver_com module
-        SocketIO.connect('room_occupation');
-        SocketIO.on('room_occupation', function(data){
+        //SocketIO.subscribe('room_occupation'); designidé: interfejsa draw(data) så man bara behöver skriva detta
+        SocketIO.subscribe('room_occupation', function(data) {
             thiz.rooms = data.rooms;
-            console.log(thiz.rooms);
-            console.log('got data from room_occupation, SocketIO!');
             thiz.draw(thiz.rooms);
             room_table.drawTable(thiz.rooms);
         });
+
     }
 
     draw(rooms) {

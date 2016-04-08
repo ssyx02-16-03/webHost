@@ -13,14 +13,22 @@ export class SocketIO {
 
     private static socket: any;
 
+    static subscribe(eventType: string, onEventFunction: (eventData: any) => void) {
+        this.connect(eventType);
+        this.on(eventType, function(data) {
+            onEventFunction(data);
+            console.log('got data from ' + eventType + ', SocketIO!');
+        });
+    }
+
     static connect(eventType: string) {
         if (this.socket == null) {
             this.socket = io.connect(); // stod 'http://localhost:8000' förut
 
             var thiz = this;
 
-            this.socket.on('connectionResponse', function (wut) {
-                console.log('server responded: ' + wut + "!");
+            this.socket.on('connectionResponse', function (d) {
+                console.log('server responded: ' + d + "!");
                 thiz.socket.emit('eventType', eventType);
             });
 
@@ -29,10 +37,9 @@ export class SocketIO {
             console.log('request response!');
             thiz.socket.emit('eventType', eventType);
         }
-        //this.socket.emit('eventType', {heej: eventType} );
     }
 
-    static on(event: string, onEventFunction: (eventData: any) => void) {
-        this.socket.on(event, onEventFunction);
+    static on(eventType: string, onEventFunction: (eventData: any) => void) {
+        this.socket.on(eventType, onEventFunction);
     }
 }

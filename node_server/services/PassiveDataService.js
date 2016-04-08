@@ -1,5 +1,6 @@
 define([], function() {
-    var topic = '/topic/elvisSnapShot'; //IRL should be '/topic/webserver_package'
+    //var topic = '/topic/elvisSnapShot'; //IRL should be '/topic/webserver_package'
+    var topic = '/topic/webserver_package';
 
 //implement a hashSet for each webserver_package
     var latestData = {};
