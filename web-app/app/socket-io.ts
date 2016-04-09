@@ -24,7 +24,7 @@ export class SocketIO {
     static connect(eventType: string) {
         if (this.socket == null) {
             this.socket = io.connect(); // stod 'http://localhost:8000' förut
-
+            
             this.socket.on('connectionResponse', function (d) {
                 console.log('server responded: ' + d + "!");
                 SocketIO.socket.emit('eventType', eventType);

@@ -11,7 +11,6 @@ import * as d3 from 'd3';
 
 
 @Component({
-
     selector: 'd3',
     template: `
         <header class="header"> </header>

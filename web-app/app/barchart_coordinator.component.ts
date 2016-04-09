@@ -12,8 +12,7 @@ import {SocketIO} from './socket-io';
 @Component({
     selector: 'coordbarchart',
     template: `
-        <header class="header"> </header>
-		<svg class='baarchart'></svg>
+        <d3></d3>
 		`,
     directives: [barchart_coordinator],
     providers: [SocketIO]

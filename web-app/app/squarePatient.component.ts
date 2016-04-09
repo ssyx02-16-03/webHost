@@ -8,7 +8,7 @@ import {Component, OnInit} from 'angular2/core';
 import {SocketIO} from './socket-io';
 
 @Component({
-    selector: 'squarepatients',
+    selector: 'squareCards',
     template: `
     <div class="square"></div>
 <div class="waiting"></div>
@@ -44,21 +44,29 @@ function paintCardHolders(){
     var cardHeight = 100;
     var divs = [];
     divs['squareDiv'] = d3.select(".square")
-        .attr("style", "width:" + cardWidth*5 +"px;"
-            +"height:" +cardHeight*3 +"px;"
+        .attr("style", ""
+            +"width: 100%;"
+            +"height: 45%;"
+            //+"width:" + cardWidth*5 +"px;"
+            //+"height:" +cardHeight*3 +"px;"
             + "background-color:gray;");
 
     divs['waitingDiv'] = d3.select(".waiting")
-        .attr("style", "width: "+cardWidth*4 +"px;"
-            +"height:"+cardHeight*4 +"px;"
+        .attr("style", ""
+            +"width: 80%;"
+            +"height: 55%;"
+            //+"width: "+cardWidth*4 +"px;"
+            //+"height:"+cardHeight*4 +"px;"
             +"float:left;"
             +"background-color: #E0E0E0; "); //light gray
 
     divs['othersDiv'] = d3.select(".others")
         .attr("style", "float:left;"
             +"clear:right;"
-            +"width: "+ cardWidth+"px;"
-            +"height:" +cardHeight*4 +"px;"
+            +"width:18%;"
+            +"height:55%;"
+            //+"width: "+ cardWidth+"px;"
+            //+"height:" +cardHeight*4 +"px;"
             +"margin-left: 2px;"
             +"background-color: gray");
     return divs;
