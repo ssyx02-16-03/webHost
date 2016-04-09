@@ -24,7 +24,7 @@ import * as d3 from 'd3';
 
 export class MapComponent implements OnInit {
 
-    rooms =
+    static rooms =
     {
         "infection":[
             {
@@ -400,36 +400,36 @@ export class MapComponent implements OnInit {
         ]
     };
 
-    scale = 0.5;
-
-    stdSpace = 25 * this.scale;
-    stdRoomWidth = 60 * this.scale;
-    stdRoomHeight = 60 * this.scale;
-
     ngOnInit() {
-        this.draw(this.rooms);
-        room_table.drawTable(this.rooms);
-        var thiz = this;
-        //get data from webserver_com module
+        MapComponent.draw(MapComponent.rooms);
         //SocketIO.subscribe('room_occupation'); designidé: interfejsa draw(data) så man bara behöver skriva detta
         SocketIO.subscribe('room_occupation', function(data) {
-            thiz.rooms = data.rooms;
-            thiz.draw(thiz.rooms);
-            room_table.drawTable(thiz.rooms);
+            MapComponent.draw(data.rooms);
         });
 
     }
+    
+    static draw(data){
+        console.log(data);
+        this.rooms = data;
+        MapComponent.drawRooms();
+        room_table.drawTable(data);
+    }
 
-    draw(rooms) {
+    private static drawRooms() {
+        var scale = 0.5;
+        var stdSpace = 25 * scale;
+        var stdRoomWidth = 60 * scale;
+        var stdRoomHeight = 60 * scale;
 
         var svg = d3.select(".map")
-            .attr("width", 1200 * this.scale)
-            .attr("height", 750 * this.scale)
+            .attr("width", 1200 * scale)
+            .attr("height", 750 * scale)
             .selectAll("*").remove();
 
         //----infection
-        var infecRoomWidth = 80 * this.scale;
-        var infecRoomHeight = 50 * this.scale;
+        var infecRoomWidth = 80 * scale;
+        var infecRoomHeight = 50 * scale;
         var room1: Room = this.drawRoom(".map", 30, 30,
             infecRoomWidth, infecRoomHeight, 'infection',0);
         var room4: Room = this.drawRoomRow(room1,
@@ -437,78 +437,78 @@ export class MapComponent implements OnInit {
 
         //----triage
         var room9: Room = this.drawRoomRow(room1,
-            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'triage', 0, RelativePosition.SOUTH, 5);
+            RelativePosition.EAST, stdSpace, stdRoomWidth, stdRoomHeight, 'triage', 0, RelativePosition.SOUTH, 5);
 
         //----medicine yellow
         var room12: Room = this.drawRoomNextToRoom(room1,
-            RelativePosition.EAST, this.stdSpace*4, this.stdRoomWidth, this.stdRoomHeight, 'medicineYellow',2);
+            RelativePosition.EAST, stdSpace*4, stdRoomWidth, stdRoomHeight, 'medicineYellow',2);
         var room10: Room = this.drawRoomRow(room12,
-            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, 'medicineYellow', 1, RelativePosition.SOUTH, -2);
+            RelativePosition.SOUTH, 0, stdRoomWidth, stdRoomHeight, 'medicineYellow', 1, RelativePosition.SOUTH, -2);
         var room15: Room = this.drawRoomRow(room12,
-            RelativePosition.EAST, 0, this.stdRoomWidth, this.stdRoomHeight*0.75, 'medicineYellow', 3, RelativePosition.EAST, 3);
+            RelativePosition.EAST, 0, stdRoomWidth, stdRoomHeight*0.75, 'medicineYellow', 3, RelativePosition.EAST, 3);
         var room16: Room = this.drawRoomNextToRoom(room15,
-            RelativePosition.EAST, 0, this.stdRoomWidth, this.stdRoomHeight, 'medicineYellow',6);
+            RelativePosition.EAST, 0, stdRoomWidth, stdRoomHeight, 'medicineYellow',6);
         var room18: Room = this.drawRoomRow(room16,
-            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, 'medicineYellow', 7, RelativePosition.SOUTH, 2);
+            RelativePosition.SOUTH, 0, stdRoomWidth, stdRoomHeight, 'medicineYellow', 7, RelativePosition.SOUTH, 2);
 
         //----medicine blue
         var room20: Room = this.drawRoomRow(room18,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'medicineBlue',0, RelativePosition.SOUTH, 2);
+            RelativePosition.SOUTH, stdSpace, stdRoomWidth, stdRoomHeight, 'medicineBlue',0, RelativePosition.SOUTH, 2);
         var room25: Room = this.drawRoomRow(room20,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'medicineBlue',2, RelativePosition.WEST, 5);
+            RelativePosition.SOUTH, stdSpace, stdRoomWidth, stdRoomHeight, 'medicineBlue',2, RelativePosition.WEST, 5);
         var room27: Room = this.drawRoomRow(room25,
-            RelativePosition.NORTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'medicineBlue',7, RelativePosition.NORTH, 2);
+            RelativePosition.NORTH, stdSpace, stdRoomWidth, stdRoomHeight, 'medicineBlue',7, RelativePosition.NORTH, 2);
 
         //----jour
         var room34: Room = this.drawRoomNextToRoom(room16,
-            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'jour',4);
+            RelativePosition.EAST, stdSpace, stdRoomWidth, stdRoomHeight, 'jour',4);
         var room30: Room = this.drawRoomRow(room34,
-            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, 'jour',3, RelativePosition.SOUTH, -4);
+            RelativePosition.SOUTH, 0, stdRoomWidth, stdRoomHeight, 'jour',3, RelativePosition.SOUTH, -4);
         var room35: Room = this.drawRoomNextToRoom(room34,
-            RelativePosition.EAST, 0, this.stdRoomWidth, this.stdRoomHeight, 'jour',5);
+            RelativePosition.EAST, 0, stdRoomWidth, stdRoomHeight, 'jour',5);
         var room46: Room = this.drawRoomNextToRoom(room30,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'jour',6);
+            RelativePosition.SOUTH, stdSpace, stdRoomWidth, stdRoomHeight, 'jour',6);
 
         //---ort
         var room38: Room = this.drawRoomRow(room35,
-            RelativePosition.EAST, this.stdSpace*2, this.stdRoomWidth, this.stdRoomHeight, 'orthoped',0,RelativePosition.EAST,3);
+            RelativePosition.EAST, stdSpace*2, stdRoomWidth, stdRoomHeight, 'orthoped',0,RelativePosition.EAST,3);
         var room43: Room = this.drawRoomRow(room38,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'orthoped',3, RelativePosition.SOUTH,5);
+            RelativePosition.SOUTH, stdSpace, stdRoomWidth, stdRoomHeight, 'orthoped',3, RelativePosition.SOUTH,5);
         var room45: Room = this.drawRoomRow(room43,
-            RelativePosition.WEST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'orthoped',8, RelativePosition.WEST,2);
+            RelativePosition.WEST, stdSpace, stdRoomWidth, stdRoomHeight, 'orthoped',8, RelativePosition.WEST,2);
 
         //----ort_cast
         var room47B: Room = this.drawRoomRow(room38,
-            RelativePosition.EAST, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'ort_cast',1,RelativePosition.SOUTH,2);
+            RelativePosition.EAST, stdSpace, stdRoomWidth, stdRoomHeight, 'ort_cast',1,RelativePosition.SOUTH,2);
         var room48B: Room = this.drawRoomRow(room47B,
-            RelativePosition.SOUTH, 0, this.stdRoomWidth, this.stdRoomHeight, 'ort_cast',4, RelativePosition.SOUTH,2);
+            RelativePosition.SOUTH, 0, stdRoomWidth, stdRoomHeight, 'ort_cast',4, RelativePosition.SOUTH,2);
 
         //surgery
         var room58: Room = this.drawRoomNextToRoom(room43,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight, 'surgery',8);
+            RelativePosition.SOUTH, stdSpace, stdRoomWidth, stdRoomHeight, 'surgery',8);
         var room54: Room = this.drawRoomRow(room58,
-            RelativePosition.WEST, 0, this.stdRoomWidth, this.stdRoomHeight, 'surgery',7, RelativePosition.WEST,-4);
+            RelativePosition.WEST, 0, stdRoomWidth, stdRoomHeight, 'surgery',7, RelativePosition.WEST,-4);
         var room63: Room = this.drawRoomRow(room58,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight*0.75, 'surgery',10, RelativePosition.SOUTH,4);
+            RelativePosition.SOUTH, stdSpace, stdRoomWidth, stdRoomHeight*0.75, 'surgery',10, RelativePosition.SOUTH,4);
         var room50: Room = this.drawRoomRow(room54,
-            RelativePosition.SOUTH, this.stdSpace, this.stdRoomWidth, this.stdRoomHeight*0.75,'surgery',3, RelativePosition.SOUTH,-4);
+            RelativePosition.SOUTH, stdSpace, stdRoomWidth, stdRoomHeight*0.75,'surgery',3, RelativePosition.SOUTH,-4);
         var room59: Room = this.drawRoomRelativeToRoom(room58,
-            this.stdRoomWidth+this.stdSpace, -this.stdSpace, this.stdRoomWidth,this.stdRoomHeight, 'surgery',9);
+            stdRoomWidth+stdSpace, -stdSpace, stdRoomWidth,stdRoomHeight, 'surgery',9);
 
         //acute
         var roomA4: Room = this.drawRoomRelativeToRoom(room25,
-            0, this.stdSpace*4, this.stdRoomWidth,this.stdRoomHeight, 'acute',3);
+            0, stdSpace*4, stdRoomWidth,stdRoomHeight, 'acute',3);
         var roomA1: Room = this.drawRoomRow(roomA4,
-            RelativePosition.EAST, 0, this.stdRoomWidth*1.5, this.stdRoomHeight*1.25, 'acute',2, RelativePosition.EAST,-3);
+            RelativePosition.EAST, 0, stdRoomWidth*1.5, stdRoomHeight*1.25, 'acute',2, RelativePosition.EAST,-3);
 
     }
 
-    drawRoom(htmlObject: string, x: number, y: number,
+    private static drawRoom(htmlObject: string, x: number, y: number,
              width: number, height: number, roomDep:string, roomNum:number) {
         return new Room(htmlObject, x, y, width, height, roomDep, this.rooms[roomDep][roomNum]);
     }
 
-    drawRoomRow(relativeRoom: Room, relPos: RelativePosition, relFirstSpace: number,
+    private static drawRoomRow(relativeRoom: Room, relPos: RelativePosition, relFirstSpace: number,
                     roomWidth: number, roomHeight: number, roomDep: string, roomNum: number,
                     rowDirection: RelativePosition, numOfRooms: number){
 
@@ -519,7 +519,7 @@ export class MapComponent implements OnInit {
         }
         var space: number = relFirstSpace;
         for(var i:number = 0; i< numOfRooms; i++){
-            relativeRoom = this.drawRoomNextToRoom(relativeRoom,
+            relativeRoom = MapComponent.drawRoomNextToRoom(relativeRoom,
                 relPos, space, roomWidth, roomHeight, roomDep, roomNum+i*inc);
             if(i == 0){
                 space = 0;
@@ -529,7 +529,7 @@ export class MapComponent implements OnInit {
         return relativeRoom;
     }
 
-    drawRoomNextToRoom(room: Room, relativePosition: RelativePosition, relativeSpace: number,
+    private static drawRoomNextToRoom(room: Room, relativePosition: RelativePosition, relativeSpace: number,
                        width: number, height: number, roomDep:string, roomNum:number) {
         var x: number;
         var y: number;
@@ -556,7 +556,7 @@ export class MapComponent implements OnInit {
         return this.drawRoom(room.htmlObject, x, y, width, height, roomDep, roomNum);
     }
 
-    drawRoomRelativeToRoom(room: Room, relativeX: number, relativeY: number,
+    private static drawRoomRelativeToRoom(room: Room, relativeX: number, relativeY: number,
                            width: number, height: number, roomDep:string, roomNum:number) {
 
         return this.drawRoom(room.htmlObject, room.x + relativeX, room.y + relativeY,

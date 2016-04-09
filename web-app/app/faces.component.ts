@@ -30,15 +30,15 @@ export class Faces implements OnInit {
             }
         }
 
-        this.draw(data);
+        Faces.draw(data);
 
         var thiz = this;
         SocketIO.subscribe('smile_face_blue', function(data) {
-            thiz.draw(data);
+            Faces.draw(data);
         });
     }
 
-    draw(data) {
+    static draw(data) {
 
         d3.select(".chart").selectAll("*").remove();
 
@@ -55,7 +55,7 @@ export class Faces implements OnInit {
         this.drawArrow(circle1X + distance + (circle1X - arrow1X) - 20, arrowY, data['ttk']);
     }
 
-    drawCircle(circleX, circleY, circleR, datattx) { // datattx är data['ttd'] eller data['ttk']
+    static drawCircle(circleX, circleY, circleR, datattx) { // datattx är data['ttd'] eller data['ttk']
 
         console.log("insiiide: " + datattx);
         var chart = d3.select('.chart');
@@ -70,7 +70,7 @@ export class Faces implements OnInit {
         chart.append("text")
             .attr('x', circleX - circleR * 0.23)
             .attr('y', circleY - circleR * 0.2)
-            .text(datattx['value']);
+            .text(Math.round(datattx['value']));
 
         chart.append("text")
             .attr('x', circleX - circleR * 0.23)
@@ -78,7 +78,7 @@ export class Faces implements OnInit {
             .text('ttd');
     }
 
-    drawFace(faceX, faceY, faceR, datattx) { // datattx är data['ttd'] eller data['ttk']
+    static drawFace(faceX, faceY, faceR, datattx) { // datattx är data['ttd'] eller data['ttk']
 
         var chart = d3.select('.chart');
 
@@ -154,7 +154,7 @@ export class Faces implements OnInit {
             .style("fill", "black");
     }
 
-    drawArrow(arrowX, arrowY, datattx) { // datattx är data['ttd'] eller data['ttk']
+    static drawArrow(arrowX, arrowY, datattx) { // datattx är data['ttd'] eller data['ttk']
 
         var chart = d3.select('.chart');
 

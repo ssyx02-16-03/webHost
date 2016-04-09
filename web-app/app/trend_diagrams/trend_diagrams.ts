@@ -55,6 +55,10 @@ export class TTKDiagram extends TrendDiagram {
         }
     }
 
+    drawDummy(){
+        super.draw(this.data,this.selector,this.ttk_ylims);
+    }
+
     draw(data){
         super.draw(data,this.selector,this.ttk_ylims);
     }
@@ -91,6 +95,10 @@ export class TTDDiagram extends TrendDiagram {
         }
     }
 
+    drawDummy(){
+        super.draw(this.data,this.selector,this.ttd_ylims);
+    }
+
     draw(data){
         super.draw(data,this.selector,this.ttd_ylims);
     }
@@ -120,6 +128,10 @@ export class TTTDiagram extends TrendDiagram {
 
     getMarkerColors() {
         return 0;
+    }
+
+    drawDummy(){
+        super.draw(this.data,this.selector,this.ttt_ylims);
     }
 
     draw(data){

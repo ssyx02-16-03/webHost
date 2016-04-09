@@ -26,13 +26,13 @@ export class room_table{
         d3.select(this.divName).text("Lediga rum");
 
         var columnKeys = Object.keys(data);
-        columnKeys.splice('nowhere' ,1);
-        columnKeys.splice('waiting' ,1);
+        columnKeys.splice("nowhere", 1);
+        columnKeys.splice("waiting", 1);
         var emptyrooms = this.listRooms(data, columnKeys);
         var roomTable = this.tabulate(emptyrooms, columnKeys);
     }
 
-    public static listRooms(rawData,columnKeys){
+    private static listRooms(rawData,columnKeys){
         var emptyrooms = [];
         for (var col = 0; col < columnKeys.length; col++) {
             emptyrooms.push([]);
@@ -47,7 +47,7 @@ export class room_table{
         return emptyrooms;
     }
 
-    public static tabulate(emptyrooms, columnKeys) {
+    private static tabulate(emptyrooms, columnKeys) {
         //create table
         var table = d3.select(this.divName).append("table")
             .attr("style", "margin-left: 40px"),

@@ -25,17 +25,14 @@ export class SocketIO {
         if (this.socket == null) {
             this.socket = io.connect(); // stod 'http://localhost:8000' förut
 
-            var thiz = this;
-
             this.socket.on('connectionResponse', function (d) {
                 console.log('server responded: ' + d + "!");
-                thiz.socket.emit('eventType', eventType);
+                SocketIO.socket.emit('eventType', eventType);
             });
 
         } else {
-            var thiz = this
             console.log('request response!');
-            thiz.socket.emit('eventType', eventType);
+            SocketIO.socket.emit('eventType', eventType);
         }
     }
 

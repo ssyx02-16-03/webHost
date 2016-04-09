@@ -84,7 +84,7 @@ export abstract class TrendDiagram {
             .attr("y", y(ylims[0]))
             .attr("width", width)
             .attr("height", y(ylims[1]) - y(ylims[0]))
-            .attr("fill", "brown");
+            .attr("fill", "#FFD04A"); //light yellow
 
         //good line
         back.append("rect")
@@ -128,33 +128,40 @@ export abstract class TrendDiagram {
             .style("text-anchor", "end")
             .text("någooot");
 
+        //this.drawCircles(svg,data,x,y)
+
+    }
+
+    private drawCircles(parent,data,x,y){
+        var svg = parent;
         //---------------------------------------------------//
         //-------------------- circles ----------------------//
+         var smallR = 5;
+         var bigR = 8;
+         var colors;
 
-        var smallR = 5;
-        var bigR = 8;
-        var colors;
+         colors = this.getMarkerColors();
 
-        colors = this.getMarkerColors();
+         var circles = svg.append("svg").attr("class","circles");
 
-        var circles = svg.append("svg").attr("class","circles");
+         circles.append("circle")
+         .attr("cx", x(data['trend'][2].x))
+         .attr("cy", y(data['times']['median']))
+         .attr("r", bigR)
+         .attr("angle", 360)
+         .style("fill", "black");
 
-        circles.append("circle")
-            .attr("cx", x(data['trend'][2].x))
-            .attr("cy", y(data['times']['median']))
-            .attr("r", bigR)
-            .attr("angle", 360)
-            .style("fill", "black");
+         for (var key in data['times']) {
+             if(key != undefined) {
+             circles.append("circle")
+             .attr("cx", x(data['trend'][2].x))
+             .attr("cy", y(data['times'][key]))
+             .attr("r", smallR)
+             .attr("angle", 360)
+             .style("fill", colors[key]);
+             }
+         }
 
-        for (var key in data['times']) {
-            if(key != undefined) {
-                circles.append("circle")
-                    .attr("cx", x(data['trend'][2].x))
-                    .attr("cy", y(data['times'][key]))
-                    .attr("r", smallR)
-                    .attr("angle", 360)
-                    .style("fill", colors[key]);
-            }
-        }
+
     }
 }

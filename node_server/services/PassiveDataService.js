@@ -31,9 +31,10 @@ define([], function() {
             socket.on('eventType', function(eventType) {
                 console.log('mr somebody wants ' + eventType + '!');
                 if(latestData[eventType] == null){
-                  console.log('--problem, the data mr somebody wanted doesn\'t exist, sending som nullspace to him anyway..');
+                  console.log('--problem, the data mr somebody wanted doesn\'t exist, lets ignore him.');
+                }else{
+                  socket.emit(eventType,latestData[eventType]);
                 }
-                socket.emit(eventType,latestData[eventType]);
             });
         });
     }

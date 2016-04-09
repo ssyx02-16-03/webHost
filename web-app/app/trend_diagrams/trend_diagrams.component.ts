@@ -26,6 +26,7 @@ import {SocketIO} from '../socket-io';
 export class TrendDiagrams {
 
     ngOnInit(){
+        TrendDiagrams.reDraw(null);
         console.log("start to draw!");
         SocketIO.subscribe('coordinator_line_graph', function(data) {
             console.log(data);
@@ -38,10 +39,15 @@ export class TrendDiagrams {
         var ttdD = new TTDDiagram();
         var ttkD = new TTKDiagram();
 
-        //tttD.draw(data['ttt']);
-        ttdD.draw(data['ttd']);
-        ttkD.draw(data['ttk']);
-
+        if(data == null){
+            tttD.drawDummy();
+            ttdD.drawDummy();
+            ttkD.drawDummy();
+        }else {
+            tttD.draw(data['ttt']);
+            ttdD.draw(data['ttd']);
+            ttkD.draw(data['ttk']);
+        }
     }
 
 }

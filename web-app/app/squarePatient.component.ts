@@ -96,30 +96,25 @@ function paintWaitingList(grandParent,waitingCards) {
         + "display:inline-block; "
         + "float:left;";
 
-    var paintedCards = 0; //important for column making
-    var parent = grandParent; //used for column making using <ul>
+    var columns =[];
+    for(var i=0; i<4; i++){
+        columns[i] = newUl(grandParent,23);
+    }
+    var parent = columns[0] //used for column making using <ul>
 
-    //print the cards
-    console.log("waitingCards:" ,waitingCards);
-    while(waitingCards.length >0) {
+    //print the cards, start with placeholder
+    parent.append("li")
+        .attr("style", cardStyle)
+        .text("väntrum");
+
+    for(paintedCards = 1; waitingCards.length >0; paintedCards++) {
+        if(paintedCards%4 == 0){ //new col every 4th card
+            parent = columns[paintedCards/4];
+        }
         var patient = waitingCards.pop();
-        parent = paintWaitCard(patient,parent,cardStyle);
+        paintCard(patient,parent,cardStyle);
     }
 
-    function paintWaitCard(patientCard:Card,parent,cardStyle:string){
-        if(paintedCards%4 == 0){ //fix a new column every 4th card
-            parent = newUl(grandParent,23);
-        }
-        if(paintedCards == 0){ //first column should start with an empty spot
-            parent.append("li")
-                .attr("style", cardStyle)
-                .text("väntrum");
-            paintedCards++;
-        }
-        paintCard(patientCard, parent, cardStyle);
-        paintedCards++;
-        return parent;
-    }
 }
 
 function paintOtherCards(grandParent,cards){
@@ -131,14 +126,12 @@ function paintOtherCards(grandParent,cards){
         + "display:inline-block; "
         + "float:left;";
 
-    for(var i = 0; cards.length >0 && i<4; i++) { //cannot be longer than 4 cards!
-        if(i == 0){ //put banner on top
-            ul.append("li")
-                .attr("style", cardStyle)
-                .text("Övriga")
-                .style("height","12%");
-        }
+    ul.append("li") //nameholder
+        .attr("style", cardStyle)
+        .text("Övriga")
+        .style("height","12%");
 
+    for(var i = 0; cards.length >0 && i<3; i++) { //cannot be longer than 3 cards atm !
         var patient = cards.pop();
         paintCard(patient,ul,cardStyle);
     }
@@ -307,19 +300,23 @@ class Card{
 
     determineTriage(jsonPriority){
         switch (jsonPriority){
-            case 'Blue','Blå':
+            case 'Blue':
+            case 'Blå':
                 this.triage = triageStatus.blue;
                 break;
-            case 'Green','Grön':
+            case 'Grön':
+            case 'Green':
                 this.triage = triageStatus.green;
                 break;
-            case 'Yellow','Gul':
+            case 'Gul':
+            case 'Yellow':
                 this.triage = triageStatus.yellow;
                 break;
             case 'Orange':
                 this.triage = triageStatus.orange;
                 break;
-            case 'Red','Röd':
+            case 'Röd':
+            case 'Red':
                 this.triage = triageStatus.red;
                 break;
             default:
