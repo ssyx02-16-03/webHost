@@ -16,12 +16,6 @@ import {SocketIO} from '../socket-io';
             <h3>TTL</h3>
             <ttddiagram></ttddiagram>
             <h3>TTT</h3>
-        <div style="width:430px">
-            <p style="margin:0px;">ttk</p>
-            <ttkdiagram></ttkdiagram>
-            <p style="margin:0px;">ttd</p>
-            <ttddiagram></ttddiagram>
-            <p style="margin:0px;">ttt</p>
             <tttdiagram></tttdiagram>
         </div>
         `,
