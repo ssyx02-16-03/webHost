@@ -9,7 +9,13 @@ import * as d3 from 'd3';
 @Component({
     selector: 'latestTable',
     template: `
-        <div class="change_table"></div>`
+        <div class="change_table" style="width:100%;">
+        
+        <p style="font-size:200%; font-weight:bold; width:100%; padding-left:5%; ">Senaste ändringar</p>
+        <table style="width:100%;">
+            <tbody></tbody>
+        </table>
+        </div>`
 })
 
 /*
@@ -57,27 +63,14 @@ export class changeTable implements OnInit {
     static draw(data) {
         data = data.blue;
 
-        var totWidth = 100;
-        var tableStyle = "width: 100%;";
-        var cellStyle = "padding: 1% 5% 1% 5% ; font-size: 80%;"
+        var cellStyle = "padding: 0.5% 1% 0.5% 1% ; font-size: 160%;";
         var oddRowStyle = "background-color: white";
         var evenRowStyle = "background-color:#ADADAD";
         var rowStyle = [oddRowStyle, evenRowStyle];
 
         var tableDiv = d3.select(this.parentDiv);
-        tableDiv.attr("style", "width: " +totWidth +"%;");
-        if(tableDiv.select('p')[0][0] == null) {
-            var heading = tableDiv.append('p')
-                .attr("style", "font-size:120%; font-style:bold; width:100%; padding-left:5%;")
-                .html("Senaste ändringar");
-        }
-        if(tableDiv.select('table')[0][0] == null) {
-            var table = tableDiv.append('table').attr("style", tableStyle);
-            var tbody = table.append('tbody');
-        }else{
-            var table = tableDiv.select('table');
-            var tbody = table.select('tbody');
-        }
+        var table = tableDiv.select('table');
+        var tbody = table.select('tbody');
         tbody.selectAll("*").remove();
 
         //generate new stuff
@@ -118,7 +111,9 @@ export class changeTable implements OnInit {
             .append("td")
             .attr("style", cellStyle)
             .html(function (d) {
-                if(d.column == "minutes_since"){
+                if(d.value == null){
+                    return ".";
+                }else if(d.column == "minutes_since"){
                     return d.value + " min";
                 }
                 return d.value;

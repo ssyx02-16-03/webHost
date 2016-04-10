@@ -12,7 +12,7 @@ import {barchart_medicin} from './barchart_medicin.ts'
 @Component({
     selector: 'medbarchart',
     template: `
-		<d3></d3>
+        <div class="medbarchart" style="margin:0 auto;"></div>
 		`,
     directives: [barchart_medicin]
 })

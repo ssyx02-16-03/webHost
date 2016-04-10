@@ -7,15 +7,24 @@ import {Component} from 'angular2/core';
 import * as d3 from 'd3';
 
 @Component({
-
-    selector: 'd3',
+    selector: '.medbarchart',
     template: `
-        <svg class="barchart_medicine_header" style="float:left;"> </svg>
-		<svg class='barchart_medicine' style="float:left; clear:left;"></svg>
+        <p class='barchart_p' style="font-size: 200%; margin: 0 auto; height:10%;">Patientantal: {{nPatients}}</p>
+		<svg class='barchart_medicine' style="display:block; margin:0 auto;"></svg>
 		`
 })
 
+
 export class barchart_medicin {
+    private static scaleSVG(svg,width,height,endpoints){
+        svg.attr("viewBox", endpoints[0] +" " +endpoints[1] +" " +endpoints[2] +" " +endpoints[3]);
+        svg.attr("preserveAspectRatio","xMaxYMax");
+        svg.attr("height",height +"%");
+        svg.attr("width",width +"%");
+    }
+
+
+    private static nPatients;
 
     public static draw(rawData){
         var rawData= rawData.bars;
@@ -29,22 +38,13 @@ export class barchart_medicin {
     }
 
     public static drawWithRefinedData(jsonData) {
-        var totalPatients = jsonData.total_patients;
-        var totPatText = "Patientantal: " + totalPatients + "st";
+        var svg = d3.select(".barchart_medicine");
+        this.scaleSVG(svg,90,90,[0,30,400,300]);
+        d3.select(".barchart_p").style("width","80%");
 
-        console.log("refine:", totalPatients);
+        this.nPatients = jsonData.total_patients;
 
-        var header = d3.select("barchart_medicine_header");
-
-        /*if(!(!!header.select("p")) ) { //'!!' forces to return true or false
-                header.append("p")
-                .style("font-size", "20px")
-                .style("font-weight", "bold");
-        }*/
-        header.append("g").text("Patients" +totPatText);
-
-
-        var max = totalPatients;
+        var max = this.nPatients;
         var width = 500,
             chartWidth = 200,
             height = 300,
@@ -103,8 +103,8 @@ export class barchart_medicin {
 
         //Chart
         var chart = d3.select(".barchart_medicine")
-            .attr("width", width)
-            .attr("height", height);
+            //.attr("width", width)
+            //.attr("height", height);
         chart.selectAll("*").remove(); //delete garbage
 
 
@@ -129,7 +129,7 @@ export class barchart_medicin {
         //Legend
         var legend = chart.append("g")
             .attr("class", "legend")
-            .attr("x", chartWidth+barWidth)
+            .attr("x", chartWidth+barWidth*3)
             .attr("y", 25)
             .attr("height", 100)
             .attr("width", 100);

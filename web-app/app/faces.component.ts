@@ -9,12 +9,19 @@ import {SocketIO} from './socket-io';
 @Component({
     selector: 'faces',
     template: `
-        <svg class="face_chart"></svg>
+        <svg class="face_chart" style="display: block; margin:0 auto;" ></svg>
         `,
     providers: [SocketIO]
 })
 
 export class Faces implements OnInit {
+    private static scaleSVG(svg,width,height,endpoints){
+        svg.attr("viewBox", endpoints[0] +" " +endpoints[1] +" " +endpoints[2] +" " +endpoints[3]);
+        svg.attr("preserveAspectRatio","xMaxYMax");
+        svg.attr("height",height +"%");
+        svg.attr("width",width +"%");
+    }
+
 
     static svgClass = '.face_chart';
     static chart;
@@ -42,6 +49,7 @@ export class Faces implements OnInit {
 
     static draw(data) {
         this.chart = d3.select(this.svgClass);
+        this.scaleSVG(this.chart,90,100,[0,0,250,100]);
         this.chart.selectAll("*").remove();
 
         var distance = 105, radius = 50, circle1X = radius + 20, circleY = radius;

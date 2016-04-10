@@ -16,26 +16,32 @@ import * as d3 from 'd3';
 @Component({
     selector: 'map',
     template: `
-        <svg class="map"></svg>
-        <abra></abra>
+        <svg class="map" style="display:block; margin:0 auto; "></svg>
+        <abra style="width: 100%; display: block;"></abra>
         `,
     providers: [SocketIO],
     directives: [room_table]
 })
 
 export class MapComponent implements OnInit {
+    private static scaleSVG(svg,width,height,endpoints){
+        svg.attr("viewBox", endpoints[0] +" " +endpoints[1] +" " +endpoints[2] +" " +endpoints[3]);
+        svg.attr("preserveAspectRatio","xMaxYMax");
+        svg.attr("height",height +"%");
+        svg.attr("width",width +"%");
+    }
 
-    setStyles() {
+
+    static setStyles() {
         var map_height = 70;
         var abra_height = 100-map_height;
 
-        var mapStyle = "height:" +map_height +"%;"
-                    +"width: 100%;";
-        var abraStyle= "height:" +abra_height +"%;"
-                    +"width: 100%; display:block;";
+        var abraStyle= "height:" +abra_height +"%;";
 
-        d3.select(".map").attr("style", mapStyle);
+        var map = d3.select(".map").style("height", map_height + "%" );
         d3.select("abra").attr("style", abraStyle);
+
+        this.scaleSVG(map,90,100,[0,0,1000,700]);
     }
 
 
@@ -416,7 +422,7 @@ export class MapComponent implements OnInit {
     };
 
     ngOnInit() {
-        this.setStyles();
+        MapComponent.setStyles();
         MapComponent.draw(MapComponent.rooms);
         //SocketIO.subscribe('room_occupation'); designidé: interfejsa draw(data) så man bara behöver skriva detta
         SocketIO.subscribe('room_occupation', function(data) {

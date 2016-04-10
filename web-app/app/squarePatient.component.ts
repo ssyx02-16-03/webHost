@@ -39,17 +39,13 @@ export class SquarePatients implements OnInit{
 
 //print the base layout
 function paintCardHolders(){
-    var height = "400px";
-    var cardWidth = 150; //pixels
-    var cardHeight = 100;
     var divs = [];
     divs['squareDiv'] = d3.select(".square")
         .attr("style", ""
             +"width: 100%;"
-            +"height: 45%;"
+            +"height: 45%;");
             //+"width:" + cardWidth*5 +"px;"
             //+"height:" +cardHeight*3 +"px;"
-            + "background-color:gray;");
 
     divs['waitingDiv'] = d3.select(".waiting")
         .attr("style", ""
@@ -57,18 +53,15 @@ function paintCardHolders(){
             +"height: 55%;"
             //+"width: "+cardWidth*4 +"px;"
             //+"height:"+cardHeight*4 +"px;"
-            +"float:left;"
-            +"background-color: #E0E0E0; "); //light gray
+            +"float:left;");
 
     divs['othersDiv'] = d3.select(".others")
         .attr("style", "float:left;"
             +"clear:right;"
-            +"width:18%;"
-            +"height:55%;"
+            +"width:20%;"
+            +"height:55%;");
             //+"width: "+ cardWidth+"px;"
             //+"height:" +cardHeight*4 +"px;"
-            +"margin-left: 2px;"
-            +"background-color: gray");
     return divs;
 }
 
@@ -100,7 +93,7 @@ function updateCards(data){
 function paintWaitingList(grandParent,waitingCards) {
     grandParent.selectAll("*").remove(); //remove old stuff
     var cardStyle = "height: 23%; width: 100%;"
-        + "margin-bottom: 10px;"
+        + "margin-bottom: 2%;"
         + "display:inline-block; "
         + "float:left;";
 
@@ -112,8 +105,8 @@ function paintWaitingList(grandParent,waitingCards) {
 
     //print the cards, start with placeholder
     parent.append("li")
-        .attr("style", cardStyle)
-        .text("väntrum");
+        .attr("style", cardStyle + "font-size:200%; font-weight:bold;")
+        .text("Väntrum");
 
     for(paintedCards = 1; waitingCards.length >0; paintedCards++) {
         if(paintedCards%4 == 0){ //new col every 4th card
@@ -130,14 +123,14 @@ function paintOtherCards(grandParent,cards){
     var ul = newUl(grandParent,100);
 
     var cardStyle = "height: 23%; width: 100%;"
-        + "margin-bottom: 10px;"
+        + "margin-bottom: 5%;"
         + "display:inline-block; "
         + "float:left;";
 
     ul.append("li") //nameholder
-        .attr("style", cardStyle)
-        .text("Övriga")
-        .style("height","12%");
+        .attr("style",cardStyle + "font-size:200%; font-weight:bold;")
+        .style("height","12%")
+        .text("Övriga");
 
     for(var i = 0; cards.length >0 && i<3; i++) { //cannot be longer than 3 cards atm !
         var patient = cards.pop();
@@ -225,30 +218,31 @@ function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside 
     //Attention checker
     var attentionStyle = "";
     if(patientCard.needsAttention){
-        attentionStyle = "outline-style: solid; outline-width: 3px; outline-color: "+patientCard.triage +";";
+        attentionStyle = "outline-style: solid; outline-width: 3px; outline-color: black;";
     }
     var card1 = parent.append("li")
         .attr("style", cardStyle
             + "background-color:" +patientCard.triage +";"
             + attentionStyle);
 
+    var upperContainer = card1.append("div").attr("style","width:100%; height:50%;");
     //Room nr
-    var roomNr = card1.append("p")
+    var roomNr = upperContainer.append("p")
         .text(patientCard.room)
-        .attr("style", "float:left; display:block; font-size: 1.25em; padding:5px; margin:0px; max-width:40%");
+        .attr("style", "float:left; display:block; font-size: 150%; padding:5px; margin:0px; max-width:40%");
 
     //patient name
     var roomNrWidth = roomNr.node().getBoundingClientRect().width;
-    var nameAndNumberStyle = "text-align:right; font-size:0.75em; min-width: 50%;"
+    var nameAndNumberStyle = "text-align:right; font-size:150%; min-width: 50%;"
         +"float:right; display: block;";
-    card1.append("p")
+
+    upperContainer.append("p")
         .text(patientCard.name)
         .attr("style", nameAndNumberStyle
             + "margin: 5px 2px 0 0;");
 
-
     //patient number
-    card1.append("p")
+    upperContainer.append("p")
         .text(patientCard.careNumber)
         .attr("style", nameAndNumberStyle
             +" margin: 2px 2px 0 0;"); //margin: top right bot left
@@ -257,10 +251,10 @@ function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside 
     //info table: styles
     var rowStyle = "height:50%;";
     var borderStyle = " border-style: solid; border-width: 1px; border-color: gray; ";
-    var cellStyle = "font-size: 0.75em; padding:1px; width:50%; background-color:rgba(255,255,255,0.5);" +borderStyle;
+    var cellStyle = "font-size: 130%; padding:1%; width:50%; background-color:rgba(255,255,255,0.5);" +borderStyle;
 
     //info table: draw table
-    var cardTable = card1.append("table").attr("style", "float:left; width: 100%; height: 60%; padding:1px;");
+    var cardTable = card1.append("table").attr("style", "width: 100%; height: 50%;");
     var tbody = cardTable.append("tbody");
 
     //info table: draw rows and cells
