@@ -17,6 +17,8 @@ import {barchart_medicinComponent} from "./barchart_medicin.component.ts";
 import {Faces} from "./faces.component.ts";
 import {Coordinator} from "./coordinator.component.ts";
 import {SquareComponent} from "./square.component.ts";
+import {Clock} from "./clock.component";
+
 
 
 /**
@@ -33,6 +35,7 @@ export var COMPONENTS = [
     {'component': Faces, 'name': "Faces", 'path': '/faces'},
     {'component': Coordinator, 'name': "Koordinator", "path": "/coordinator"},
     {'component': SquareComponent, 'name': "Torg", 'path': '/square'},
+    {'component': Clock, 'name': "Clock", 'path': '/clock'},
     //this.TESTS
 ];
 

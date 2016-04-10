@@ -6,6 +6,7 @@ import {Component, OnInit} from 'angular2/core';
 import {TrendDiagrams} from './trend_diagrams/trend_diagrams.component';
 import {MapComponent} from './map.component';
 import {barchart_coordinatorComponent} from './barchart_coordinator.component';
+import {Clock} from "./clock.component";
 
 @Component({
     template: `
@@ -17,7 +18,7 @@ import {barchart_coordinatorComponent} from './barchart_coordinator.component';
             <trend-diagrams></trend-diagrams>
         </placeholder_coordinator>
         `,
-    directives: [TrendDiagrams, MapComponent, barchart_coordinatorComponent]
+    directives: [Clock, TrendDiagrams, MapComponent, barchart_coordinatorComponent]
 })
 
 export class Coordinator implements OnInit{

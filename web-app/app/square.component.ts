@@ -7,6 +7,7 @@ import {SquarePatients} from './squarePatient.component';
 import {Faces} from './faces.component';
 import {barchart_medicinComponent} from './barchart_medicin.component';
 import {changeTable} from "./changeTable.component";
+import {Clock} from "./clock.component";
 
 @Component({
     template: `
@@ -14,14 +15,14 @@ import {changeTable} from "./changeTable.component";
                   <faces></faces>
             <squareCards></squareCards>
             <rightDiv>
-                <clock></clock>
+                <clock_coord></clock_coord>
                 <medbarchart></medbarchart>
                 <latestTable></latestTable>
             </rightDiv>
             <squareCards></squareCards>
         </placeholder>
         `,
-    directives: [Faces, SquarePatients, changeTable, barchart_medicinComponent]
+    directives: [Clock, Faces, SquarePatients, changeTable, barchart_medicinComponent]
 })
 
 export class SquareComponent implements OnInit{
@@ -47,7 +48,7 @@ export class SquareComponent implements OnInit{
             .attr("style", "display:block; margin:auto; margin-top:20%; height: 20%; width:40%;"+border);
 
         //--INSIDE RIGHT DIV
-        var clock = rightDiv.select('clock')
+        var clock = rightDiv.select('clock_coord')
             .attr("style","display:block; float:right; width:80%; height:10%;" +border);
 
         var medbarchart = rightDiv.select('medbarchart')
