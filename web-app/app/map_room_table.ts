@@ -57,13 +57,26 @@ export class room_table{
         var thead = table.append("thead");
         var tbody = table.append("tbody");
 
+        table.style("height", "10%"); // set to very low value to make the rows stack tightly
+
+        var table_width = 14 // the widht to pad the department names to
+        var department_translator = {};
+        department_translator["medicineYellow"] =   room_table.rightPad("Medicin Gul", table_width);
+        department_translator["medicineBlue"] =     room_table.rightPad("Medicin Blå", table_width);
+        department_translator["ort_cast"] =          room_table.rightPad("Gips", table_width) ;
+        department_translator["surgery"] =          room_table.rightPad("Kirurg", table_width);
+        department_translator["triage"] =           room_table.rightPad("Triage", table_width);
+        department_translator["acute"] =            room_table.rightPad("Akut", table_width);
+        department_translator["jour"] =             room_table.rightPad("Jour", table_width);
+        department_translator["orthoped"] =         room_table.rightPad("Ortoped", table_width);
+
         //create header row
         var tr = thead.append("tr");
         for(var i=0; i < columnKeys.length; i++) {
             thead.select("tr")
                 .append("th")
                 .attr("style", this.tdStyle)
-                .text(columnKeys[i]);
+                .text(department_translator[columnKeys[i]]);
         }
 
         // create rows(and content)
@@ -79,6 +92,16 @@ export class room_table{
             }
         }
 
+    }
+
+
+    // Pads a string with blankspaces up to length n
+    private static rightPad(s, n){
+        var len = s.length
+        for(var i=0; i<n - len; i++){
+            s += "\u00A0" // this is an immortal super-blankspace. trailing mortal blanksapces are ignored by d3
+        }
+        return s
     }
 
 }
