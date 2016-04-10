@@ -10,12 +10,12 @@ export abstract class TrendDiagram {
     
     abstract getMarkerColors();
 
-    draw(data,selector,ylims) {
+    draw(data,selector,ylims: number[]) {
         var daddyDiv = d3.select(selector);
         daddyDiv.selectAll("*").remove(); //clear everything, were going fresh n' new
 
         var margin = {top: 20, right: 40, bottom: 20, left: 40},
-            width = 350 - margin.left - margin.right,
+            width = 550 - margin.left - margin.right, // width 350 förut
             height = 150 - margin.top - margin.bottom;
         //hIndraw = 0.1 * width,
         //vIndraw = 0.2 * height;
@@ -63,6 +63,7 @@ export abstract class TrendDiagram {
         var maxValue = d3.max(allData, function (d) { return d['y']; });
         var minValue = d3.min(allData, function (d) { return d['y']; });
         console.log("maxval:",maxValue);
+        console.log("minval:", minValue);
         y.domain([maxValue + 1, minValue - 1]); // gör det som Indraw gjorde förut, fast korrekt
 
         //---------------------------------------------------//
@@ -74,24 +75,63 @@ export abstract class TrendDiagram {
             .attr("height", height);
 
         //bad line
-        back.append("rect")
-            .attr("width", width)
-            .attr("height", y(ylims[0]))
-            .attr("fill", "red");
+        //var hasRed = ylims[0] < maxValue ? 1 : 0;
+        if(ylims[0] < maxValue) {
+            back.append("rect")
+                .attr("width", width)
+                //.attr("height", y(ylims[0])
+                .attr("height", y(ylims[0]))
+                .attr("fill", "red");
+        }
 
         //ok line
-        back.append("rect")
-            .attr("y", y(ylims[0]))
-            .attr("width", width)
-            .attr("height", y(ylims[1]) - y(ylims[0]))
-            .attr("fill", "#FFD04A"); //light yellow
+        //var hasYellow = (ylims[0] < maxValue || ylims[1] > minValue) ? 1 : 0;
+        if(ylims[0] < maxValue || ylims[1] > minValue) {
+            var yellowY: number;
+            var yellowHeight: number;
+            if (ylims[0] < maxValue && ylims[1] > minValue) { // om båda gränser är med
+                yellowY = y(ylims[0]);
+                yellowHeight = y(ylims[1]) - y(ylims[0]);
+            } else if (ylims[0] < maxValue && ylims[1] < minValue) { // om övre gränsen är med
+                yellowY = y(ylims[0]);
+                yellowHeight = height - y(ylims[0]);
+            } else if (ylims[0] > maxValue && ylims[1] > minValue) { // om nedre gränsen är med
+                yellowY = 0;
+                yellowHeight = y(ylims[1]);
+            } else {
+                yellowHeight = 0;
+            }
+            console.log("yellowheight is " + yellowHeight);
+            back.append("rect")
+                //.attr("y", y(ylims[0]))
+                .attr("y", yellowY)
+                .attr("width", width)
+                //.attr("height", (y(ylims[1]) - y(ylims[0])) * hasYellow)
+                .attr("height", yellowHeight)
+                .attr("fill", "#FFD04A"); //light yellow
+        }
+        if (ylims[0] > maxValue && ylims[1] < minValue) { // om helgult
+            var yellowY = 0;
+            var yellowHeight = height;
+            back.append("rect")
+                //.attr("y", y(ylims[0]))
+                .attr("y", yellowY)
+                .attr("width", width)
+                //.attr("height", (y(ylims[1]) - y(ylims[0])) * hasYellow)
+                .attr("height", yellowHeight)
+                .attr("fill", "#FFD04A"); //light yellow
+        }
 
         //good line
-        back.append("rect")
-            .attr("y", y(ylims[1]))
-            .attr("width", width)
-            .attr("height", y(ylims[1]) - y(ylims[0]))
-            .attr("fill", "green");
+        var hasGreen = ylims[1] > minValue ? 1 : 0;
+        if(ylims[1] > minValue) {
+            back.append("rect")
+                .attr("y", y(ylims[1]))
+                .attr("width", width)
+                //.attr("height", y(ylims[1]) - y(ylims[0]))
+                .attr("height", height - y(ylims[1]))
+                .attr("fill", "green");
+        }
 
         back.append("path")
             .datum(data['trend'])
@@ -126,7 +166,7 @@ export abstract class TrendDiagram {
             .attr("dy", ".71em")
             .attr("style","float:left;")
             .style("text-anchor", "end")
-            .text("någooot");
+            .text(""); // stod här "någoooot" förut
 
         //this.drawCircles(svg,data,x,y)
 
