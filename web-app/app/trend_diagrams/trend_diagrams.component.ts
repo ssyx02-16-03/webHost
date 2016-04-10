@@ -11,11 +11,11 @@ import {SocketIO} from '../socket-io';
     selector: 'trend-diagrams',
     template: `
         <div style="width:430px">
-            <p>ttk</p>
+            <p style="margin:0px;">ttk</p>
             <ttkdiagram></ttkdiagram>
-            <p>ttd</p>
+            <p style="margin:0px;">ttd</p>
             <ttddiagram></ttddiagram>
-            <p>ttt</p>
+            <p style="margin:0px;">ttt</p>
             <tttdiagram></tttdiagram>
         </div>
         `,

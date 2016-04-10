@@ -8,7 +8,13 @@ import {Component} from 'angular2/core';
 import * as d3 from 'd3';
 
 @Component({
-    selector: '.abra',
+    selector: 'abra',
+    template: `
+        <map_tableContainer style="height:100%; width:100%; margin:0 auto; display: block;" >
+            <p style="height:2%;" >Lediga rum</p>
+            <table style="height:95%; font-size:120%;"></table>
+        </map_tableContainer>           
+        `,
 })
 
 /*
@@ -18,16 +24,13 @@ what the data will look like
 */
 
 export class room_table{
-
-    static divName = ".abra";
+    static divName = "map_tableContainer";
     static tdStyle = "padding-left:10px"; //fulfix lyckades inte med en styleUrls: []
 
-    public static drawTable(data) {
-        d3.select(this.divName).text("Lediga rum");
-
+    public static draw(data) {
         var columnKeys = Object.keys(data);
-        columnKeys.splice("nowhere", 1);
-        columnKeys.splice("waiting", 1);
+        columnKeys.splice('nowhere', 1);
+        columnKeys.splice('waiting', 1);
         var emptyrooms = this.listRooms(data, columnKeys);
         var roomTable = this.tabulate(emptyrooms, columnKeys);
     }
@@ -48,11 +51,11 @@ export class room_table{
     }
 
     private static tabulate(emptyrooms, columnKeys) {
-        //create table
-        var table = d3.select(this.divName).append("table")
-            .attr("style", "margin-left: 40px"),
-            thead = table.append("thead"),
-            tbody = table.append("tbody");
+        var table = d3.select(this.divName).select("table");
+        table.selectAll("*").remove();
+
+        var thead = table.append("thead");
+        var tbody = table.append("tbody");
 
         //create header row
         var tr = thead.append("tr");

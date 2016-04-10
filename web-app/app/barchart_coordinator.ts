@@ -11,10 +11,10 @@ import * as d3 from 'd3';
 
 
 @Component({
-    selector: 'd3',
+    selector: 'barchart_coordinator',
     template: `
-        <header class="header"> </header>
-		<svg class='baarchart'></svg>
+        <header class="header" style="width:100%; height:10%; font-size:100%; padding-left:5%; ">Stapeldiagram</header>
+		<svg class='baarchart' style="width:100%; height:90%;"></svg>
 		`
 })
 
@@ -119,7 +119,7 @@ export class barchart_coordinator {
         //Legend
         var legend = chart.append("g")
             .attr("class", "legend")
-            .attr("x", width - 65)
+            .attr("x", chartWidth+100)
             .attr("y", 25)
             .attr("height", 100)
             .attr("width", 100);
@@ -136,18 +136,18 @@ export class barchart_coordinator {
                     .attr("height", legendSize);
                 if (i == 0) {
                     rect.style("fill", "none")
-                        .style("stroke", color_hash[String(0)][1])
+                        .style("stroke", color_hash[0][1])
                         .style("stroke-dasharray", ("3, 3"))
                         .style("stroke-width", "1.75px");
                 }
                 else {
-                    rect.style("fill", color_hash[String(i)][1]);
+                    rect.style("fill", color_hash[i][1]);
                 }
                 g.append("text")
                     .attr("x", chartWidth + barSpace + legendSize * 3)
                     .attr("y", i * legendSpace + (height - chartHeight) * 1.12)
                     .style("fill", "black")
-                    .text(color_hash[String(i)][0]);
+                    .text(color_hash[i][0]);
             });
 
         //Total siffra
