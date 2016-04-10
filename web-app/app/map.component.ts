@@ -17,12 +17,27 @@ import * as d3 from 'd3';
     selector: 'map',
     template: `
         <svg class="map"></svg>
-        <div class="abra"></div>
-        `, //used by room_table
-    providers: [SocketIO]
+        <abra></abra>
+        `,
+    providers: [SocketIO],
+    directives: [room_table]
 })
 
 export class MapComponent implements OnInit {
+
+    setStyles() {
+        var map_height = 70;
+        var abra_height = 100-map_height;
+
+        var mapStyle = "height:" +map_height +"%;"
+                    +"width: 100%;";
+        var abraStyle= "height:" +abra_height +"%;"
+                    +"width: 100%; display:block;";
+
+        d3.select(".map").attr("style", mapStyle);
+        d3.select("abra").attr("style", abraStyle);
+    }
+
 
     static rooms =
     {
@@ -401,6 +416,7 @@ export class MapComponent implements OnInit {
     };
 
     ngOnInit() {
+        this.setStyles();
         MapComponent.draw(MapComponent.rooms);
         //SocketIO.subscribe('room_occupation'); designidé: interfejsa draw(data) så man bara behöver skriva detta
         SocketIO.subscribe('room_occupation', function(data) {
@@ -413,18 +429,17 @@ export class MapComponent implements OnInit {
         console.log(data);
         this.rooms = data;
         MapComponent.drawRooms();
-        room_table.drawTable(data);
+        room_table.draw(data);
     }
 
     private static drawRooms() {
-        var scale = 0.5;
+        var scale = 0.85;
         var stdSpace = 25 * scale;
         var stdRoomWidth = 60 * scale;
         var stdRoomHeight = 60 * scale;
 
         var svg = d3.select(".map")
-            .attr("width", 1200 * scale)
-            .attr("height", 750 * scale)
+            //.attr("style","height:" +this.map_height+"%; width:100%;")
             .selectAll("*").remove();
 
         //----infection
@@ -632,13 +647,14 @@ class Room{
             .attr("stroke-width", 2)
             .style("fill", color);
 
-        svg.append("text")
+        var text = svg.append("text")
             .attr("x", x + width / 2)
             .attr("y", y + height / 2)
             .attr("dy", ".35em")
             .text(jsonRoomObject['room']);
 
         if (this.occupied) {
+            /*
             svg.append("circle")
                 .attr("cx", x + width / 2 - 15)
                 .attr("cy", y + height / 2)
@@ -647,8 +663,10 @@ class Room{
                 .attr("stroke-width", 1)
                 .attr("stroke", "white")
                 .style("fill", "red");
-
-            rect.style("opacity", 0.8);
+            */
+            rect.style("opacity", 0.65);
+        }else{
+            text.attr("font-weight","bold")
         }
     }
 }

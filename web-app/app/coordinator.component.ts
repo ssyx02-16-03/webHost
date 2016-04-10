@@ -14,7 +14,6 @@ import {barchart_coordinatorComponent} from './barchart_coordinator.component';
             <clock_coord></clock_coord>
             <map></map>
             <trend-diagrams></trend-diagrams>
-            
         </placeholder_coordinator>
         `,
     directives: [TrendDiagrams, MapComponent, barchart_coordinatorComponent]
@@ -29,13 +28,13 @@ export class Coordinator implements OnInit{
         barChart.attr("style", "display:block; float:left; width:40%; height:50%; background-color:green;");
 
         var clock_coord = placehold.select("clock_coord");
-        clock_coord.attr("style","display:block; float:right; width:25%; height:20%; background-color:blue");
+        clock_coord.attr("style","display:block; float:right; width:25%; height:10%; background-color:blue");
 
         var trend = placehold.select("trend-diagrams");
-        trend.attr("style", "display:block; float:left; clear:left; width:40%;height:50%; background-color:yellow;");
+        trend.attr("style", "display:block; float:left; clear:left; width:40%; height:50%; background-color:yellow;");
 
         var map = placehold.select("map");
-        map.attr("style", "display:block; float:right; width:60%; height: 70%; background-color:black;");
+        map.attr("style", "display:block; float:right; width:60%; height: 90%; background-color:#F5F5F5;" );
     }
 
 }
