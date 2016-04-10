@@ -10,15 +10,20 @@ import {SocketIO} from '../socket-io';
 @Component({
     selector: 'trend-diagrams',
     template: `
-        <div style="width:430px">
-            <p style="margin:0px;">ttk</p>
+        <div> <!-- var div o width:430px, gör ingenting -->
+            <h3>TTK</h3>
             <ttkdiagram></ttkdiagram>
-            <p style="margin:0px;">ttd</p>
+            <h3>TTL</h3>
             <ttddiagram></ttddiagram>
-            <p style="margin:0px;">ttt</p>
+            <h3>TTT</h3>
             <tttdiagram></tttdiagram>
         </div>
         `,
+    styles: [`
+        h3 {
+            float:left;
+        }
+    `],
     directives: [TTKDiagram, TTDDiagram, TTTDiagram]
 })
 

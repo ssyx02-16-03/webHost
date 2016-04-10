@@ -6,7 +6,7 @@
  TTT - < 20 min = BRA, 20-40 min = OK, >40 min = Inte bra
 
  TTL – (1) < 1h = BRA, 1h-2h = OK, >2h = Inte bra
-        (2)  < 1h = BRA, >=1 Inte bra
+        (2)  < 1h = BRA, >= 1 Inte bra
 
  TTK – (1) < 3h 30 min = BRA,  3h 30 min – 4h = OK, >4h = Inte bra
         (2) < 3h 30 min = BRA, >=3h 30 min Inte bra
@@ -25,13 +25,14 @@ import {TrendDiagram} from './trend_diagram.ts';
 
 @Component({
     selector: 'ttkdiagram',
-    template: '<div class="ttk-chart"></div>'
+    template: '<div style="display:table;margin:auto;" class="ttk-chart"></div>'
 })
 
 
 export class TTKDiagram extends TrendDiagram {
     selector = ".ttk-chart";
     ttk_ylims = [4*60, 3.5*60];  //TTK – (1) < 3h 30 min = BRA,  3h 30 min – 4h = OK, >4h = Inte bra
+    //ttk_ylims = [300, 100]; //test
 
     data: any = {
         'trend': [
@@ -66,11 +67,12 @@ export class TTKDiagram extends TrendDiagram {
 
 @Component({
     selector: 'ttddiagram',
-    template: '<div class="ttd-chart"></div>'
+    template: '<div style="display:table;margin:auto;" class="ttd-chart"></div>'
 })
 
 export class TTDDiagram extends TrendDiagram {
     ttd_ylims = [120, 60]; //TTL – (1) < 1h = BRA, 1h-2h = OK, >2h = Inte bra
+    //ttd_ylims = [30, 20]; //test
     selector = ".ttd-chart";
 
     data: any = {
@@ -106,11 +108,12 @@ export class TTDDiagram extends TrendDiagram {
 
 @Component({
     selector: 'tttdiagram',
-    template: '<div class="ttt-chart"></div>'
+    template: '<div style="display:table;margin:auto;" class="ttt-chart"></div>'
 })
 
 export class TTTDiagram extends TrendDiagram {
     ttt_ylims = [40, 20]; //   TTT - < 20 min = BRA, 20-40 min = OK, >40 min = Inte bra
+    //ttt_ylims = [60, 50]; //test
     selector = ".ttt-chart";
 
     data: any = {
