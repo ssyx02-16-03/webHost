@@ -29,8 +29,8 @@ export class room_table{
 
     public static draw(data) {
         var columnKeys = Object.keys(data);
-        columnKeys.splice('nowhere', 1);
-        columnKeys.splice('waiting', 1);
+        columnKeys.splice(columnKeys.indexOf('nowhere'), 1);
+        columnKeys.splice(columnKeys.indexOf('waiting'), 1);
         var emptyrooms = this.listRooms(data, columnKeys);
         var roomTable = this.tabulate(emptyrooms, columnKeys);
     }
@@ -59,16 +59,17 @@ export class room_table{
 
         table.style("height", "10%"); // set to very low value to make the rows stack tightly
 
-        var table_width = 14 // the widht to pad the department names to
+        var table_width = 16 // the widht to pad the department names to
         var department_translator = {};
         department_translator["medicineYellow"] =   room_table.rightPad("Medicin Gul", table_width);
         department_translator["medicineBlue"] =     room_table.rightPad("Medicin Blå", table_width);
-        department_translator["ort_cast"] =          room_table.rightPad("Gips", table_width) ;
-        department_translator["surgery"] =          room_table.rightPad("Kirurg", table_width);
-        department_translator["triage"] =           room_table.rightPad("Triage", table_width);
-        department_translator["acute"] =            room_table.rightPad("Akut", table_width);
+        department_translator["ort_cast"] =         room_table.rightPad("Gips", table_width+3) ;
+        department_translator["surgery"] =          room_table.rightPad("Kirurg", table_width+1);
+        department_translator["triage"] =           room_table.rightPad("Triage", table_width+1);
+        department_translator["acute"] =            room_table.rightPad("Akut", table_width+2);
         department_translator["jour"] =             room_table.rightPad("Jour", table_width);
-        department_translator["orthoped"] =         room_table.rightPad("Ortoped", table_width);
+        department_translator["orthoped"] =         room_table.rightPad("Ortoped", table_width+2);
+        department_translator["infection"] =        room_table.rightPad("Infektion", table_width+2);
 
         //create header row
         var tr = thead.append("tr");
