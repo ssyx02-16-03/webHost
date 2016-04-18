@@ -15,3 +15,6 @@ passNothingVille.json
 
 # webstorm-skräp...
 *.idea/
+
+# pryl till min vims autocomplete
+.tern-project
