@@ -60,13 +60,14 @@ export class changeTable implements OnInit {
             });
     }
 
+
     static draw(data) {
         data = data.blue;
 
         var headerStyle = "font-size:180%;"
         var cellStyle = "padding: 0.5% 1% 0.5% 1% ; font-size: 160%;";
-        var oddRowStyle = "background-color: white";
-        var evenRowStyle = "background-color: #ADADAD";
+        var oddRowStyle = "background-color: #D9D9D9";
+        var evenRowStyle = "background-color: #E9E9E9";
         var rowStyle = [oddRowStyle, evenRowStyle];
 
         var tableDiv = d3.select(this.parentDiv);
@@ -75,15 +76,15 @@ export class changeTable implements OnInit {
         var tbody = table.select('tbody');
 
         var columns = ["patient_id", "patient_name", "modification_field", "minutes_since", "current_location"];
-        var colNames = ["Patient id", "Namn", "Ändring", "Minuter sedan", "Plats"];
+        var colNames = ["Patient id", "Namn", "Ändring", "Tid", "Plats"];
 
+        thead.selectAll("*").remove();
         tbody.selectAll("*").remove();
 
         //generate new stuff
         var headers = this.generateHeaders(thead,colNames,headerStyle);
         var rows = this.generateEmptyRows(tbody, data, rowStyle);
         var cells = this.generateCells(rows, columns, cellStyle);
-
     }
 
     private static generateHeaders(thead,headerNames,headerStyle){
