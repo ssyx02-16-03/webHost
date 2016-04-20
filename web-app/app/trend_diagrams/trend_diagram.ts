@@ -11,6 +11,11 @@ export abstract class TrendDiagram {
     abstract getMarkerColors();
 
     draw(data,selector,ylims: number[]) {
+
+        bgGreen = "#c5f9a9";
+        bgYellow = "#fcf49f";
+        bgRed = "#ffa375";
+
         var daddyDiv = d3.select(selector);
         daddyDiv.selectAll("*").remove(); //clear everything, were going fresh n' new
 
@@ -81,7 +86,7 @@ export abstract class TrendDiagram {
                 .attr("width", width)
                 //.attr("height", y(ylims[0])
                 .attr("height", y(ylims[0]))
-                .attr("fill", "red");
+                .attr("fill", bgRed);
         }
 
         //ok line
@@ -108,7 +113,7 @@ export abstract class TrendDiagram {
                 .attr("width", width)
                 //.attr("height", (y(ylims[1]) - y(ylims[0])) * hasYellow)
                 .attr("height", yellowHeight)
-                .attr("fill", "#FFD04A"); //light yellow
+                .attr("fill", bgYellow); //light yellow
         }
         if (ylims[0] > maxValue && ylims[1] < minValue) { // om helgult
             var yellowY = 0;
@@ -119,7 +124,7 @@ export abstract class TrendDiagram {
                 .attr("width", width)
                 //.attr("height", (y(ylims[1]) - y(ylims[0])) * hasYellow)
                 .attr("height", yellowHeight)
-                .attr("fill", "#FFD04A"); //light yellow
+                .attr("fill", bgYellow); //light yellow
         }
 
         //good line
@@ -130,7 +135,7 @@ export abstract class TrendDiagram {
                 .attr("width", width)
                 //.attr("height", y(ylims[1]) - y(ylims[0]))
                 .attr("height", height - y(ylims[1]))
-                .attr("fill", "green");
+                .attr("fill", bgGreen);
         }
 
         back.append("path")
