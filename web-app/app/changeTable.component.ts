@@ -10,9 +10,9 @@ import * as d3 from 'd3';
     selector: 'latestTable',
     template: `
         <div class="change_table" style="width:100%;">
-        
         <p style="font-size:200%; font-weight:bold; width:100%; padding-left:5%; ">Senaste ändringar</p>
         <table style="width:100%;">
+            <thead></thead>
             <tbody></tbody>
         </table>
         </div>`
@@ -63,24 +63,38 @@ export class changeTable implements OnInit {
     static draw(data) {
         data = data.blue;
 
+        var headerStyle = "font-size:180%;"
         var cellStyle = "padding: 0.5% 1% 0.5% 1% ; font-size: 160%;";
         var oddRowStyle = "background-color: white";
-        var evenRowStyle = "background-color:#ADADAD";
+        var evenRowStyle = "background-color: #ADADAD";
         var rowStyle = [oddRowStyle, evenRowStyle];
 
         var tableDiv = d3.select(this.parentDiv);
         var table = tableDiv.select('table');
+        var thead = table.select('thead');
         var tbody = table.select('tbody');
+
+        var columns = ["patient_id", "patient_name", "modification_field", "minutes_since", "current_location"];
+        var colNames = ["Patient id", "Namn", "Ändring", "Minuter sedan", "Plats"];
+
         tbody.selectAll("*").remove();
 
         //generate new stuff
-        var rows = this.generateRows(tbody, data, rowStyle);
-        var columns = ["patient_id", "patient_name", "modification_field", "minutes_since", "current_location"];
+        var headers = this.generateHeaders(thead,colNames,headerStyle);
+        var rows = this.generateEmptyRows(tbody, data, rowStyle);
         var cells = this.generateCells(rows, columns, cellStyle);
 
     }
 
-    private static generateRows(tbody, data, rowStyle) {
+    private static generateHeaders(thead,headerNames,headerStyle){
+      var headers = thead.append('tr');
+      for(var i=0; i<headerNames.length; i++){
+        headers.append('th').text(headerNames[i]).attr("style", headerStyle);
+      }
+
+    }
+
+    private static generateEmptyRows(tbody, data, rowStyle) {
 
         var odd = true;
         var rows = tbody.selectAll('tr')

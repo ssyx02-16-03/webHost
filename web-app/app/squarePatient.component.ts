@@ -108,8 +108,8 @@ function paintWaitingList(grandParent,waitingCards) {
         .attr("style", cardStyle + "font-size:200%; font-weight:bold;")
         .text("Väntrum");
 
-    for(paintedCards = 1; waitingCards.length >0; paintedCards++) {
-        if(paintedCards%4 == 0){ //new col every 4th card
+    for(var paintedCards = 1; waitingCards.length >0; paintedCards++) {
+        if(paintedCards %4 == 0){ //new col every 4th card
             parent = columns[paintedCards/4];
         }
         var patient = waitingCards.pop();
@@ -164,20 +164,20 @@ function paintSquareCards(grandParent,roomCards){
     var sortedCards = [];
     for(var i=0; roomCards.length > 0; i++){
         var card = roomCards.pop();
-        sortedCards[card.room] = card;
+        sortedCards[card.room_nr] = card;
     }
     // top row
     paintCardRow(card_holders.topRow, sortedCards, topRowDiv, cardStyle + "height: 100%;"+ cssCalcWidth(20,-3) + "margin-right:3px;");
     //left column
-    paintCardRow(card_holders.leftCol, sortedCards ,leftColumnDiv,  cardStyle + "height: 50%;"):
+    paintCardRow(card_holders.leftCol, sortedCards ,leftColumnDiv,  cardStyle + "height: 50%;");
     //right column
-    paintCardRow(card_holders.rightCol, sortedCards ,rightColumnDiv,  cardStyle + "height: 50%;"):
+    paintCardRow(card_holders.rightCol, sortedCards ,rightColumnDiv,  cardStyle + "height: 50%;");
 
     function paintCardRow(card_holders, cards, parentDiv, cardStyle:string){
-      keys = Object.keys(card_holders);
+      var keys = Object.keys(card_holders);
       for(var i=0; i<keys.length; i++){
         var thisRoom = card_holders[keys[i]];
-          paintCardOrDummy(thisRoom, cards[thisRoom], parentDiv, cardStyle);
+          paintCardOrDummy(thisRoom, cards[keys[i]], parentDiv, cardStyle);
       }
     }
 
@@ -197,7 +197,7 @@ function newUl(gParent,width:number){
 }
 
 //paint a single card
-function paintDummyCard(num:number,parent,cardStyle){
+function paintDummyCard(roomName:string,parent,cardStyle){
     var dummyCard = parent
         .append("div")
         .attr("id","dummy");
@@ -207,7 +207,7 @@ function paintDummyCard(num:number,parent,cardStyle){
                 +"border-style:solid; border-width:2px; border-color:white;");
 
     var p = dummyCard.append("p")
-                .text(num)
+                .text(roomName)
                 .attr("style","color: white; font-size:2em; font-type:bold; margin:20px;");
 }
 function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside parent
@@ -329,9 +329,13 @@ class Card{
         this.room = jsonLocation;
         var letter = this.room.substr(0,1);
         var room_nr = parseInt( this.room.substr(1,3) );
-        if(letter == 'b' || letter == 'B'){
+        if(letter == "b" || letter == "B" ) {
             this.loc = Location.square;
-        }else{
+            this.room_nr = room_nr;
+        }else if(this.isNumeric(this.room)){
+          this.room_nr = parseInt(this.room);
+          this.loc = Location.square;
+        }else {
             switch(this.room) {
                 case 'ivr':
                     this.loc = Location.innerWaitRoom;
