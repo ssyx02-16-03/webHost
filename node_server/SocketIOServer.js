@@ -11,20 +11,20 @@ define(['express', 'http', 'socket.io'], function(express, http, socketIO) {
 	function emit(key, value) {
 		io.emit(key, value);
 	}
-        
-        var path = require('path');
-        var __dirname = path.resolve(path.dirname());
+
+  var path = require('path');
+  var __dirname = path.resolve(path.dirname());
 
 	// här var det __dirname + '/client' som argument förut
 	//app.use(express.static('./client'));
 	app.use(express.static(__dirname + '/../web-app'));
 
-        // 404 catch 
-        app.all('*', (req, res) => {
-            console.log(`[TRACE] Server 404 request: ${req.originalUrl}`);
-            var pathplz = path.resolve(__dirname + '/../web-app/index.html');
-            res.status(200).sendFile(pathplz);
-        });
+    // 404 catch
+    app.all('*', (req, res) => {
+        console.log(`[TRACE] Server 404 request: ${req.originalUrl}`);
+        var pathplz = path.resolve(__dirname + '/../web-app/index.html');
+        res.status(200).sendFile(pathplz);
+    });
 
 	on('connection', function(socket) {
 		console.log('a user connected');

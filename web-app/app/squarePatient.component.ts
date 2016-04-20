@@ -145,48 +145,45 @@ function paintOtherCards(grandParent,cards){
 function paintSquareCards(grandParent,roomCards){
     grandParent.selectAll("*").remove(); //remove old stuff
 
-    var sortedCards = [];
-    for(var i=0; roomCards.length > 0; i++){
-        var card = roomCards.pop();
-        var roomNr = parseInt(card.room);
-        if(roomNr < 19 || roomNr > 27){
-            console.log("ERROR: paintSquareCards: room numbers are bad..");
-        }
-        sortedCards[roomNr]= card;
-    }
-    var cardStyle = "margin-bottom: 3px;"
+    var cardStyle = "margin-bottom: 0.5%;" //3px
         + "display:block; "
         + "float:left;"
         + cssCalcWidth(100,-4);
 
     //paint holder spacing
-    var color = "";
+    var color = ""; //"background-color:;"
     var columnStyle = "width: 20%; height: 64%;" +color;
 
-    var topRow = grandParent.append("div")
+    var topRowDiv = grandParent.append("div")
                     .attr("style","width: 100%; height: 32%;" +color);
-    var leftColumn = grandParent.append("div")
+    var leftColumnDiv = grandParent.append("div")
                     .attr("style", columnStyle +"float:left;");
-    var rightColumn = grandParent.append("div")
+    var rightColumnDiv = grandParent.append("div")
                     .attr("style", columnStyle +"float:right;");
 
-    for(var i=21; i<26; i++){
-        paintCardOrDummy(i,sortedCards[i],topRow,cardStyle + "height: 100%;"+ cssCalcWidth(20,-3) + "margin-right:3px;");
+    var sortedCards = [];
+    for(var i=0; roomCards.length > 0; i++){
+        var card = roomCards.pop();
+        sortedCards[card.room] = card;
     }
+    // top row
+    paintCardRow(card_holders.topRow, sortedCards, topRowDiv, cardStyle + "height: 100%;"+ cssCalcWidth(20,-3) + "margin-right:3px;");
     //left column
-    paintCardOrDummy(20,sortedCards[20],leftColumn,cardStyle + "height: 50%;");
-    paintCardOrDummy(19,sortedCards[19],leftColumn,cardStyle + "height: 50%;");
+    paintCardRow(card_holders.leftCol, sortedCards ,leftColumnDiv,  cardStyle + "height: 50%;"):
     //right column
-    paintCardOrDummy(26,sortedCards[26],rightColumn,cardStyle + "height: 50%;");
-    paintCardOrDummy(27,sortedCards[27],rightColumn,cardStyle + "height: 50%;");
+    paintCardRow(card_holders.rightCol, sortedCards ,rightColumnDiv,  cardStyle + "height: 50%;"):
 
+    function paintCardRow(card_holders, cards, parentDiv, cardStyle:string){
+      keys = Object.keys(card_holders);
+      for(var i=0; i<keys.length; i++){
+        var thisRoom = card_holders[keys[i]];
+          paintCardOrDummy(thisRoom, cards[thisRoom], parentDiv, cardStyle);
+      }
+    }
 
-    function paintCardOrDummy(num:number,card:Card, parent,cardStyle){
-        if(card == null){
-            paintDummyCard(num,parent,cardStyle);
-        }else{
-            paintCard(card,parent,cardStyle);
-        }
+    function paintCardOrDummy(roomName:string, card:Card, parent, cardStyle:string){
+        if(card == null){  paintDummyCard(roomName,parent,cardStyle);
+        }else{  paintCard(card,parent,cardStyle);  }
     }
 
 }
@@ -282,6 +279,7 @@ class Card{
     arrivalTime:string;
     loc:Location;
     room:string;
+    room_nr:number;
     needsAttention:boolean;
     lastAttention:number;
     lastEvent:string;
@@ -329,9 +327,11 @@ class Card{
 
     determineLocation(jsonLocation){
         this.room = jsonLocation;
-        if(this.isNumeric(this.room)){
+        var letter = this.room.substr(0,1);
+        var room_nr = parseInt( this.room.substr(1,3) );
+        if(letter == 'b' || letter == 'B'){
             this.loc = Location.square;
-        }else {
+        }else{
             switch(this.room) {
                 case 'ivr':
                     this.loc = Location.innerWaitRoom;
@@ -354,6 +354,24 @@ var triageStatus = {
     orange : "orange",
     red : "red"
 };
+
+var card_holders = {
+  leftCol: {
+    19 : "B19",
+    20 : "B20"
+  },
+  topRow : {
+    21 : "B21",
+    22 : "B22",
+    23 : "B23",
+    24 : "B24",
+    25 : "B25"
+  },
+  rightCol:{
+    26 : "B26",
+    27 : "B27"
+  }
+}
 
 //determines where
 enum Location{
