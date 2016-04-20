@@ -11,8 +11,8 @@ import {COMPONENTS} from './components';
     selector: 'app',
     template: `
     	<div id='center'>
-			<h1 id='title'>{{title}}</h1>
-	 		<div id="menu">
+			<h1 id='title' *ngIf='! fullscreen'>{{title}}</h1>
+	 		<div id="menu" *ngIf='! fullscreen'>
 				<div id='menubutton'
 					*ngFor='#component of components'
 					[routerLink]='[component.name]'
@@ -23,6 +23,8 @@ import {COMPONENTS} from './components';
 	 		<div id='outlet'>
 				<router-outlet></router-outlet>
 			</div>
+                        <button *ngIf='! fullscreen'
+                             (click)='toggleFullScreen()'>Helskärmsläge</button>
 		</div>
 		`,
 	styleUrls: ['app/app.css'],
@@ -34,9 +36,41 @@ import {COMPONENTS} from './components';
 export class App {
 
 	title = 'Intelligenta akutmottagningen';
+        fullsreen = false;
 
 	// *ngFor wants this
 	components = COMPONENTS;
+
+        hej() {
+            console.log("hej");
+        }
+
+        toggleFullScreen() {
+          if (!document.fullscreenElement &&    // alternative standard method
+              !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
+            this.fullscreen = true;
+            if (document.documentElement.requestFullscreen) {
+              document.documentElement.requestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+              document.documentElement.msRequestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+              document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+              document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+          } //else {
+           // this.fullscreen = false;
+           // if (document.exitFullscreen) {
+           //   document.exitFullscreen();
+           // } else if (document.msExitFullscreen) {
+           //   document.msExitFullscreen();
+           // } else if (document.mozCancelFullScreen) {
+           //   document.mozCancelFullScreen();
+           // } else if (document.webkitExitFullscreen) {
+           //   document.webkitExitFullscreen();
+           // }
+          }
+        }
 }
 
 function getRoutes(): Route[] {
