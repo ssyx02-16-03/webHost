@@ -608,7 +608,9 @@ class Room{
         //color formatting
         if (this.occupied && jsonRoomObject['patient_department'] != "default"){
             var department = jsonRoomObject['patient_department'];
-            color = roomColors[ departments[department] ];
+            console.log("department:", department);
+            console.log()
+            color = departments[department];
             //determine color
         }else{
             switch(roomDep){
@@ -680,16 +682,7 @@ class Room{
      SOUTH,
      EAST,
      WEST
- }
-
-var departments = {
-  default : "gray",
-  medicineBlue : roomColors.medBlu,
-  medicineYellow : roomColors.medYel,
-  surgery : roomColors.surg,
-  orthoped : roomColors.ort,
-  jour : roomColors.jour
-}
+ };
 
  var roomColors = {
      infec:"gray",
@@ -700,4 +693,13 @@ var departments = {
      ort:"green",
      surg:"red",
      acute:"gray"
+ };
+
+ var departments = {
+   default : "gray",
+   medicineBlue : roomColors.medBlu,
+   medicineYellow : roomColors.medYel,
+   surgery : roomColors.surg,
+   orthoped : roomColors.ort,
+   jour : roomColors.jour
  };
