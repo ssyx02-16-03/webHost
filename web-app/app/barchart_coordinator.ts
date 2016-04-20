@@ -89,6 +89,8 @@ export class barchart_coordinator {
             .scale(y)
             .orient("left")
             .ticks(10)
+            .tickFormat(d3.format("d"))
+            .tickSubdivide(0)
             .outerTickSize(2);
 
         d3.select(".header").selectAll("*").remove();
