@@ -13,7 +13,8 @@ import * as d3 from 'd3';
 @Component({
     selector: 'barchart_coordinator',
     template: `
-        <header class="header" style="width:100%; height:10%; font-size:100%; padding-left:5%; ">Stapeldiagram</header>
+        <h3 id="hej1337">Patienter totalt: </h3>
+        <!--<header class="header" style="width:100%; height:10%; font-size:100%; padding-left:5%; ">Stapeldiagram</header>-->
 		<svg class='baarchart' style="width:100%; height:90%;"></svg>
 		`
 })
@@ -24,17 +25,22 @@ export class barchart_coordinator {
 
     public static draw(jsonData) {
 
-        var total = 0
+        var total = 0;
         var data = jsonData;
         for (var i = 0; i < data.length; i++) {
             total += data[i]['total_patients'];
         }
-        var header = d3.select("header");
-        var text = header.append("text")
-            .data(jsonData)
-            .text("Patientfördelning: " + total)
-            .style("font-size", "20px")
-            .style("font-weight", "bold");
+        document.getElementById("hej1337").innerHTML = "Patienter totalt: " + total;
+
+        //var header = d3.select("#hej1337")
+        //        .append("text")
+        //        .data(jsonData)
+        //        .text("Patienter totalt: " + total);
+        //var text = header.append("text")
+        //    .data(jsonData)
+        //    .text("Patientfördelning: " + total)
+        //    .style("font-size", "20px")
+        //    .style("font-weight", "bold");
 
         var color = ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]); //finns enbart med för att loopen i legend ska bli rätt..
 

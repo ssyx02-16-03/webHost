@@ -11,7 +11,8 @@ import * as d3 from 'd3';
     selector: 'abra',
     template: `
         <map_tableContainer style="height:100%; width:100%; margin:0 auto; display: block;" >
-            <p style="height:2%;" >Lediga rum</p>
+            <h2>Lediga rum</h2>
+            <!--<p style="height:2%;" >Lediga rum</p>-->
             <table style="height:95%; font-size:120%;"></table>
         </map_tableContainer>           
         `,

@@ -11,7 +11,8 @@ import {SocketIO} from './socket-io';
 
 @Component({
     selector: 'coordbarchart',
-    template: `<barchart_coordinator style="width:100%; height:100%;"></barchart_coordinator>
+    template: `
+    <barchart_coordinator style="width:100%; height:100%;"></barchart_coordinator>
 		`,
     directives: [barchart_coordinator],
     providers: [SocketIO]
