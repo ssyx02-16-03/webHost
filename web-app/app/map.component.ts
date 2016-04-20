@@ -430,7 +430,7 @@ export class MapComponent implements OnInit {
         });
 
     }
-    
+
     static draw(data){
         console.log(data);
         this.rooms = data;
@@ -607,11 +607,9 @@ class Room{
 
         //color formatting
         if (this.occupied && jsonRoomObject['patient_department'] != "default"){
-            if(jsonRoomObject['patient_department'] == "medicineBlue"){
-                color = roomColors.medBlu;
-            }else if(jsonRoomObject['patient_department'] == "medicineYellow"){
-                color = roomColors.medYel;
-            }
+            var department = jsonRoomObject['patient_department'];
+            color = roomColors[ departments[department] ];
+            //determine color
         }else{
             switch(roomDep){
                 case 'acute':
@@ -683,6 +681,15 @@ class Room{
      EAST,
      WEST
  }
+
+var departments = {
+  default : "gray",
+  medicineBlue : roomColors.medBlu,
+  medicineYellow : roomColors.medYel,
+  surgery : roomColors.surg,
+  orthoped : roomColors.ort,
+  jour : roomColors.jour
+}
 
  var roomColors = {
      infec:"gray",
