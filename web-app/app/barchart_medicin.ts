@@ -9,7 +9,7 @@ import * as d3 from 'd3';
 @Component({
     selector: '.medbarchart',
     template: `
-        <h3 id="barchart_totNumber" style="margin: 0 auto; height:10%;">Patientantal: </h3>
+        <h3 id="barchart_totNumber" style="margin: 0 auto; height:10%; width:50%">Patientantal: </h3>
 
 		<svg class='barchart_medicine' style="display:block; margin:0 auto;"></svg>
 		`
@@ -57,7 +57,6 @@ export class barchart_medicin {
             legendSpace = height / 20,
             legendSize = legendSpace / 2;
 
-        var color = ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]); //finns enbart med för att loopen i legend ska bli rätt..
 
         var chart = d3.select(".barchart_medicine");
         chart.selectAll("*").remove(); //delete garbage
@@ -112,24 +111,25 @@ export class barchart_medicin {
             .attr("height", 100)
             .attr("width", 100);
 
-        legend.selectAll('g').data(color)
+        keys = Object.keys(color_hash);
+        legend.selectAll('g').data(keys)
             .enter()
             .append('g')
             .each(function(d, i) {
                 var g = d3.select(this);
+                var x = chartWidth + barSpace;
                 var rect = g.append("rect")
-                    .attr("x", chartWidth + barSpace - 20)
+                    .attr("x", x)
                     .attr("y", i * legendSpace + (height - chartHeight) / 2)
                     .attr("width", legendSize)
                     .attr("height", legendSize);
                 if(i == 0) {
                       strokeEffect(rect);
-                }
-                else {
+                } else {
                     rect.style("fill", color_hash[i][1]);
                 }
                 g.append("text")
-                    .attr("x", chartWidth + barSpace)
+                    .attr("x", x+15)
                     .attr("y", i * legendSpace * 1.01 + (height - chartHeight) / 2 * 1.12)
                     .style("fill", "black")
                     .text(color_hash[i][0]);
