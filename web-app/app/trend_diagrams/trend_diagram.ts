@@ -67,6 +67,26 @@ export abstract class TrendDiagram {
         x.domain(d3.extent(allData, function(d: any) { return d.x; }));
         var maxValue = d3.max(allData, function (d) { return d['y']; });
         var minValue = d3.min(allData, function (d) { return d['y']; });
+
+        //scenarios:
+        // i röda fältet: ha med gult i botten
+        // i gula fältet: ha med rött och grönt
+        // i gröna fältet: ha med det gula
+
+        var ylimsMargin = 10;
+        var ymin = ylims[1];
+        var ymax = ylims[0];
+        if(minValue > ymax-ylimsMargin){
+          minValue = ymax-ylimsMargin;
+        }
+        if(maxValue < ymin+ylimsMargin){
+          maxValue = ymin+ylimsMargin;
+        }
+
+        if(minValue < 0){
+          minValue = 0;
+        }
+
         console.log("maxval:",maxValue);
         console.log("minval:", minValue);
         y.domain([maxValue + 1, minValue - 1]); // gör det som Indraw gjorde förut, fast korrekt

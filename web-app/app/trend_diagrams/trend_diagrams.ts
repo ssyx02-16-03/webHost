@@ -30,7 +30,7 @@ import {TrendDiagram} from './trend_diagram.ts';
 
 export class TTKDiagram extends TrendDiagram {
     selector = ".ttk-chart";
-    ttk_ylims = [4*60, 3.5*60];  //TTK – (1) < 3h 30 min = BRA,  3h 30 min – 4h = OK, >4h = Inte bra
+    ttk_ylims = [5, 3];  //TTK – (1) < 3h 30 min = BRA,  3h 30 min – 4h = OK, >4h = Inte bra
     //ttk_ylims = [300, 100]; //test
 
     data: any = {
