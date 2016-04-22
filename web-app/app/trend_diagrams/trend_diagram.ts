@@ -7,14 +7,14 @@ import {Component, OnInit} from 'angular2/core';
 import * as d3 from 'd3';
 
 export abstract class TrendDiagram {
-    
+
     abstract getMarkerColors();
 
     draw(data,selector,ylims: number[]) {
 
-        bgGreen = "#c5f9a9";
-        bgYellow = "#fcf49f";
-        bgRed = "#ffa375";
+        var bgGreen = "#c5f9a9";
+        var bgYellow = "#fcf49f";
+        var bgRed = "#ffa375";
 
         var daddyDiv = d3.select(selector);
         daddyDiv.selectAll("*").remove(); //clear everything, were going fresh n' new
@@ -173,7 +173,7 @@ export abstract class TrendDiagram {
             .style("text-anchor", "end")
             .text(""); // stod här "någoooot" förut
 
-        //this.drawCircles(svg,data,x,y)
+        this.drawCircles(svg,data,x,y)
 
     }
 
@@ -183,30 +183,27 @@ export abstract class TrendDiagram {
         //-------------------- circles ----------------------//
          var smallR = 5;
          var bigR = 8;
-         var colors;
-
-         colors = this.getMarkerColors();
+         var colors = this.getMarkerColors();
 
          var circles = svg.append("svg").attr("class","circles");
-
-         circles.append("circle")
-         .attr("cx", x(data['trend'][2].x))
-         .attr("cy", y(data['times']['median']))
-         .attr("r", bigR)
-         .attr("angle", 360)
-         .style("fill", "black");
+         var dataPoints = data['trend'].length
+         var nowX = dataPoints*2/3;
 
          for (var key in data['times']) {
-             if(key != undefined) {
-             circles.append("circle")
-             .attr("cx", x(data['trend'][2].x))
-             .attr("cy", y(data['times'][key]))
-             .attr("r", smallR)
-             .attr("angle", 360)
-             .style("fill", colors[key]);
-             }
+            var radius = smallR;
+            if(key != undefined) {
+              var circle = circles.append("circle")
+              .attr("cx", x(data['trend'][nowX].x))
+              .attr("cy", y(data['times'][key]))
+              .attr("r",smallR)
+              .attr("angle", 360)
+              .style("fill", colors[key])
+              .attr("stroke","white","stroke-width",-2);
+
+              if(key == 'median'){
+                circle.attr("r", bigR)
+              }
+            }
          }
-
-
     }
 }

@@ -18,7 +18,6 @@
         (2) <4h = BRA, >=4h Inte bra
  */
 
-
 import {Component, OnInit} from "angular2/core";
 import {TrendDiagram} from './trend_diagram.ts';
 
@@ -44,16 +43,11 @@ export class TTKDiagram extends TrendDiagram {
             {'x': 0, 'y': 4},
             {'x': 1, 'y': 6}
         ],
-        'times': {'Gul': 4.5, 'Ki': 4.2, 'Ort': 3.5, 'Jour': 3.2, 'median': 3.9}
+        'times': {'median': 3.9, 'Gul': 4.5, 'Bla':6, 'Ki': 4.2, 'Ort': 3.5, 'Jour': 3.2}
     };
 
     getMarkerColors() {
-        return {
-            'Gul': 'yellow',
-            'Ki': 'red',
-            'Ort': 'green',
-            'Jour': 'purple'
-        }
+        return MarkerColors();
     }
 
     drawDummy(){
@@ -85,16 +79,11 @@ export class TTDDiagram extends TrendDiagram {
             {'x': 0, 'y': 4},
             {'x': 1, 'y': 6}
         ],
-        'times': {'Gul': 4.5, 'Ki': 4.2, 'Ort': 3.5, 'Jour': 3.2, 'median': 3.9}
+        'times': {'median': 3.9,'Gul': 4.5, 'Bla':6,  'Ki': 4.2, 'Ort': 3.5, 'Jour': 3.2}
     }
 
     getMarkerColors() {
-        return {
-            'Gul': 'yellow',
-            'Ki': 'red',
-            'Ort': 'green',
-            'Jour': 'purple'
-        }
+        return MarkerColors();
     }
 
     drawDummy(){
@@ -139,5 +128,15 @@ export class TTTDiagram extends TrendDiagram {
 
     draw(data){
         super.draw(data,this.selector,this.ttt_ylims);
+    }
+}
+
+function MarkerColors() {
+    return {
+        'Gul': 'yellow',
+        'Bla' : 'blue',
+        'Ki': 'red',
+        'Ort': 'green',
+        'Jour': 'purple'
     }
 }
