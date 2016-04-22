@@ -9,10 +9,11 @@ import * as d3 from 'd3';
 @Component({
     selector: '.medbarchart',
     template: `
-        <h3 id="barchart_totNumber" style="margin: 0 auto; height:10%; width:50%">Patientantal: </h3>
+        <h2 id="barchart_totNumber" style="margin: 0 auto; height:10%; width:50%">Patientantal: </h2>
 
 		<svg class='barchart_medicine' style="display:block; margin:0 auto;"></svg>
-		`
+		`,
+    styleUrls: ['app/globalcss/style.css']
 })
 
 
@@ -43,8 +44,8 @@ export class barchart_medicin {
 
         var nPatients = jsonData.total_patients;
 
-        h3_number = document.getElementById("barchart_totNumber");
-        h3_number.textContent = "Patientantal: "+nPatients;
+        h2_number = document.getElementById("barchart_totNumber");
+        h2_number.textContent = "Patientantal: "+nPatients;
 
         var max = nPatients;
         var width = 500,

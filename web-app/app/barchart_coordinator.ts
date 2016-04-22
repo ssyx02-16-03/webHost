@@ -13,10 +13,11 @@ import * as d3 from 'd3';
 @Component({
     selector: 'barchart_coordinator',
     template: `
-        <h3 id="hej1337">Patienter totalt: </h3>
+        <h2 id="hej1337">Patienter totalt: </h2>
         <!--<header class="header" style="width:100%; height:10%; font-size:100%; padding-left:5%; ">Stapeldiagram</header>-->
 		<svg class='baarchart' style="width:100%; height:90%;"></svg>
-		`
+		`,
+    styleUrls: ['app/globalcss/style.css']
 })
 
 export class barchart_coordinator {
