@@ -30,8 +30,8 @@ what the data will look like
 
 export class room_table{
     static divName = "map_tableContainer";
-    static tdStyle1 = "padding: 0 0% 1% 0;";
-    static tdStyle2 = "padding: 0 1% 1% 0;";
+    static tdStyle1 = "padding: 0% 1% 1% 0%;"; //left cell
+    static tdStyle2 = "padding: 0% 4% 1% 0;"; //right cell
     static thStyle = "padding: 0 0% 1.5% 0; text-align:center;"
 
     public static draw(data) {
