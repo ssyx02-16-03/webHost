@@ -1,6 +1,23 @@
+@font-face {
+    font-family: clockFont;
+    src: url(/app/fonts/Monospace.ttf);
+}
+
+@font-face {
+    font-family: rounded;
+    src: url(/app/fonts/Comfortaa_Regular.ttf);
+}
+
+
 h2 {
     clear: both;
     margin:0;
     padding-top: 20px;
     padding-bottom: 10px;
+}
+
+
+.clock {
+  font-family: clockFont;
+  font-weight: 400;
 }

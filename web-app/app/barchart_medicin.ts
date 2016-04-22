@@ -9,13 +9,15 @@ import * as d3 from 'd3';
 @Component({
     selector: '.medbarchart',
     template: `
-        <p class='barchart_p' style="font-size: 200%; margin: 0 auto; height:10%;">Patientantal: {{nPatients}}</p>
+        <h2 id='barchart_medicine_h2' style="font-size: 200%; margin: 0 auto; height:10%; width:80%;">Patientantal: </h2>
 		<svg class='barchart_medicine' style="display:block; margin:0 auto;"></svg>
 		`
 })
 
 
 export class barchart_medicin {
+    private static patientAntal = "Patientantal: ";
+
     private static scaleSVG(svg,width,height,endpoints){
         svg.attr("viewBox", endpoints[0] +" " +endpoints[1] +" " +endpoints[2] +" " +endpoints[3]);
         svg.attr("preserveAspectRatio","xMaxYMax");
@@ -40,9 +42,10 @@ export class barchart_medicin {
     public static drawWithRefinedData(jsonData) {
         var svg = d3.select(".barchart_medicine");
         this.scaleSVG(svg,90,90,[0,30,400,300]);
-        d3.select(".barchart_p").style("width","80%");
-
         this.nPatients = jsonData.total_patients;
+
+        var heading = document.getElementById('barchart_medicine_h2');
+        heading.innerText = this.patientAntal+this.nPatients;
 
         var max = this.nPatients;
         var width = 500,
@@ -174,7 +177,7 @@ export class barchart_medicin {
         var has_doctor = jsonData.has_doctor;
         var no_doctor = jsonData.no_doctor;
         var done_patients = jsonData.klar;
-        
+
         //Inkommande
         var barBox = bar.append("g")
             .attr("id","chartArea");
@@ -259,7 +262,7 @@ export class barchart_medicin {
         var triage_yellow  = jsonData.yellow;
         var triage_orange  = jsonData.orange;
         var triage_red  = jsonData.red;
-        
+
         //Blåa
         barBox.append("rect")
             .attr("x", 2 * barSpace - barWidth)
@@ -365,7 +368,7 @@ export class barchart_medicin {
         if(rooms_elsewhere == undefined){
             rooms_elsewhere = 0;
         }
-        
+
         //Rum
         barBox.append("rect")
             .attr("x", 3 * barSpace - barWidth)

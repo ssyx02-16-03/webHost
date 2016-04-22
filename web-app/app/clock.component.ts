@@ -6,7 +6,7 @@ import {SocketIO} from './socket-io';
 @Component({
     selector: 'clock_coord',
     template: `
-        <svg class="clock" width="450" height="100"></svg>
+        <svg class="clock" width="350" height="100"></svg>
         `,
     providers: [SocketIO]
 })
@@ -42,35 +42,32 @@ export class Clock implements OnInit {
         var scale = 1.0; // scale factor of clock
         var x = 7;      // pixel coordinate, sorry
         var y = 7;      // also pixel coordinate
+        var boxWidth = 305*scale;
+        var boxHeight = 85*scale;
+        var xmiddle = boxWidth/2;
+        var ymiddle = boxHeight/2;
 
-        var border = 2;
-        var font_size = String(100 * scale)
+        var borderwidth = 2;
+        var font_size = 80;
         this.chart = d3.select(this.svgClass);
         this.chart.selectAll("*").remove();
 
         this.chart.append("rect") //draws the border rectangle
             .attr("x", x )
             .attr("y", y )
-            //.attr("rx", 10*scale)
-            //.attr("ry", 10*scale)
-            .attr("width",  (305 + 2* border)*scale)
-            .attr("height", (85  + 2* border)*scale)
-            .attr("fill", "#000000");
-
-        this.chart.append("rect") // dras the gray, real rectangle
-            .attr("x", x + border*scale )
-            .attr("y", y + border*scale)
-            //.attr("rx", 10*scale)
-            //.attr("ry", 10*scale)
-            .attr("width", 305*scale)
-            .attr("height", 85*scale)
-            .attr("fill", "#E0E0E0");
+            .attr("width",  boxWidth)
+            .attr("height", boxHeight)
+            .attr("fill", "lightGray")
+            .attr("stroke", "#505050")
+            .attr("stroke-width", borderwidth);
 
         this.chart.append("text")
-            .attr("font-family", "Courier New")
-            .attr('x',x + 5*scale)
-            .attr('y',y + 75*scale)
-            .attr("style", "font-size:"+font_size + "px;")
+            .attr("font-size",font_size)
+            .attr("class","clock")
+            .attr('x',xmiddle)
+            .attr('y',font_size-10 ) //got it just in the middle
+            .attr("text-anchor","middle") //x position
+            .attr("alignment-baseline","middle") //y position
             .text(data);
 
 
