@@ -11,12 +11,16 @@ import * as d3 from 'd3';
     selector: 'abra',
     template: `
         <map_tableContainer style="height:100%; width:100%; margin:0 auto; display: block;" >
-            <h2>Lediga rum</h2>
-            <!--<p style="height:2%;" >Lediga rum</p>-->
-            <table style="height:95%; font-size:120%;"></table>
-        </map_tableContainer>           
+            <h2 style="height:20%; width:100%; display:block;">Lediga rum</h2>
+            <table style="width:100%; font-size:120%;">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+        </map_tableContainer>
         `,
+    styleUrls: ['app/globalcss/style.css'],
 })
+
 
 /*
 what the data will look like
@@ -26,7 +30,9 @@ what the data will look like
 
 export class room_table{
     static divName = "map_tableContainer";
-    static tdStyle = "padding-left:10px"; //fulfix lyckades inte med en styleUrls: []
+    static tdStyle1 = "padding: 0 0% 1% 0;";
+    static tdStyle2 = "padding: 0 1% 1% 0;";
+    static thStyle = "padding: 0 0% 1.5% 0; text-align:center;"
 
     public static draw(data) {
         var columnKeys = Object.keys(data);
@@ -53,12 +59,13 @@ export class room_table{
 
     private static tabulate(emptyrooms, columnKeys) {
         var table = d3.select(this.divName).select("table");
-        table.selectAll("*").remove();
 
-        var thead = table.append("thead");
-        var tbody = table.append("tbody");
+        var thead = table.select("thead");
+        var tbody = table.select("tbody");
+        thead.selectAll("*").remove();
+        tbody.selectAll("*").remove();
 
-        table.style("height", "10%"); // set to very low value to make the rows stack tightly
+        //table.style("height", "10%"); // set to very low value to make the rows stack tightly
 
         var table_width = 16 // the widht to pad the department names to
         var department_translator = {};
@@ -77,21 +84,30 @@ export class room_table{
         for(var i=0; i < columnKeys.length; i++) {
             thead.select("tr")
                 .append("th")
-                .attr("style", this.tdStyle)
+                .attr("style", this.thStyle)
+                .attr("colspan",2)
                 .text(department_translator[columnKeys[i]]);
         }
 
         // create rows(and content)
-        var roomName = "full";
-        for(var i=0; i<150 && roomName != ""; i++){
-            tbody.append("tr"); //create empty row
-            roomName = "";
+        var thereIsMore = true;
+        for(var i=0; i<150 && thereIsMore; i++){
+            var tr = tbody.append("tr").style("height","8%"); //create empty row
+            thereIsMore = false;
             for (var col=0; col < columnKeys.length; col++) {
-                roomName = emptyrooms[col].pop();
-                tbody.append("td")
-                    .attr("style", this.tdStyle)
-                    .text(roomName);
+              var room1 = emptyrooms[col].pop();
+              var room2 = emptyrooms[col].pop();
+                tr.append("td")
+                    .attr("style", this.tdStyle1)
+                    .text(room1);
+                tr.append("td")
+                    .attr("style", this.tdStyle2)
+                    .text(room2);
+              if(room1 != undefined || room2 != undefined){
+                thereIsMore = true;
+              }
             }
+
         }
 
     }
@@ -107,5 +123,3 @@ export class room_table{
     }
 
 }
-
-

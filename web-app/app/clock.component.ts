@@ -6,7 +6,7 @@ import {SocketIO} from './socket-io';
 @Component({
     selector: 'clock_coord',
     template: `
-        <svg class="clock" width="600"></svg>
+        <svg class="clock" width="450" height="100"></svg>
         `,
     providers: [SocketIO]
 })
@@ -15,6 +15,7 @@ export class Clock implements OnInit {
 
     static svgClass = '.clock';
     static chart;
+    static minute;
 
 
 
@@ -23,12 +24,16 @@ export class Clock implements OnInit {
     }
 
     static loop() {
+        var obj = d3.select(this.svgClass).select("*"); //already there?
         var hour = new Date().getHours();
         var minute = new Date().getMinutes();
-        var parsed_hour = hour < 10 ? "0"+String(hour): String(hour);
-        var parsed_min = minute < 10 ? "0"+String(minute): String(minute);
-        var second = new Date().getSeconds()
-        Clock.draw(String(parsed_hour) + ":" + String(parsed_min));
+        if(this.minute != minute || obj[0][0]==null){
+          this.minute = minute;
+          var parsed_hour = hour < 10 ? "0"+String(hour): String(hour);
+          var parsed_min = minute < 10 ? "0"+String(minute): String(minute);
+          var second = new Date().getSeconds();
+          Clock.draw(String(parsed_hour) + ":" + String(parsed_min));
+        }
         setTimeout(function(){ Clock.loop(); }, 1000); // clock calls self once per second
     }
 

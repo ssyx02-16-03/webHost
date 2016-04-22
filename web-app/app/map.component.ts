@@ -16,8 +16,8 @@ import * as d3 from 'd3';
 @Component({
     selector: 'map',
     template: `
-        <svg class="map" style="display:block; margin:0 auto; "></svg>
-        <abra style="width: 100%; display: block;"></abra>
+        <svg class="map" style="display:block; height:70%; margin:0 auto; "></svg>
+        <abra style="display: block; width: 100%; height:30%; "></abra>
         `,
     providers: [SocketIO],
     directives: [room_table]
@@ -33,14 +33,7 @@ export class MapComponent implements OnInit {
 
 
     static setStyles() {
-        var map_height = 70;
-        var abra_height = 100-map_height;
-
-        var abraStyle= "height:" +abra_height +"%;";
-
-        var map = d3.select(".map").style("height", map_height + "%" );
-        d3.select("abra").attr("style", abraStyle);
-
+        var map = d3.select(".map");
         this.scaleSVG(map,90,100,[0,0,1000,700]);
     }
 

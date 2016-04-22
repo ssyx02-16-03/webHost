@@ -90,13 +90,13 @@ export class changeTable implements OnInit {
     private static generateHeaders(thead,headerNames,headerStyle){
       var headers = thead.append('tr');
       for(var i=0; i<headerNames.length; i++){
-        headers.append('th').text(headerNames[i]).attr("style", headerStyle);
+        headers.append('th').text(headerNames[i])
+          .attr("style", headerStyle);
       }
 
     }
 
     private static generateEmptyRows(tbody, data, rowStyle) {
-
         var odd = true;
         var rows = tbody.selectAll('tr')
             .data(data)
