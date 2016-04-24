@@ -71,9 +71,9 @@ function paintCardHolders(){
 //make things happen
 function refreshCards(divs,data){
   var cards = updateCards(data);
-  paintWaitingList(divs.waitingDiv, cards[Location.innerWaitRoom]);
-  paintOtherCards(divs.othersDiv, cards[Location.other]);
   paintSquareCards(divs.squareDiv, cards[Location.square]);
+  paintCardsLoop(divs.waitingDiv,waitCols,"Väntrum",cards[Location.innerWaitRoom]);
+  paintCardsLoop(divs.othersDiv,otherCols,"Övriga",cards[Location.other]);
 }
 
 //instance each card and collect them in an ojbect
@@ -92,16 +92,7 @@ function updateCards(data){
   return cards;
 }
 
-//paint all the cards:
-function paintWaitingList(grandParent,cards) {
-  listCardsLoop(grandParent,waitCols,"Väntrum",cards);
-}
-
-function paintOtherCards(grandParent,cards){
-  listCardsLoop(grandParent,otherCols,"Övriga",cards);
-}
-
-function listCardsLoop(grandParent,nColumns:number,title:string,cards ){
+function paintCardsLoop(grandParent,nColumns:number,title:string,cards ){
   grandParent.selectAll("*").remove(); //remove old stuff
 
   var cardStyle = "height: 23%; width:" +100 +"%;"
@@ -134,7 +125,6 @@ function listCardsLoop(grandParent,nColumns:number,title:string,cards ){
   }
 }
 
-
 function paintSquareCards(grandParent,roomCards){
   grandParent.selectAll("*").remove(); //remove old stuff
 
@@ -147,7 +137,7 @@ function paintSquareCards(grandParent,roomCards){
   var color = ""; //"background-color:;"
   var columnStyle = "width: 20%; height: 64%;" +color;
 
-var padding = "padding:0.5%;";
+  var padding = "padding:0.5%;";
   var topRowDiv = grandParent.append("div")
                   .attr("style","width: 100%; height: 32%;" +padding);
   var leftColumnDiv = grandParent.append("div")
@@ -161,19 +151,33 @@ var padding = "padding:0.5%;";
       sortedCards[card.room_nr] = card;
   }
   // top row
-  paintCardRow(card_holders.topRow, sortedCards, topRowDiv, cardStyle + "height: 100%;"+ cssCalcWidth(20,-3) + "margin-right:3px;");
+  paintCardRow(card_holders.topRow, sortedCards, topRowDiv, false, cardStyle + "height: 100%;"+ cssCalcWidth(20,-3) + "margin-right:3px;");
   //left column
-  paintCardRow(card_holders.leftCol, sortedCards ,leftColumnDiv,  cardStyle + "height: 50%;");
+  paintCardRow(card_holders.leftCol, sortedCards ,leftColumnDiv,  true, cardStyle + "height: 50%;");
   //right column
-  paintCardRow(card_holders.rightCol, sortedCards ,rightColumnDiv,  cardStyle + "height: 50%;");
+  paintCardRow(card_holders.rightCol, sortedCards ,rightColumnDiv, false,  cardStyle + "height: 50%;");
 
-  function paintCardRow(card_holders, cards, parentDiv, cardStyle:string){
+  function paintCardRow(card_holders, cards, parentDiv, inverted:boolean, cardStyle:string){
     var keys = Object.keys(card_holders);
+
+    if(inverted){
+      keys = reverse(keys);
+    }
     for(var i=0; i<keys.length; i++){
       var thisRoom = card_holders[keys[i]];
         paintCardOrDummy(thisRoom, cards[keys[i]], parentDiv, cardStyle);
     }
+
+    function reverse(object){
+      var array = Array();
+      for(var i=0; object.length > 0; i++){
+        array[i] = object.pop();
+      }
+      return array;
+    }
   }
+
+
 
   function paintCardOrDummy(roomName:string, card:Card, parent, cardStyle:string){
       if(card == null){  paintDummyCard(roomName,parent,cardStyle);
@@ -258,6 +262,9 @@ function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside 
   var status = tr.append("td").attr("style",cellStyle).text(patientCard.doctorName);
 
 }
+
+
+
 
 function cssCalcWidth(percent:number,pixels:number){
   return "width: -moz-calc(" +percent +"% + " +pixels +"px);"
@@ -355,8 +362,8 @@ var triageStatus = {
 
 var card_holders = {
   leftCol: {
-    19 : "B19",
-    20 : "B20"
+    20 : "B20",
+    19 : "B19"
   },
   topRow : {
     21 : "B21",
@@ -460,7 +467,7 @@ var patients =
         {
             "Priority":"Yellow",
             "arrival_time_of_day":"07:08",
-            "room":"27",
+            "room":"B27",
             "name":"Sjöko Ekström",
             "last_event":{
                 "guidelines_exceeded":false,
