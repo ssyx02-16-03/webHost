@@ -21,3 +21,15 @@ h2 {
   font-family: clockFont;
   font-weight: 400;
 }
+
+#clock_table{
+  text-align: center;
+  font-size:130px;
+  color: #424242;
+  line-height: 0%;
+  background-color:dark-gray;
+  border-color: #C2C2C2;
+  border-width: 3px;
+  border-style: solid;"
+  style="text-align:center;
+}

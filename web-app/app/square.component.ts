@@ -49,7 +49,7 @@ export class SquareComponent implements OnInit{
 
         //--INSIDE RIGHT DIV
         var clock = rightDiv.select('clock_coord')
-            .attr("style","display:block; float:right; width:80%; height:10%;" +border);
+            .attr("style","display:block; float:right; width:100%; height:10%;" +border);
 
         var medbarchart = rightDiv.select('medbarchart')
             .attr("style", "display:block; float:right; clear:both; width:100%; height: 50%;" +border);

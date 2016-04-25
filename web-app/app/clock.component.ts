@@ -6,39 +6,49 @@ import {SocketIO} from './socket-io';
 @Component({
     selector: 'clock_coord',
     template: `
-        <svg class="clock" width="350" height="100"></svg>
-        `,
+        <div class="clock" style="width:300px; height:100%; margin:0 auto;">
+          <table id="clock_table" style="width:100%; height:100%;" >
+            <tbody>
+              <tr>
+              <td id="clock_hours1"> </td>
+              <td id="clock_hours2"> </td>
+              <td id="clock_colon">:</td>
+              <td id="clock_minutes1"> </td>
+              <td id="clock_minutes2"> </td>
+              </tr>
+            <tbody>
+          </table>
+        </div> `,
     providers: [SocketIO]
 })
 
 export class Clock implements OnInit {
 
-    static svgClass = '.clock';
+    static clockTable:string = "#clock_table";
     static chart;
-    static minute;
-
-
+    static minute:number;
 
     ngOnInit() {
         Clock.loop();
     }
 
     static loop() {
-        var obj = d3.select(this.svgClass).select("*"); //already there?
-        var hour = new Date().getHours();
-        var minute = new Date().getMinutes();
-        if(this.minute != minute || obj[0][0]==null){
+        var obj = document.getElementById('clock_colon'); //object already there?
+        var hour:number = new Date().getHours();
+        var minute:number = new Date().getMinutes();
+        if(this.minute != minute || obj == null){
           this.minute = minute;
-          var parsed_hour = hour < 10 ? "0"+String(hour): String(hour);
-          var parsed_min = minute < 10 ? "0"+String(minute): String(minute);
-          var second = new Date().getSeconds();
-          Clock.draw(String(parsed_hour) + ":" + String(parsed_min));
+          var clockArray:number[] = [];
+          clockArray[0] = Math.floor(hour/10);
+          clockArray[1] = hour%10;
+          clockArray[2] = Math.floor(minute/10);
+          clockArray[3] = minute%10;
+          Clock.draw(clockArray);
         }
         setTimeout(function(){ Clock.loop(); }, 1000); // clock calls self once per second
     }
 
-    static draw(data) {
-
+    static draw(dataArray:number[]) {
         var scale = 1.0; // scale factor of clock
         var x = 7;      // pixel coordinate, sorry
         var y = 7;      // also pixel coordinate
@@ -49,9 +59,20 @@ export class Clock implements OnInit {
 
         var borderwidth = 2;
         var font_size = 80;
-        this.chart = d3.select(this.svgClass);
-        this.chart.selectAll("*").remove();
+        this.chart = document.getElementById(Clock.clockTable);
 
+        var cells:HTMLElement[] = [];
+        cells[0] = document.getElementById("clock_hours1");
+        cells[1] =  document.getElementById("clock_hours2");
+        cells[2] =  document.getElementById("clock_minutes1");
+        cells[3] =  document.getElementById("clock_minutes2");
+
+        for(var i =0; i < 4; i++){
+          cells[i].innerText = String(dataArray[i])
+        }
+
+
+        /*
         this.chart.append("rect") //draws the border rectangle
             .attr("x", x )
             .attr("y", y )
@@ -69,15 +90,8 @@ export class Clock implements OnInit {
             .attr("text-anchor","middle") //x position
             .attr("alignment-baseline","middle") //y position
             .text(data);
-
+        */
 
     }
-
-
-
-//    dummyCard.attr("style", cardStyle
-//+"background-color:gray;"
-//+"border-style:solid; border-width:2px; border-color:white;");
-
 
 }
