@@ -8,40 +8,27 @@ import {Component} from 'angular2/core';
 
 import * as d3 from 'd3';
 
-
-
 @Component({
     selector: 'barchart_coordinator',
     template: `
-        <h2 id="hej1337">Patienter totalt: </h2>
-        <!--<header class="header" style="width:100%; height:10%; font-size:100%; padding-left:5%; ">Stapeldiagram</header>-->
-		<svg class='baarchart' style="width:100%; height:90%;"></svg>
+        <h2 id="barchart_coord_header">Patienter totalt: </h2>
+		    <svg class='baarchart' style="width:100%; height:90%;"></svg>
 		`,
     styleUrls: ['app/globalcss/style.css']
 })
+//<!--<header class="header" style="width:100%; height:10%; font-size:100%; padding-left:5%; ">Stapeldiagram</header>-->
 
 export class barchart_coordinator {
-
     // tydligen funkar inte data.red-formatet när man ska kommunicera utifrån, måste köra data['red']
 
     public static draw(jsonData) {
-
-        var total = 0;
+        var total:number = 0;
         var data = jsonData;
         for (var i = 0; i < data.length; i++) {
             total += data[i]['total_patients'];
         }
-        document.getElementById("hej1337").innerHTML = "Patienter totalt: " + total;
-
-        //var header = d3.select("#hej1337")
-        //        .append("text")
-        //        .data(jsonData)
-        //        .text("Patienter totalt: " + total);
-        //var text = header.append("text")
-        //    .data(jsonData)
-        //    .text("Patientfördelning: " + total)
-        //    .style("font-size", "20px")
-        //    .style("font-weight", "bold");
+        var header:HTMLElement = document.getElementById('barchart_coord_header');
+        header.innerText = "Patienter totalt: " + total;
 
         var color = ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]); //finns enbart med för att loopen i legend ska bli rätt..
 

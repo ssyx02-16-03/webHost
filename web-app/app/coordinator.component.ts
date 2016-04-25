@@ -7,6 +7,7 @@ import {TrendDiagrams} from './trend_diagrams/trend_diagrams.component';
 import {MapComponent} from './map.component';
 import {barchart_coordinatorComponent} from './barchart_coordinator.component';
 import {Clock} from "./clock.component";
+import {BrokenNotifier} from './broken_data_notifier';
 
 @Component({
     template: `
@@ -17,8 +18,9 @@ import {Clock} from "./clock.component";
             <map></map>
             <trend-diagrams></trend-diagrams>
         </placeholder_coordinator>
+        <brokenData></brokenData>
         `,
-    directives: [Clock, TrendDiagrams, MapComponent, barchart_coordinatorComponent]
+    directives: [Clock, TrendDiagrams, MapComponent, barchart_coordinatorComponent,BrokenNotifier]
 })
 
 export class Coordinator implements OnInit{

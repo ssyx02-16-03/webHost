@@ -18,6 +18,7 @@ import {Faces} from "./faces.component.ts";
 import {Coordinator} from "./coordinator.component.ts";
 import {SquareComponent} from "./square.component.ts";
 import {Clock} from "./clock.component";
+import {BrokenNotifier} from './broken_data_notifier';
 
 
 
@@ -46,4 +47,6 @@ var TESTS = [
     {'component': D3ArgPatientComponent, 'name': "D3 arg patient", 'path': './angry-patient'},
     {'component': PassivareComponent, 'name': "PassivareComp", 'path': "/passivvvisto"},
     {'component': BootstrapTestComponent, 'name': "Bootstrap-test", "path": "/bootstrap"},
+    {'component': BrokenNotifier, 'name' : "BrokenData", 'path':'/broken' },
+
 ];

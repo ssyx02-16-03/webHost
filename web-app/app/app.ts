@@ -7,6 +7,7 @@ import {RouteConfig, Route, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/
 
 import {COMPONENTS} from './components';
 
+
 @Component({
     selector: 'app',
     template: `
@@ -36,41 +37,41 @@ import {COMPONENTS} from './components';
 export class App {
 
 	title = 'Intelligenta akutmottagningen';
-        fullsreen = false;
+  static fullscreen:boolean = false;
 
 	// *ngFor wants this
 	components = COMPONENTS;
 
-        hej() {
-            console.log("hej");
-        }
+  hej() {
+      console.log("hej");
+  }
 
-        toggleFullScreen() {
-          if (!document.fullscreenElement &&    // alternative standard method
-              !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
-            this.fullscreen = true;
-            if (document.documentElement.requestFullscreen) {
-              document.documentElement.requestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) {
-              document.documentElement.msRequestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) {
-              document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) {
-              document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-            }
-          } //else {
-           // this.fullscreen = false;
-           // if (document.exitFullscreen) {
-           //   document.exitFullscreen();
-           // } else if (document.msExitFullscreen) {
-           //   document.msExitFullscreen();
-           // } else if (document.mozCancelFullScreen) {
-           //   document.mozCancelFullScreen();
-           // } else if (document.webkitExitFullscreen) {
-           //   document.webkitExitFullscreen();
-           // }
-          }
+  toggleFullScreen() {
+      if (!document.fullscreenElement &&    // alternative standard method
+          !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
+        this.fullscreen = true;
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+          document.documentElement.msRequestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+          document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
         }
+      } //else {
+       // this.fullscreen = false;
+       // if (document.exitFullscreen) {
+       //   document.exitFullscreen();
+       // } else if (document.msExitFullscreen) {
+       //   document.msExitFullscreen();
+       // } else if (document.mozCancelFullScreen) {
+       //   document.mozCancelFullScreen();
+       // } else if (document.webkitExitFullscreen) {
+       //   document.webkitExitFullscreen();
+       // }
+      //}
+    }
 }
 
 function getRoutes(): Route[] {

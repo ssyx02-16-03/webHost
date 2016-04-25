@@ -22,7 +22,17 @@ h2 {
   font-weight: 400;
 }
 
-#clock_table{
+#broken_data_notifier{
+  display:none;
+  width:50%;
+  height:50%;
+  position:absolute;
+  top:0px;
+  opacity: 1;
+  background-color: #ffa1ea;
+}
+
+table#clock_table{
   text-align: center;
   font-size:130px;
   color: #424242;
@@ -33,3 +43,6 @@ h2 {
   border-style: solid;"
   style="text-align:center;
 }
+  table#clock_table td{
+    width: 20%
+  }

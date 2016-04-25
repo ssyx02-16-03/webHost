@@ -8,6 +8,7 @@ import {Faces} from './faces.component';
 import {barchart_medicinComponent} from './barchart_medicin.component';
 import {changeTable} from "./changeTable.component";
 import {Clock} from "./clock.component";
+import {BrokenNotifier} from './broken_data_notifier';
 
 @Component({
     template: `
@@ -21,8 +22,9 @@ import {Clock} from "./clock.component";
             </rightDiv>
             <squareCards></squareCards>
         </placeholder>
+        <brokenData><brokenData>
         `,
-    directives: [Clock, Faces, SquarePatients, changeTable, barchart_medicinComponent]
+    directives: [Clock, Faces, SquarePatients, changeTable, barchart_medicinComponent,BrokenNotifier]
 })
 
 export class SquareComponent implements OnInit{

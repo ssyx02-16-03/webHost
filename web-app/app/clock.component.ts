@@ -3,6 +3,8 @@ import {Component, OnInit} from 'angular2/core';
 import * as d3 from 'd3';
 import {SocketIO} from './socket-io';
 
+
+//NOTE: styles set in globalcss/style.css
 @Component({
     selector: 'clock_coord',
     template: `
@@ -25,7 +27,6 @@ import {SocketIO} from './socket-io';
 export class Clock implements OnInit {
 
     static clockTable:string = "#clock_table";
-    static chart;
     static minute:number;
 
     ngOnInit() {
@@ -33,10 +34,16 @@ export class Clock implements OnInit {
     }
 
     static loop() {
-        var obj = document.getElementById('clock_colon'); //object already there?
+        var obj:HTMLElement = document.getElementById('clock_hours1'); //object already there?
+        var innerText = "";
+        if(obj == null){
+          return;
+        }
+        innerText = obj.innerText;
         var hour:number = new Date().getHours();
         var minute:number = new Date().getMinutes();
-        if(this.minute != minute || obj == null){
+        //var hour:number new Date().getSeconds(); //fulfix, bra för att kolla beteende
+        if(this.minute != minute || innerText == ""){
           this.minute = minute;
           var clockArray:number[] = [];
           clockArray[0] = Math.floor(hour/10);
@@ -59,7 +66,6 @@ export class Clock implements OnInit {
 
         var borderwidth = 2;
         var font_size = 80;
-        this.chart = document.getElementById(Clock.clockTable);
 
         var cells:HTMLElement[] = [];
         cells[0] = document.getElementById("clock_hours1");
