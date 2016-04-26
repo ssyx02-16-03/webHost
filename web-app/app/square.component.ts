@@ -20,7 +20,6 @@ import {BrokenNotifier} from './broken_data_notifier';
                 <medbarchart></medbarchart>
                 <latestTable></latestTable>
             </rightDiv>
-            <squareCards></squareCards>
         </placeholder>
         <brokenData><brokenData>
         `,
