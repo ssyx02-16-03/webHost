@@ -8,6 +8,9 @@
     src: url(/app/fonts/Comfortaa_Regular.ttf);
 }
 
+body{
+  background-color: #e6e6e6;
+}
 
 h2 {
     clear: both;
@@ -16,6 +19,13 @@ h2 {
     padding-bottom: 10px;
 }
 
+/*the main big div!*/
+.placeholder{
+  margin:0 auto;
+  height:1080px;
+  width:1920px;
+  background-color: #e6e6e6;
+}
 
 .clock {
   font-family: clockFont;

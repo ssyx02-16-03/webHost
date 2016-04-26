@@ -43,13 +43,24 @@
     display: inline-block;
   }
 
+ /*triage colors*/
+  li.patientCard.red{ background-color: #FF0000; }
+  li.patientCard.orange{ background-color: #FF8C00; }
+  li.patientCard.yellow{  background-color: #FFFF00; }
+  li.patientCard.green{ background-color: #5FCC00; }
+  li.patientCard.blue{ background-color: #0040FF; }
+  li.patientCard.white{ background-color: #ffffff; }
+
   li.patientCard.attention{
     box-shadow: 0px 0px 0px 5px black inset;
     padding: 5px;
   }
+  .patientCard p{
+    font-size: 200%; 
+  }
 
   .patientCard.dummy{
-    background-color:gray;
+    background-color:#bfbfbf; /*gray*/
     box-shadow: 0px 0px 0px 4px white inset;
     border: gray 1px solid;
   }
@@ -60,6 +71,48 @@
       color: white;
       font-weight:bold;
     }
+
+    /*table styling*/
+  li.patientCard td{
+    border:none;
+  }
+
+  .patientCard img.done{
+    display: block;
+    float:left;
+    padding-right:5px;
+    width: 33px;
+    height: 33px;
+    background: url(/app/icons/Done.svg);
+  }
+
+  .patientCard img.doctor{
+    display: block;
+    float:left;
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    background: url(/app/icons/Doctor.svg);
+  }
+
+  .patientCard img.waitClock{
+    display: block;
+    float:left;
+    margin-right: 5px;
+    width: 25px;
+    height: 25px;
+    background: url(/app/icons/Waiting_time.svg);
+  }
+
+  .patientCard img.arrivalClock{
+    display: block;
+    float:left;
+    margin-right: 5px;
+    width: 25px;
+    height: 25px;
+    background: url(/app/icons/Arrival_time.svg);
+  }
+
 
 /* patient waiting and others */
 ul.cardList{

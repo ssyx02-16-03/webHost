@@ -32,7 +32,8 @@ export class SquareComponent implements OnInit{
         var border = "border:solid 1px #E0E0E0;";
 
         var placehold = d3.select("placeholder");
-        placehold.attr("style","display:block; width:1920px; height:1080px; position:relative;" +backgroundC);
+        placehold.attr("style","display:block; position:relative;");
+        placehold.attr("class","placeholder");
 
         //--RIGHT AND LEFT DIV
         var squareCards = placehold.select("squareCards");

@@ -179,19 +179,18 @@ function paintDummyCard(roomName:string,parent,cardStyle){
 
 function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside parent
   var card1 = parent.append("li")
-      .attr("style", cardStyle
-          + "background-color:" +patientCard.triage +";")
-      .attr("class","patientCard");
+      .attr("style", cardStyle)
+      .attr("class","patientCard "+patientCard.triage);
 
   if(patientCard.needsAttention){
-      card1.attr("class","patientCard attention");
+      card1.attr("class","patientCard attention " +patientCard.triage);
   }
 
   var upperContainer = card1.append("div").attr("style","width:100%; height:50%;");
   //Room nr
   var roomNr = upperContainer.append("p")
       .text(patientCard.room)
-      .attr("style", "float:left; display:block; font-size: 150%; padding:5px; margin:0px; max-width:40%");
+      .attr("style", "float:left; display:block; padding:5px; margin:0px; max-width:40%");
 
   //patient name
   var nameAndNumberStyle = "text-align:right; font-size:150%; min-width: 50%;"
@@ -208,10 +207,9 @@ function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside 
       .attr("style", nameAndNumberStyle
           +" margin: 2px 2px 0 0;"); //margin: top right bot left
 
-
   //info table: styles
   var rowStyle = "height:50%;";
-  var borderStyle = " border-style: solid; border-width: 1px; border-color: gray; ";
+  var borderStyle = ""; //" border-style: solid; border-width: 1px; border-color: gray; ";
   var cellStyle = " font-size: 130%; padding:1%; width:50%; background-color:rgba(255,255,255,0.5);" +borderStyle;
 
   //info table: draw table
@@ -221,16 +219,21 @@ function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside 
   //info table: draw rows and cells
   var tr = tbody.append("tr").attr("style",rowStyle);
   var arrival = tr.append("td").attr("style",cellStyle).text(patientCard.arrivalTime);
+  arrival.append("img").attr("class","arrivalClock");
   var careClock = tr.append("td").attr("style",cellStyle).text(patientCard.lastAttention +" min");
+  careClock.append("img").attr("class","waitClock");
   tr = tbody.append("tr").attr("style",rowStyle);
   var lastEvent = tr.append("td").attr("style",cellStyle).text(patientCard.lastEvent);
   var status = tr.append("td").attr("style",cellStyle).text(patientCard.doctorName);
+  if(patientCard.isDone){
+    status.append("img").attr("class","done");
+  }else if(patientCard.hasDoctor){
+    status.append("img").attr("class","doctor");
+  }
 
 }
 
-
-
-
+//not used atm
 function cssCalcWidth(percent:number,pixels:number){
   return "width: -moz-calc(" +percent +"% + " +pixels +"px);"
   + "width: -webkit-calc(" +percent +"% + " +pixels +"px);"
@@ -250,6 +253,8 @@ class Card{
     lastAttention:number;
     lastEvent:string;
     doctorName:string;
+    isDone:boolean;
+    hasDoctor:boolean;
 
     constructor(jsonObject){
         this.determineLocation(jsonObject['room']);
@@ -260,9 +265,26 @@ class Card{
         this.needsAttention = jsonObject['last_event']['guidelines_exceeded'];
         this.lastAttention = jsonObject['last_event']['minutes_since'];
         this.lastEvent = jsonObject['last_event']['name'];
-        this.doctorName = jsonObject['doctor_name'];
+        this.determineDoctorOrDone(jsonObject['doctor_name']);
     }
-
+    determineDoctorOrDone(jsonDoctorName){
+      switch(jsonDoctorName){
+          case 'klar':
+          case 'Klar':
+            this.doctorName = 'Klar';
+            this.isDone = true;
+            this.hasDoctor = false;
+            break;
+          case null:
+            this.hasDoctor = false;
+            this.isDone = false;
+            break;
+          default:
+            this.doctorName = jsonDoctorName;
+            this.hasDoctor = true;
+            this.isDone = false;
+      }
+    }
 
     determineTriage(jsonPriority){
         switch (jsonPriority){
