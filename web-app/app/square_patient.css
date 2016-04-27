@@ -81,8 +81,8 @@
     display: block;
     float:left;
     padding-right:5px;
-    width: 33px;
-    height: 33px;
+    width: 28px;
+    height: 28px;
     background: url(/app/icons/Done.svg);
   }
 
@@ -90,8 +90,8 @@
     display: block;
     float:left;
     margin-right: 5px;
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
     background: url(/app/icons/Doctor.svg);
   }
 
@@ -99,8 +99,8 @@
     display: block;
     float:left;
     margin-right: 5px;
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
     background: url(/app/icons/Waiting_time.svg);
   }
 
@@ -108,8 +108,8 @@
     display: block;
     float:left;
     margin-right: 5px;
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
     background: url(/app/icons/Arrival_time.svg);
   }
 
