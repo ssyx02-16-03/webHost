@@ -5,6 +5,7 @@
  */
 
 import {Component} from 'angular2/core';
+import {Barchart,Block} from './barchart_abstract';
 
 import * as d3 from 'd3';
 
@@ -19,8 +20,6 @@ import * as d3 from 'd3';
 //<!--<header class="header" style="width:100%; height:10%; font-size:100%; padding-left:5%; ">Stapeldiagram</header>-->
 
 export class barchart_coordinator {
-    // tydligen funkar inte data.red-formatet när man ska kommunicera utifrån, måste köra data['red']
-
     public static draw(jsonData) {
         var total:number = 0;
         var data = jsonData;
@@ -30,20 +29,8 @@ export class barchart_coordinator {
         var header:HTMLElement = document.getElementById('barchart_coord_header');
         header.innerText = "Patienter totalt: " + total;
 
-        var color = ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]); //finns enbart med för att loopen i legend ska bli rätt..
-
-        var color_hash = { //gör om så att den matchar jsonfilen och fixa till stapeln på untriaged
-            0: ["incoming", "lightgrey"],
-            1: ["påhas_doctor", "lightgrey"],
-            2: ["opåhas_doctor", "grey"],
-            3: ["klar", "black"],
-            4: ["blå", "blue"],
-            5: ["grön", "green"],
-            6: ["gul", "yellow"],
-            7: ["orange", "orange"],
-            8: ["röd", "red"],
-            9: ["ej triagerade", "brown"]
-        };
+        var color = [0,1,2,3,4,5,6,7,8,9];
+        var color_hash = Barchart.getCoordColors();
 
         var max = d3.max(jsonData, function (d) {
             return d['total_patients'];
@@ -72,7 +59,6 @@ export class barchart_coordinator {
         var y = d3.scale.linear()
             .range([chartHeight, 0])
             .domain([0, max]);
-
 
         //Axis
         var xAxis = d3.svg.axis()
@@ -146,6 +132,7 @@ export class barchart_coordinator {
                     .text(color_hash[i][0]);
             });
 
+
         //Total siffra
         bar.append("text")
             .attr("x", function (d, i) {
@@ -160,305 +147,54 @@ export class barchart_coordinator {
             .attr("font-size", fontSize * 1.2)
             .attr("font-weight", "bold");
 
-        //untriaged
-
-        bar.append("rect")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace - barWidth;
-            })
-            .attr("y", function (d) {
-                return y(d['untriaged']);
-            })
-            .attr("height", function (d) {
-                return chartHeight - y(d['untriaged']);
-            })
-            .attr("width", barWidth * 2)
-            .attr("fill", color_hash[String(9)][1]);
-
-        bar.append("text")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace - barWidth;
-            })
-            .attr("y", function (d) {
-                if (d['untriaged'] != 0) {
-                    return y(d['untriaged']) + fontSize;
-                }
-            })
-            .text(function (d) {
-                if (d['untriaged'] != 0) {
-                    return d['untriaged'];
-                }
-            })
-            .attr("font-size", fontSize);
 
 
-        //incoming
-        bar.append("rect")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace - barWidth;
-            })
-            .attr("y", function (d) {
-                return y(d['incoming']) - chartHeight + y(d['has_doctor']) - chartHeight + y(d['no_doctor']) - chartHeight + y(d['klar']);
-            })
-            .attr("height", function (d) {
-                return chartHeight - y(d['incoming']);
-            })
-            .attr("width", 2 * barWidth)
-            .style("stroke-dasharray", ("8, 8"))
-            .style("stroke", color_hash[String(0)][1])
-            .style("fill", "none")
-            .style("stroke-width", "3px");
+        var barBox = bar.append("g")
+            .attr("class","chartArea");
 
-        bar.append("text")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace - barWidth;
-            })
-            .attr("y", function (d) {
-                return y(d['incoming']) - chartHeight + y(d['has_doctor']) - chartHeight + y(d['no_doctor']) - chartHeight + y(d['klar']) + fontSize;
-            })
-            .text(function (d) {
-                if (d['incoming'] != 0) {
-                    return d['incoming'];
-                }
-            })
-            .attr("font-size", fontSize);
+          //untriaged
+        var i = 0;
+        var noTriage = [];
+        noTriage[0] = jsonData[i]['untriaged'];
+        var xCoord = (2*i+1) * barSpace - barWidth;
+        Block lastBox = Block.drawPile(noTriage,barBox,y, chartHeight, barWidth*2, xCoord, 9,color_hash);
+        lastBox.setFontColor("white");
 
+        //the rest
+        for(var i=1; i<jsonData.length; i++){
+          paintBlocks(jsonData,i,barBox,y,chartHeight,barWidth,color_hash);
+        }
 
-        //Opåhas_doctor
-        bar.append("rect")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace - barWidth;
-            })
-            .attr("y", function (d) {
-                return y(d['no_doctor']);
-            })
-            .attr("height", function (d) {
-                return chartHeight - y(d['no_doctor']);
-            })
-            .attr("width", barWidth)
-            .attr("fill", color_hash[String(2)][1]);
+        function strokeEffect(svg){
+           svg.style("fill", "none")
+               .style("stroke", this.color_hash[0][1])
+               .style("stroke-dasharray", ("2, 2"))
+               .style("stroke-width", "1.75px");
+         }
 
-        bar.append("text")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace - barWidth;
-            })
-            .attr("y", function (d) {
-                return y(d['no_doctor']) + fontSize;
-            })
-            .text(function (d) {
-                if (d['no_doctor'] != 0) {
-                    return d['no_doctor'];
-                }
-            })
-            .attr("font-size", fontSize);
+        function paintBlocks(jsonData,i:number,parent,y,chartHeight,barWidth,color_hash){
+          var medBlue_triage = [];
+          var medBlue_status = [];
+          var xCoord = (2*i+1) * barSpace -barWidth;
 
+          jsonData = jsonData[i];
+          medBlue_status[0] = jsonData.no_doctor;
+          medBlue_status[1] = jsonData.has_doctor;
+          medBlue_status[2] = jsonData.klar;
+          Block firstBox = Block.drawPile(medBlue_status,parent,y, chartHeight, barWidth, xCoord, 1, color_hash);
 
-        //Påhas_doctor
-        bar.append("rect")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace - barWidth;
-            })
-            .attr("y", function (d) {
-                return y(d['has_doctor']) - chartHeight + y(d['no_doctor']);
-            })
-            .attr("height", function (d) {
-                return chartHeight - y(d['has_doctor']);
-            })
-            .attr("width", barWidth)
-            .attr("fill", color_hash[String(1)][1]);
+          xCoord = (2*i+1) * barSpace;
+          medBlue_triage[0] = jsonData.blue;
+          medBlue_triage[1] = jsonData.green;
+          medBlue_triage[2] = jsonData.yellow;
+          medBlue_triage[3]  = jsonData.orange;
+          medBlue_triage[4]  = jsonData.red;
+          Block.drawPile(medBlue_triage,parent,y, chartHeight, barWidth, xCoord, 4, color_hash);
 
-        bar.append("text")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace - barWidth;
-            })
-            .attr("y", function (d) {
-                if (d['has_doctor'] != 0) {
-                    return y(d['has_doctor']) - chartHeight + y(d['no_doctor']) + fontSize;
-                }
-            })
-            .text(function (d) {
-                if (d['has_doctor'] != 0) {
-                    return d['has_doctor'];
-                }
-            })
-            .attr("font-size", fontSize);
-
-
-        //klar
-        bar.append("rect")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace - barWidth;
-            })
-            .attr("y", function (d) {
-                return y(d['klar']) - chartHeight + y(d['has_doctor']) - chartHeight + y(d['no_doctor']);
-            })
-            .attr("height", function (d) {
-                return chartHeight - y(d['klar']);
-            })
-            .attr("width", barWidth)
-            .attr("fill", color_hash[String(3)][1]);
-
-        bar.append("text")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace - barWidth;
-            })
-            .attr("y", function (d) {
-                return y(d['klar']) - chartHeight + y(d['has_doctor']) - chartHeight + y(d['no_doctor']) + fontSize;
-            })
-            .text(function (d) {
-                if (d['klar'] != 0) {
-                    return d['klar'];
-                }
-            })
-            .attr("font-size", fontSize)
-            .attr("fill", "red");
-
-
-        //Blåa
-        bar.append("rect")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace;
-            })
-            .attr("y", function (d) {
-                return y(d['blue']);
-            })
-            .attr("height", function (d) {
-                return chartHeight - y(d['blue']);
-            })
-            .attr("width", barWidth)
-            .attr("fill", color_hash[String(4)][1]);
-
-        bar.append("text")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace;
-            })
-            .attr("y", function (d) {
-                return y(d['blue']) + fontSize;
-            })
-            .text(function (d) {
-                if (d['blue'] != 0) {
-                    return d['blue'];
-                }
-            })
-            .attr("font-size", fontSize)
-            .attr("fill", "black");
-
-        //Gröna
-        bar.append("rect")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace;
-            })
-            .attr("y", function (d) {
-                return y(d['green']) - chartHeight + y(d['blue']);
-            })
-            .attr("height", function (d) {
-                return chartHeight - y(d['green']);
-            })
-            .attr("width", barWidth)
-            .attr("fill", color_hash[String(5)][1]);
-
-        bar.append("text")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace;
-            })
-            .attr("y", function (d) {
-                return y(d['green']) - chartHeight + y(d['blue']) + fontSize;
-            })
-            .text(function (d) {
-                if (d['green'] != 0) {
-                    return d['green'];
-                }
-            })
-            .attr("font-size", fontSize)
-            .attr("fill", "black");
-
-        //Gula
-        bar.append("rect")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace;
-            })
-            .attr("y", function (d) {
-                return y(d['yellow']) - chartHeight + y(d['blue']) - chartHeight + y(d['green']);
-            })
-            .attr("height", function (d) {
-                return chartHeight - y(d['yellow']);
-            })
-            .attr("width", barWidth)
-            .attr("fill", color_hash[String(6)][1]);
-
-        bar.append("text")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace;
-            })
-            .attr("y", function (d) {
-                return y(d['yellow']) - chartHeight + y(d['blue']) - chartHeight + y(d['green']) + fontSize;
-            })
-            .text(function (d) {
-                if (d['yellow'] != 0) {
-                    return d['yellow'];
-                }
-            })
-            .attr("font-size", fontSize)
-            .attr("fill", "black");
-
-
-        //Orangea
-        bar.append("rect")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace;
-            })
-            .attr("y", function (d) {
-                return y(d['orange']) - chartHeight + y(d['blue']) - chartHeight + y(d['green']) - chartHeight + y(d['yellow']);
-            })
-            .attr("height", function (d) {
-                return chartHeight - y(d['orange']);
-            })
-            .attr("width", barWidth)
-            .attr("fill", color_hash[String(7)][1]);
-
-        bar.append("text")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace;
-            })
-            .attr("y", function (d) {
-                return y(d['orange']) - chartHeight + y(d['blue']) - chartHeight + y(d['green']) - chartHeight + y(d['yellow']) + fontSize;
-            })
-            .text(function (d) {
-                if (d['orange'] != 0) {
-                    return d['orange'];
-                }
-            })
-            .attr("font-size", fontSize)
-            .attr("fill", "black");
-
-        //Röda
-        bar.append("rect")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace;
-            })
-            .attr("y", function (d) {
-                return y(d['red']) - chartHeight + y(d['blue']) - chartHeight + y(d['green']) - chartHeight + y(d['yellow']) - chartHeight + y(d['orange']);
-            })
-            .attr("height", function (d) {
-                return chartHeight - y(d['red']);
-            })
-            .attr("width", barWidth)
-            .attr("fill", color_hash[String(8)][1]);
-
-        bar.append("text")
-            .attr("x", function (d, i) {
-                return (2 * i + 1) * barSpace;
-            })
-            .attr("y", function (d) {
-                return y(d['red']) - chartHeight + y(d['blue']) - chartHeight + y(d['green']) - chartHeight + y(d['yellow']) - chartHeight + y(d['orange']) + fontSize;
-            })
-            .text(function (d) {
-                if (d['red'] != 0) {
-                    return d['red'];
-                }
-            })
-            .attr("font-size", fontSize)
-            .attr("fill", "black");
+          var strokeHeight = chartHeight-y(jsonData.incoming);
+          var block = new Block(parent, firstBox.x, firstBox.y-strokeHeight, barWidth*2, strokeHeight, "none", jsonData.incoming);
+          block.stroke("white");
+        }
 
     }
 }

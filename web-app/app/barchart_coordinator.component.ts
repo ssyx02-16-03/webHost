@@ -78,8 +78,8 @@ export class barchart_coordinatorComponent implements OnInit {
             },
             { "division": "Ortoped", "incoming": 1, "has_doctor": 3, "no_doctor": 6, "klar": 0, "blue": 0, "green" :3, "yellow": 5, "orange":1, "red":0, "untriaged": 0, "total_patients": 10},
             { "division": "Jour", "incoming": 2, "has_doctor": 1, "no_doctor": 5, "klar":1, "blue": 0, "green" :1, "yellow": 3, "orange":3, "red":0, "untriaged": 0, "total_patients": 9}];
-        setTimeout(function(){   barchart_coordinator.draw(jsonData); }, 1000);
 
+        barchart_coordinator.draw(jsonData);  
         SocketIO.subscribe('bar_graphs', function(data) {
             this.jsonData = data['bars'];
             barchart_coordinator.draw(this.jsonData);

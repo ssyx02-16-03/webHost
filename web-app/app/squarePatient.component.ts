@@ -22,6 +22,7 @@ import {SocketIO} from './socket-io';
 export class SquarePatients implements OnInit{
     ngOnInit(){
         var divs = styleCardHolders();
+
         //listen to data
         SocketIO.subscribe('blue_side_overview', function(data){
           console.log(data);
@@ -64,6 +65,7 @@ function styleCardHolders(){
 function paintGrid(rows:number,cells:number){
     var gridMap = new Array(rows);
     var grid = d3.select('.grid');
+    grid.selectAll("*").remove(); //paint it all over again(not good);
 
     for(var r=0; r<rows; r++){
         var row = grid.append("div").attr("class","row").style("height",100/rows + "%");
@@ -78,7 +80,6 @@ function paintGrid(rows:number,cells:number){
 //make things happen
 function refreshCards(divs,data){
   var cards = updateCards(data);
-
   var grid = paintGrid(3,5);
   paintRoomCards(grid,cards[Location.square]);
   paintCardsLoop(divs.waitingDiv,waitCols,"Väntrum",cards[Location.innerWaitRoom]);

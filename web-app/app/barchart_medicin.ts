@@ -3,6 +3,7 @@
  */
 
 import {Component} from 'angular2/core';
+import {Barchart, Block} from './barchart_abstract';
 
 import * as d3 from 'd3';
 
@@ -10,12 +11,14 @@ import * as d3 from 'd3';
     selector: '.medbarchart',
     template: `
         <h3 id="barchart_totNumber" style="margin: 0 auto; height:10%; width:50%">Patientantal: </h3>
-		<svg class='barchart_medicine' style="display:block; margin:0 auto;"></svg>
+		    <svg class='barchart_medicine' style="display:block; margin:0 auto;"></svg>
 		`
 })
 
 
-export class barchart_medicin {
+export class barchart_medicin extends Barchart{
+  static color_hash = Barchart.getMedColors();
+  static staplar = (["Priofärg", "Läkarstatus", "Plats"]);
 
     private static scaleSVG(svg,width,height,endpoints){
         svg.attr("viewBox", endpoints[0] +" " +endpoints[1] +" " +endpoints[2] +" " +endpoints[3]);
@@ -28,7 +31,6 @@ export class barchart_medicin {
         var rawData= rawData.bars;
         for(var i=0; i< rawData.length; i++){
             if(rawData[i].division == "Medicin Blå"){
-                console.log("draw:", rawData[i]);
                 this.drawWithRefinedData(rawData[i]);
                 return;
             }
@@ -36,13 +38,14 @@ export class barchart_medicin {
     }
 
     public static drawWithRefinedData(jsonData) {
+        var color_hash = this.color_hash;
         var svg = d3.select(".barchart_medicine");
         this.scaleSVG(svg,90,90,[0,30,400,300]);
         d3.select(".barchart_p").style("width","80%");
 
         var nPatients = jsonData.total_patients;
 
-        h3_number = document.getElementById("barchart_totNumber");
+        var h3_number = document.getElementById("barchart_totNumber");
         h3_number.textContent = "Patientantal: "+nPatients;
 
         var max = nPatients;
@@ -56,12 +59,11 @@ export class barchart_medicin {
             legendSpace = height / 20,
             legendSize = legendSpace / 2;
 
-
         var chart = d3.select(".barchart_medicine");
         chart.selectAll("*").remove(); //delete garbage
 
         var x = d3.scale.ordinal()
-            .domain(staplar)
+            .domain(this.staplar)
             .rangeRoundBands([0, chartWidth], .1);
 
         var y = d3.scale.linear()
@@ -110,7 +112,7 @@ export class barchart_medicin {
             .attr("height", 100)
             .attr("width", 100);
 
-        keys = Object.keys(color_hash);
+        var keys = Object.keys(color_hash);
         legend.selectAll('g').data(keys)
             .enter()
             .append('g')
@@ -123,7 +125,7 @@ export class barchart_medicin {
                     .attr("width", legendSize)
                     .attr("height", legendSize);
                 if(i == 0) {
-                      strokeEffect(rect);
+                      //strokeEffect(rect);
                 } else {
                     rect.style("fill", color_hash[i][1]);
                 }
@@ -134,8 +136,8 @@ export class barchart_medicin {
                     .text(color_hash[i][0]);
             });
 
-          var barBox = bar.append("g")
-              .attr("id","chartArea");
+        var barBox = bar.append("g")
+            .attr("class","chartArea");
 
         // -----------TRIAGE STATUS ----------------------
         var triage = [];
@@ -146,15 +148,16 @@ export class barchart_medicin {
         triage[4]  = jsonData.red;
 
         var xCoord = 1 * barSpace - barWidth;
-        var lastBox = drawPile(triage,barBox,y, chartHeight,barWidth, xCoord, 4);
+        var lastBox = Block.drawPile(triage,barBox,y, chartHeight,barWidth, xCoord, 4,color_hash);
 
         //---------- INKOMMANDE
         var incoming:number = jsonData.incoming;
         var incWidth = barWidth+2*barSpace;
         var incHeight = chartHeight -y(incoming);
         var incColor = "";
+
         var block = new Block(barBox, lastBox.x, lastBox.y-incHeight, incWidth, incHeight, incColor, incoming);
-        strokeEffect(block.svgBlock);
+        block.sroke("white");
 
         //----------------------PATIENTSTATUS--------------------------
         var patientStatus = [];
@@ -163,7 +166,7 @@ export class barchart_medicin {
         patientStatus[2] = jsonData.klar;
 
         var xCoord = 2 * barSpace - barWidth;
-        drawPile(patientStatus, barBox, y,chartHeight,barWidth ,xCoord,1);
+        Block.drawPile(patientStatus, barBox, y,chartHeight,barWidth ,xCoord,1,color_hash);
 
         // -----------RUMSFÖRDELNING ----------------------
         var roomArray = [];
@@ -173,103 +176,6 @@ export class barchart_medicin {
         roomArray[3] = jsonData.rooms_elsewhere;
 
         var xCoord = 3 * barSpace - barWidth;
-        drawPile(roomArray, barBox, y, chartHeight, barWidth ,xCoord,9);
+        Block.drawPile(roomArray, barBox, y, chartHeight, barWidth ,xCoord,9,color_hash);
     }//draw()
-}
-
-function strokeEffect(svg){
-  svg.style("fill", "none")
-      .style("stroke", color_hash[0][1])
-      .style("stroke-dasharray", ("2, 2"))
-      .style("stroke-width", "1.75px");
-}
-
-function paintBlock(parent,x:number,y:number,width:number,height:number,color:string){
-  var block = parent.append("rect")
-      .attr("x", x)
-      .attr("y", y)
-      .attr("width", width)
-      .attr("height", height)
-      .attr("fill", color);
-  return block;
-}
-
-function paintText(parent,x,y,fontColor,fontSize,text){
-  var textField = parent.append("text")
-      .attr("x", x)
-      .attr("y", y + fontSize)
-      .attr("font-size", fontSize)
-      .attr("fill", fontColor)
-      .text(text);
-  return textField;
-}
-
-
-function drawPile(dataArray, parent, yAxis, chartHeight:number, barWidth:number, xCoord:number, colorOffset:number){
-    Block lastBox = null;
-    var yCoord = yAxis(dataArray[dataArray.length-1]);
-    for(var i=dataArray.length-1; i >= 0; i--){
-        var boxHeight = chartHeight-yAxis(dataArray[i]);
-        if(lastBox != null){
-            yCoord = lastBox.y-boxHeight;
-        }
-        lastBox = new Block(parent,
-          xCoord, yCoord,
-          barWidth, boxHeight, color_hash[i+colorOffset][1], dataArray[i]);
-    }
-    return lastBox;
-}
-
-var color_hash = {
-    0 : ["inkommande", "black"],
-    1 : ["opåtittade", "lightgrey"],
-    2 : ["påtittade", "grey"],
-    3 : ["klara", "black"],
-    4 : ["röd", "red"],
-    5:  ["orange", "orange"],
-    6:  ["gul", "yellow"],
-    7:  ["grön", "green"],
-    8:  ["blå", "blue"],
-    9:  ["annan plats", "#B0E2FF"],
-    10: ["undersökning", "#A4D3EE"],
-    11: ["inre väntrum", "#5D92B1"],
-    12: ["rum", "#236B8E"]
-};
-
-var staplar = (["Priofärg", "Läkarstatus", "Plats"]);
-
-class Block{
-    parent; //parent Div
-    x:number
-    y:number
-    width:number;
-    height:number;
-    fontSize:number;
-    color:string;
-    nOfPatients:number;
-
-    fontColor:string;
-    svgBlock; //blockDiv
-
-    constructor(parent,x,y, width:number,height:number,color:string, nOfPatients:number){
-        this.x = x;
-        this.y = y;
-        this.parent = parent;
-        this.width = width;
-        this.height = height;
-        this.fontSize = 11;
-        this.color = color;
-        this.nOfPatients = nOfPatients;
-        this.fontColor = "black";
-
-        if(this.color == this.fontColor){
-          this.fontColor = "white";
-        }
-
-        if(nOfPatients > 0){
-          this.svgBlock = paintBlock(parent,x,y,width,height,color);
-          paintText(parent,x,y,this.fontColor,this.fontSize,nOfPatients);
-        }
-        return this;
-    }
 }
