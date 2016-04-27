@@ -16,6 +16,7 @@ import * as d3 from 'd3';
 @Component({
     selector: 'map',
     template: `
+    <div style="position:relative;">
         <svg class="map" style="display:block; height:70%; margin:0 auto; "></svg>
         <abra style="display: block; width: 100%; height:30%; "></abra>
         <div id="joergen">
@@ -33,43 +34,45 @@ import * as d3 from 'd3';
             <h3 id="acu">Akutrum</h3>
             <h3 id="surg">Kirurgi</h3>
         </div>
+    </div>
         `,
     styles: [`
         #joergen h3 {
             position: absolute;
+            width:50%;
         }
         #inf {
-            left: 92px;
-            top: 100px;
+            left: 6%;
+            top: -2.5%;
         }
         #tri {
-            left: 208px;
-            top: 100px;
+            left: 15%;
+            top: -2.5%;
         }
         #medyel {
-            left: 380px;
-            top: 210px;
+            left: 27%;
+            top: 8.5%;
         }
         #medblu {
-            left: 380px;
-            top: 410px;
+            left: 27%;
+            top: 24.5%;
         }
         #jour {
             position: absolute;
-            left: 700px;
-            top: 260px;
+            left: 51.8%;
+            top: 10%;
         }
         #ort {
-            left: 815px;
-            top: 260px;
+            left: 58.5%;
+            top: 10%;
         }
         #acu {
-            left: 450px;
-            top: 700px;
+            left: 35%;
+            top: 51%;
         }
         #surg {
-            left: 792px;
-            top: 660px;
+            left: 58%;
+            top: 49%;
         }
         `],
     providers: [SocketIO],
