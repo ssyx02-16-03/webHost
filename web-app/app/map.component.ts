@@ -473,6 +473,9 @@ export class MapComponent implements OnInit {
         var room27: Room = this.drawRoomRow(room25,
             RelativePosition.NORTH, stdSpace, stdRoomWidth, stdRoomHeight, 'medicineBlue',7, RelativePosition.NORTH, 2);
 
+
+
+
         //----jour
         var room34: Room = this.drawRoomNextToRoom(room16,
             RelativePosition.EAST, stdSpace, stdRoomWidth, stdRoomHeight, 'jour',4);
@@ -606,34 +609,66 @@ class Room{
             color = departments[department];
             //determine color
         }else{
-            switch(roomDep){
-                case 'acute':
-                    color = roomColors.acute;
-                    break;
-                case 'infection':
-                    color = roomColors.infec;
-                    break;
-                case 'jour':
-                    color = roomColors.jour;
-                    break;
-                case 'medicineBlue':
-                    color = roomColors.medBlu;
-                    break;
-                case 'medicineYellow':
-                    color = roomColors.medYel;
-                    break;
-                case 'ort_cast':
-                case 'orthoped':
-                    color = roomColors.ort;
-                    break;
-                case 'surgery':
-                    color = roomColors.surg;
-                    break;
-                case 'triage':
-                    color = roomColors.triage;
-                    break;
+            console.log(this.occupied);
+            if(this.occupied) {
+                switch(roomDep){
+                    case 'acute':
+                        color = occupiedRoomColors.acute;
+                        break;
+                    case 'infection':
+                        color = occupiedRoomColors.infec;
+                        break;
+                    case 'jour':
+                        color = occupiedRoomColors.jour;
+                        break;
+                    case 'medicineBlue':
+                        color = occupiedRoomColors.medBlu;
+                        break;
+                    case 'medicineYellow':
+                        color = occupiedRoomColors.medYel;
+                        break;
+                    case 'ort_cast':
+                    case 'orthoped':
+                        color = occupiedRoomColors.ort;
+                        break;
+                    case 'surgery':
+                        color = occupiedRoomColors.surg;
+                        break;
+                    case 'triage':
+                        color = occupiedRoomColors.triage;
+                        break;
+                }
+            } else {
+                switch(roomDep){
+                    case 'acute':
+                        color = freeRoomColors.acute;
+                        break;
+                    case 'infection':
+                        color = freeRoomColors.infec;
+                        break;
+                    case 'jour':
+                        color = freeRoomColors.jour;
+                        break;
+                    case 'medicineBlue':
+                        color = freeRoomColors.medBlu;
+                        break;
+                    case 'medicineYellow':
+                        color = freeRoomColors.medYel;
+                        break;
+                    case 'ort_cast':
+                    case 'orthoped':
+                        color = freeRoomColors.ort;
+                        break;
+                    case 'surgery':
+                        color = freeRoomColors.surg;
+                        break;
+                    case 'triage':
+                        color = freeRoomColors.triage;
+                        break;
+                }
             }
         }
+        console.log(color);
 
         var svg = d3.select(htmlObject).append("svg");
 
@@ -663,8 +698,8 @@ class Room{
                 .attr("stroke", "white")
                 .style("fill", "red");
             */
-            rect.style("opacity", 0.65);
-        }else{
+            //rect.style("opacity", 0.65);
+        //}else{
             text.attr("font-weight","bold")
         }
     }
@@ -677,22 +712,50 @@ class Room{
      WEST
  };
 
- var roomColors = {
-     infec:"gray",
-     medYel:"yellow",
-     medBlu:"blue",
-     triage:"gray",
-     jour:"purple",
-     ort:"green",
-     surg:"red",
-     acute:"gray"
+ var freeRoomColors = {
+     infec:"#CFCECE",
+     medYel:"#EAD2AC",
+     medBlu:"#ACC6D1",
+     triage:"#CFCECE",
+     jour:"#C2B8D3",
+     ort:"#AED1AC",
+     surg:"#DBA7AC",
+     acute:"#CFCECE"
+ };
+ var occupiedRoomColors = {
+     infec:"#807F7F",
+     medYel:"#D3A32A",
+     medBlu:"#3D7299",
+     triage: "#807F7F",
+     jour:"#5A486D",
+     ort:"#346933",
+     surg:"#9C2726",
+     acute:"#807F7F"
  };
 
- var departments = {
-   default : "gray",
-   medicineBlue : roomColors.medBlu,
-   medicineYellow : roomColors.medYel,
-   surgery : roomColors.surg,
-   orthoped : roomColors.ort,
-   jour : roomColors.jour
- };
+ /*var departments = {
+     free : {
+         default : freeRoomColors.infec,
+         medicineBlue : freeRoomColors.medBlu,
+         medicineYellow : freeRoomColors.medYel,
+         surgery : freeRoomColors.surg,
+         orthoped : freeRoomColors.ort,
+         jour : freeRoomColors.jour
+     },
+     occupied : {
+         default : occupiedRoomColors.infec,
+         medicineBlue : occupiedRoomColors.medBlu,
+         medicineYellow : occupiedRoomColors.medYel,
+         surgery : occupiedRoomColors.surg,
+         orthoped : occupiedRoomColors.ort,
+         jour : occupiedRoomColors.jour
+     }
+ };*/
+var departments = {
+     default : occupiedRoomColors.infec,
+     medicineBlue : occupiedRoomColors.medBlu,
+     medicineYellow : occupiedRoomColors.medYel,
+     surgery : occupiedRoomColors.surg,
+     orthoped : occupiedRoomColors.ort,
+     jour : occupiedRoomColors.jour
+};
