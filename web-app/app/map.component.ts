@@ -18,7 +18,60 @@ import * as d3 from 'd3';
     template: `
         <svg class="map" style="display:block; height:70%; margin:0 auto; "></svg>
         <abra style="display: block; width: 100%; height:30%; "></abra>
+        <div id="joergen">
+            <h3 id="inf">Infektion</h3>
+            <h3 id="tri">Triage</h3>
+            <h3 id="medyel">Medicin gul</h3>
+            <h3 id="medblu">Medicin blå</h3>
+            <div id="jour">
+                <h3 style="position:relative;">Jour:</h3>
+                <h5 style="position:relative;">ÖNH</h5>
+                <h5 style="position:relative;">Gyn</h5>
+                <h5 style="position:relative;">ÖNH</h5>
+            </div>
+            <h3 id="ort">Ortopedi</h3>
+            <h3 id="acu">Akutrum</h3>
+            <h3 id="surg">Kirurgi</h3>
+        </div>
         `,
+    styles: [`
+        #joergen h3 {
+            position: absolute;
+        }
+        #inf {
+            left: 92px;
+            top: 100px;
+        }
+        #tri {
+            left: 208px;
+            top: 100px;
+        }
+        #medyel {
+            left: 380px;
+            top: 210px;
+        }
+        #medblu {
+            left: 380px;
+            top: 410px;
+        }
+        #jour {
+            position: absolute;
+            left: 700px;
+            top: 260px;
+        }
+        #ort {
+            left: 815px;
+            top: 260px;
+        }
+        #acu {
+            left: 450px;
+            top: 700px;
+        }
+        #surg {
+            left: 792px;
+            top: 660px;
+        }
+        `],
     providers: [SocketIO],
     directives: [room_table]
 })
