@@ -19,6 +19,14 @@ import * as d3 from 'd3';
         </map_tableContainer>
         `,
     styleUrls: ['app/globalcss/style.css'],
+    styles: [`
+        .odd {
+            background-color: green;
+        }
+        .even {
+            background-color: red;
+        }
+        `]
 })
 
 
@@ -30,9 +38,12 @@ what the data will look like
 
 export class room_table{
     static divName = "map_tableContainer";
-    static tdStyle1 = "padding: 0% 1% 1% 0%;"; //left cell
-    static tdStyle2 = "padding: 0% 4% 1% 0;"; //right cell
-    static thStyle = "padding: 0 0% 1.5% 0; text-align:center;"
+    static tdStyle1 = "padding: 0% 0.5% 1% 1%;"; //left cell
+    static tdStyle2 = "padding: 0% 0.5% 1% 1%;"; //right cell
+    static thStyle = "padding: 0 0% 0% 0; text-align:center;"
+
+    static color1 = "#C9C9C9";
+    static color2 = "#D9D9D9";
 
     public static draw(data) {
         var columnKeys = Object.keys(data);
@@ -82,11 +93,18 @@ export class room_table{
         //create header row
         var tr = thead.append("tr");
         for(var i=0; i < columnKeys.length; i++) {
-            thead.select("tr")
+            var th = thead.select("tr")
                 .append("th")
                 .attr("style", this.thStyle)
                 .attr("colspan",2)
                 .text(department_translator[columnKeys[i]]);
+            if(i % 2 == 0) {
+                th.style("background-color", this.color1);
+                th.style("background-color", this.color1);
+            } else {
+                th.style("background-color", this.color2);
+                th.style("background-color", this.color2);
+            }
         }
 
         // create rows(and content)
@@ -97,12 +115,21 @@ export class room_table{
             for (var col=0; col < columnKeys.length; col++) {
               var room1 = emptyrooms[col].pop();
               var room2 = emptyrooms[col].pop();
-                tr.append("td")
+                var tr1 = tr.append("td")
                     .attr("style", this.tdStyle1)
-                    .text(room1);
-                tr.append("td")
+                    .text(room1)
+                    .style("font-size", "18px");
+                var tr2 = tr.append("td")
                     .attr("style", this.tdStyle2)
-                    .text(room2);
+                    .text(room2)
+                    .style("font-size", "18px");
+                if(col % 2 === 0) {
+                    tr1.style("background-color", this.color1);
+                    tr2.style("background-color", this.color1);
+                } else {
+                    tr1.style("background-color", this.color2);
+                    tr2.style("background-color", this.color2);
+                }
               if(room1 != undefined || room2 != undefined){
                 thereIsMore = true;
               }

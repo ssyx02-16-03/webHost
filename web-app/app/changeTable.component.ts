@@ -66,8 +66,8 @@ export class changeTable implements OnInit {
 
         var headerStyle = "font-size:180%;"
         var cellStyle = "padding: 0.5% 1% 0.5% 1% ; font-size: 160%;";
-        var oddRowStyle = "background-color: #D9D9D9";
-        var evenRowStyle = "background-color: #E9E9E9";
+        var oddRowStyle = "background-color: #C9C9C9";
+        var evenRowStyle = "background-color: #D9D9D9";
         var rowStyle = [oddRowStyle, evenRowStyle];
 
         var tableDiv = d3.select(this.parentDiv);
