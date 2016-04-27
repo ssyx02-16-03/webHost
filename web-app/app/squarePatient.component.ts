@@ -211,7 +211,7 @@ function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside 
   //info table: styles
   var rowStyle = "height:50%;";
   var borderStyle = ""; //" border-style: solid; border-width: 1px; border-color: gray; ";
-  var cellStyle = " font-size: 130%; padding:1%; width:50%; background-color:rgba(255,255,255,0.5);" +borderStyle;
+  var cellStyle = +borderStyle;
 
   //info table: draw table
   var cardTable = card1.append("table").attr("style", "width: 100%; height: 50%;");

@@ -481,7 +481,6 @@ export class MapComponent implements OnInit {
     }
 
     static draw(data){
-        console.log(data);
         this.rooms = data;
         MapComponent.drawRooms();
         room_table.draw(data);
@@ -660,12 +659,9 @@ class Room{
         //color formatting
         if (this.occupied && jsonRoomObject['patient_department'] != "default"){
             var department = jsonRoomObject['patient_department'];
-            console.log("department:", department);
-            console.log()
             color = departments[department];
             //determine color
         }else{
-            console.log(this.occupied);
             if(this.occupied) {
                 switch(roomDep){
                     case 'acute':
@@ -724,7 +720,6 @@ class Room{
                 }
             }
         }
-        console.log(color);
 
         var svg = d3.select(htmlObject).append("svg");
 

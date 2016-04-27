@@ -29,7 +29,6 @@ export class barchart_coordinator {
         var header:HTMLElement = document.getElementById('barchart_coord_header');
         header.innerText = "Patienter totalt: " + total;
 
-        var color = [0,1,2,3,4,5,6,7,8,9];
         var color_hash = Barchart.getCoordColors();
 
         var max = d3.max(jsonData, function (d) {
@@ -47,7 +46,7 @@ export class barchart_coordinator {
             legendSpace = height / 20,
             legendSize = legendSpace / 2;
 
-        console.log(jsonData); // TODO debugging...
+        //console.log(jsonData); // TODO debugging...
         //console.log(jsonData[1]['division']);
 
         var x = d3.scale.ordinal()
@@ -73,6 +72,7 @@ export class barchart_coordinator {
             .tickSubdivide(0)
             .outerTickSize(2);
 
+        //clear all before
         d3.select(".header").selectAll("*").remove();
         d3.select(".baarchart").selectAll("*").remove();
 
@@ -81,9 +81,7 @@ export class barchart_coordinator {
             .attr("width", width)
             .attr("height", height);
 
-        var bar = chart.selectAll("g")
-            .data(jsonData)
-            .enter().append("g")
+        var bar = chart.append("g")
             .attr("transform", "translate(" + 50 + "," + 50 + ")");
 
         bar.append("g")
@@ -106,7 +104,7 @@ export class barchart_coordinator {
             .attr("height", 100)
             .attr("width", 100);
 
-        legend.selectAll('g').data(color)
+        legend.selectAll('g').data(color_hash)
             .enter()
             .append('g')
             .each(function (d, i) {
@@ -132,7 +130,7 @@ export class barchart_coordinator {
                     .text(color_hash[i][0]);
             });
 
-
+            /*
         //Total siffra
         bar.append("text")
             .attr("x", function (d, i) {
@@ -147,12 +145,12 @@ export class barchart_coordinator {
             .attr("font-size", fontSize * 1.2)
             .attr("font-weight", "bold");
 
-
+          */
 
         var barBox = bar.append("g")
             .attr("class","chartArea");
 
-          //untriaged
+        //untriaged
         var i = 0;
         var noTriage = [];
         noTriage[0] = jsonData[i]['untriaged'];

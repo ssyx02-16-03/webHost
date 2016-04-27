@@ -157,7 +157,7 @@ export class barchart_medicin extends Barchart{
         var incColor = "";
 
         var block = new Block(barBox, lastBox.x, lastBox.y-incHeight, incWidth, incHeight, incColor, incoming);
-        block.sroke("white");
+        block.stroke("white");
 
         //----------------------PATIENTSTATUS--------------------------
         var patientStatus = [];

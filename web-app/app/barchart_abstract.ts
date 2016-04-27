@@ -62,7 +62,7 @@ export class Block{
         if(this.color == this.fontColor){
           this.fontColor = "white";
         }
-        console.log(this);
+        //console.log(this);
         if(nOfPatients > 0){
           this.svgBlock = this.paintBlock(parent,x,y,width,height,color);
           this.svgText = this.paintText(parent,x,y,this.fontColor,this.fontSize,nOfPatients);
@@ -97,7 +97,7 @@ export class Block{
     }
 
     stroke(color:string){
-      console.log(this);
+      //console.log(this);
       if(this.svgBlock){
          this.svgBlock.style("fill", "none")
              .style("stroke", color)
@@ -110,7 +110,6 @@ export class Block{
           var yCoord = yAxis(dataArray[dataArray.length-1]);
           var lastY = chartHeight;
           for(var i=dataArray.length-1; i >= 0; i--){
-            console.log("data:", dataArray[i]);
               var boxHeight = chartHeight-yAxis(dataArray[i]);
               yCoord = lastY-boxHeight;
               Block lastBlock = new Block(parent, xCoord, yCoord, barWidth, boxHeight, color_hash[i+colorOffset][1], dataArray[i]);
