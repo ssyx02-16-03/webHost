@@ -13,7 +13,7 @@ import * as d3 from 'd3';
     selector: 'barchart_coordinator',
     template: `
         <h2 id="barchart_coord_header">Patienter totalt: </h2>
-		    <svg class='baarchart' style="width:100%; height:90%;"></svg>
+		    <svg class='baarchart' style="width:100%; height:90%;" viewBox="0 25 650 380"></svg>
 		`,
     styleUrls: ['app/globalcss/style.css']
 })
@@ -41,6 +41,7 @@ export class barchart_coordinator {
             chartHeight = height * 0.8,
             barSpace = chartWidth / (jsonData.length * 2),
             barWidth = barSpace * 0.8,
+            middleSpacer = 5;
             //fontSize = chartHeight / max,
             fontSize = 10,
             legendSpace = height / 20,
@@ -130,9 +131,12 @@ export class barchart_coordinator {
                     .text(color_hash[i][0]);
             });
 
-            /*
+        var barBox = bar.append("g")
+              .attr("class","chartArea");
         //Total siffra
-        bar.append("text")
+        barBox.selectAll('g').data(jsonData)
+            .enter()
+            .append("text")
             .attr("x", function (d, i) {
                 return (2 * i + 1) * barSpace - fontSize / 2;
             })
@@ -145,11 +149,6 @@ export class barchart_coordinator {
             .attr("font-size", fontSize * 1.2)
             .attr("font-weight", "bold");
 
-          */
-
-        var barBox = bar.append("g")
-            .attr("class","chartArea");
-
         //untriaged
         var i = 0;
         var noTriage = [];
@@ -160,17 +159,10 @@ export class barchart_coordinator {
 
         //the rest
         for(var i=1; i<jsonData.length; i++){
-          paintBlocks(jsonData,i,barBox,y,chartHeight,barWidth,color_hash);
+          paintBlocks(jsonData,i,barBox,y,chartHeight,barWidth,color_hash,middleSpacer);
         }
 
-        function strokeEffect(svg){
-           svg.style("fill", "none")
-               .style("stroke", this.color_hash[0][1])
-               .style("stroke-dasharray", ("2, 2"))
-               .style("stroke-width", "1.75px");
-         }
-
-        function paintBlocks(jsonData,i:number,parent,y,chartHeight,barWidth,color_hash){
+        function paintBlocks(jsonData,i:number,parent,y,chartHeight,barWidth,color_hash,middleSpacer){
           var medBlue_triage = [];
           var medBlue_status = [];
           var xCoord = (2*i+1) * barSpace -barWidth;
@@ -181,7 +173,7 @@ export class barchart_coordinator {
           medBlue_status[2] = jsonData.klar;
           Block firstBox = Block.drawPile(medBlue_status,parent,y, chartHeight, barWidth, xCoord, 1, color_hash);
 
-          xCoord = (2*i+1) * barSpace;
+          xCoord = (2*i+1) * barSpace + middleSpacer;
           medBlue_triage[0] = jsonData.blue;
           medBlue_triage[1] = jsonData.green;
           medBlue_triage[2] = jsonData.yellow;
@@ -190,7 +182,7 @@ export class barchart_coordinator {
           Block.drawPile(medBlue_triage,parent,y, chartHeight, barWidth, xCoord, 4, color_hash);
 
           var strokeHeight = chartHeight-y(jsonData.incoming);
-          var block = new Block(parent, firstBox.x, firstBox.y-strokeHeight, barWidth*2, strokeHeight, "none", jsonData.incoming);
+          var block = new Block(parent, firstBox.x, firstBox.y-strokeHeight, barWidth*2+middleSpacer, strokeHeight, "none", jsonData.incoming);
           block.stroke("white");
         }
 
