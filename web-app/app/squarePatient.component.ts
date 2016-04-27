@@ -1,32 +1,32 @@
 /**
  * Created by oskar on 2016-04-04.
  */
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, ViewEncapsulation} from 'angular2/core';
 
 import {SocketIO} from './socket-io';
 
 @Component({
     selector: 'squareCards',
     template: `
-    <div class="square"></div>
-      <div class="waiting"></div>
-      <div class="others"></div>
+      <div class="grid"></div>
+      <div class="squarePatients"></div>
+      <div class="waitingPatients"></div>
+      <div class="otherPatients"></div>
     `,
-    providers: [SocketIO],
-    //styleUrls: ['./squareStyle.css']
+    styleUrls: ['app/square_patient.css'],
+    encapsulation: ViewEncapsulation.None,
+    providers: [SocketIO]
 })
 
 
 export class SquarePatients implements OnInit{
     ngOnInit(){
-        var divs = paintCardHolders();
-
+        var divs = styleCardHolders();
         //listen to data
-        SocketIO.connect('blue_side_overview');
-        SocketIO.on('blue_side_overview', function(data){
-            console.log(data);
-            console.log('test worked! SocketIO!');
-            refreshCards(divs,data);
+        SocketIO.subscribe('blue_side_overview', function(data){
+          console.log(data);
+          console.log('test worked! SocketIO!');
+          refreshCards(divs,data);
         });
         //for testing purposes
         refreshCards(divs,patients);
@@ -41,42 +41,51 @@ var waitCols = waitDivWidth/cardWidth;
 var otherCols = otherDivWidth/cardWidth;
 
 //print the base layout
-function paintCardHolders(){
+function styleCardHolders(){
   var divs = [];
-  divs['squareDiv'] = d3.select(".square")
-      .attr("style", ""
-          +"width: 100%;"
-          +"height: 45%;");
+  divs['squareDiv'] = d3.select(".squarePatients");
           //+"width:" + cardWidth*5 +"px;"
           //+"height:" +cardHeight*3 +"px;"
 
-  divs['waitingDiv'] = d3.select(".waiting")
+  divs['waitingDiv'] = d3.select(".waitingPatients")
       .attr("style", ""
-          +"width:" +waitDivWidth + "%;"
-          +"height: 55%;"
+          +"width:" +waitDivWidth + "%;");
           //+"width: "+cardWidth*4 +"px;"
           //+"height:"+cardHeight*4 +"px;"
-          +"float:left;");
 
-  divs['othersDiv'] = d3.select(".others")
-      .attr("style", "float:left;"
-          +"clear:right;"
-          +"width:" +otherDivWidth + "%;"
-          +"height:55%;");
+  divs['othersDiv'] = d3.select(".otherPatients")
+      .attr("style", "width:" +otherDivWidth + "%;");
           //+"width: "+ cardWidth+"px;"
         //+"height:" +cardHeight*4 +"px;"
+
   return divs;
+}
+
+function paintGrid(rows:number,cells:number){
+    var gridMap = new Array(rows);
+    var grid = d3.select('.grid');
+
+    for(var r=0; r<rows; r++){
+        var row = grid.append("div").attr("class","row").style("height",100/rows + "%");
+        gridMap[r] = new Array(cells);
+      for(var c=0; c< cells; c++){
+        gridMap[r][c] = row.append("div").attr("class","cell").style("width",100/cells + "%");
+      }
+    }
+    return gridMap;
 }
 
 //make things happen
 function refreshCards(divs,data){
   var cards = updateCards(data);
-  paintSquareCards(divs.squareDiv, cards[Location.square]);
+
+  var grid = paintGrid(3,5);
+  paintRoomCards(grid,cards[Location.square]);
   paintCardsLoop(divs.waitingDiv,waitCols,"Väntrum",cards[Location.innerWaitRoom]);
   paintCardsLoop(divs.othersDiv,otherCols,"Övriga",cards[Location.other]);
 }
 
-//instance each card and collect them in an ojbect
+//instance each patient as as an object
 function updateCards(data){
   var cards = [];
   cards[Location.other] = [];
@@ -92,6 +101,29 @@ function updateCards(data){
   return cards;
 }
 
+function paintRoomCards(grid,roomCards){
+  var sortedCards = [];
+  for(var i=0; roomCards.length > 0; i++){
+      var card = roomCards.pop();
+      sortedCards[card.room_nr] = card;
+  }
+
+  var keys = Object.keys(card_holders);
+  for(var i=0; i<keys.length; i++){
+    var key = keys[i];
+    var roomName = card_holders[key][2];
+    var cell = card_holders[key][1];
+    var row = card_holders[key][0];
+    grid[row][cell].selectAll("*").remove(); //remove old stuff
+    paintCardOrDummy(roomName, sortedCards[key], grid[row][cell],"");
+  }
+
+  function paintCardOrDummy(roomName:string, card:Card, parent, cardStyle:string){
+      if(card == null){  paintDummyCard(roomName,parent,cardStyle);
+      }else{  paintCard(card,parent,cardStyle);  }
+  }
+}
+
 function paintCardsLoop(grandParent,nColumns:number,title:string,cards ){
   grandParent.selectAll("*").remove(); //remove old stuff
 
@@ -102,7 +134,7 @@ function paintCardsLoop(grandParent,nColumns:number,title:string,cards ){
 
   var maxCards = nColumns*4;
   var columns = [];
-  console.log("cols:", nColumns);
+
   for(var i=0; i<nColumns; i++){
     columns[i] = newUl(grandParent, 100/nColumns );
   }
@@ -125,110 +157,42 @@ function paintCardsLoop(grandParent,nColumns:number,title:string,cards ){
   }
 }
 
-function paintSquareCards(grandParent,roomCards){
-  grandParent.selectAll("*").remove(); //remove old stuff
-
-  var cardStyle = "margin-bottom: 0.5%;" //3px
-      + "display:block; "
-      + "float:left;"
-      + cssCalcWidth(100,-4);
-
-  //paint holder spacing
-  var color = ""; //"background-color:;"
-  var columnStyle = "width: 20%; height: 64%;" +color;
-
-  var padding = "padding:0.5%;";
-  var topRowDiv = grandParent.append("div")
-                  .attr("style","width: 100%; height: 32%;" +padding);
-  var leftColumnDiv = grandParent.append("div")
-                  .attr("style", columnStyle +"float:left;" +padding);
-  var rightColumnDiv = grandParent.append("div")
-                  .attr("style", columnStyle +"float:right;" +padding);
-
-  var sortedCards = [];
-  for(var i=0; roomCards.length > 0; i++){
-      var card = roomCards.pop();
-      sortedCards[card.room_nr] = card;
-  }
-  // top row
-  paintCardRow(card_holders.topRow, sortedCards, topRowDiv, false, cardStyle + "height: 100%;"+ cssCalcWidth(20,-3) + "margin-right:3px;");
-  //left column
-  paintCardRow(card_holders.leftCol, sortedCards ,leftColumnDiv,  true, cardStyle + "height: 50%;");
-  //right column
-  paintCardRow(card_holders.rightCol, sortedCards ,rightColumnDiv, false,  cardStyle + "height: 50%;");
-
-  function paintCardRow(card_holders, cards, parentDiv, inverted:boolean, cardStyle:string){
-    var keys = Object.keys(card_holders);
-
-    if(inverted){
-      keys = reverse(keys);
-    }
-    for(var i=0; i<keys.length; i++){
-      var thisRoom = card_holders[keys[i]];
-        paintCardOrDummy(thisRoom, cards[keys[i]], parentDiv, cardStyle);
-    }
-
-    function reverse(object){
-      var array = Array();
-      for(var i=0; object.length > 0; i++){
-        array[i] = object.pop();
-      }
-      return array;
-    }
-  }
-
-
-
-  function paintCardOrDummy(roomName:string, card:Card, parent, cardStyle:string){
-      if(card == null){  paintDummyCard(roomName,parent,cardStyle);
-      }else{  paintCard(card,parent,cardStyle);  }
-  }
-
-}
-
 //create a new listholder for cards
 function newUl(gParent, width:number){
-  var ulStyle = "width: " +width +"%; height: 100%; float:left; padding:5px;";
+  var ulStyle = "width: " +width +"%; height: 100%;";
   var parent = gParent.append("ul")
-      .attr("style", ulStyle);
+      .attr("style", ulStyle)
+      .attr("class", "cardList");
   return parent;
 }
+
 
 //paint a single card
 function paintDummyCard(roomName:string,parent,cardStyle){
   var dummyCard = parent
-      .append("div")
-      .attr("id","dummy");
+      .append("li")
+      .attr("class","patientCard dummy");
 
-  dummyCard.attr("style", cardStyle
-              +"background-color:gray;"
-              +"border-style:solid; border-width:2px; border-color:white;");
-
-  var p = dummyCard.append("p")
-              .text(roomName)
-              .attr("style","color: white; font-size:2em; font-type:bold; margin:20px;");
+  //dummyCard.attr("style", cardStyle);
+  var p = dummyCard.append("p").text(roomName).attr("style", "font-size:2em;");
 }
 
 function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside parent
-
-  //Attention checker
-  var attentionStyle = "";
-  if(patientCard.needsAttention){
-      attentionStyle = "outline-style: solid; outline-width: 3px; outline-color: black;";
-  }
   var card1 = parent.append("li")
-      .attr("style", cardStyle
-          + "background-color:" +patientCard.triage +";"
-          + attentionStyle);
+      .attr("style", cardStyle)
+      .attr("class","patientCard "+patientCard.triage);
+
+  if(patientCard.needsAttention){
+      card1.attr("class","patientCard attention " +patientCard.triage);
+  }
 
   var upperContainer = card1.append("div").attr("style","width:100%; height:50%;");
   //Room nr
   var roomNr = upperContainer.append("p")
       .text(patientCard.room)
-      .attr("style", "float:left; display:block; font-size: 150%; padding:5px; margin:0px; max-width:40%");
+      .attr("style", "float:left; display:block; padding:5px; margin:0px; max-width:40%");
 
   //patient name
-  var roomNrWidth = roomNr.node().getBoundingClientRect().width;
   var nameAndNumberStyle = "text-align:right; font-size:150%; min-width: 50%;"
       +"float:right; display: block;";
 
@@ -243,11 +207,10 @@ function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside 
       .attr("style", nameAndNumberStyle
           +" margin: 2px 2px 0 0;"); //margin: top right bot left
 
-
   //info table: styles
   var rowStyle = "height:50%;";
-  var borderStyle = " border-style: solid; border-width: 1px; border-color: gray; ";
-  var cellStyle = "font-size: 130%; padding:1%; width:50%; background-color:rgba(255,255,255,0.5);" +borderStyle;
+  var borderStyle = ""; //" border-style: solid; border-width: 1px; border-color: gray; ";
+  var cellStyle = " font-size: 130%; padding:1%; width:50%; background-color:rgba(255,255,255,0.5);" +borderStyle;
 
   //info table: draw table
   var cardTable = card1.append("table").attr("style", "width: 100%; height: 50%;");
@@ -256,16 +219,21 @@ function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside 
   //info table: draw rows and cells
   var tr = tbody.append("tr").attr("style",rowStyle);
   var arrival = tr.append("td").attr("style",cellStyle).text(patientCard.arrivalTime);
+  arrival.append("img").attr("class","arrivalClock");
   var careClock = tr.append("td").attr("style",cellStyle).text(patientCard.lastAttention +" min");
+  careClock.append("img").attr("class","waitClock");
   tr = tbody.append("tr").attr("style",rowStyle);
   var lastEvent = tr.append("td").attr("style",cellStyle).text(patientCard.lastEvent);
   var status = tr.append("td").attr("style",cellStyle).text(patientCard.doctorName);
+  if(patientCard.isDone){
+    status.append("img").attr("class","done");
+  }else if(patientCard.hasDoctor){
+    status.append("img").attr("class","doctor");
+  }
 
 }
 
-
-
-
+//not used atm
 function cssCalcWidth(percent:number,pixels:number){
   return "width: -moz-calc(" +percent +"% + " +pixels +"px);"
   + "width: -webkit-calc(" +percent +"% + " +pixels +"px);"
@@ -285,6 +253,8 @@ class Card{
     lastAttention:number;
     lastEvent:string;
     doctorName:string;
+    isDone:boolean;
+    hasDoctor:boolean;
 
     constructor(jsonObject){
         this.determineLocation(jsonObject['room']);
@@ -295,9 +265,26 @@ class Card{
         this.needsAttention = jsonObject['last_event']['guidelines_exceeded'];
         this.lastAttention = jsonObject['last_event']['minutes_since'];
         this.lastEvent = jsonObject['last_event']['name'];
-        this.doctorName = jsonObject['doctor_name'];
+        this.determineDoctorOrDone(jsonObject['doctor_name']);
     }
-
+    determineDoctorOrDone(jsonDoctorName){
+      switch(jsonDoctorName){
+          case 'klar':
+          case 'Klar':
+            this.doctorName = 'Klar';
+            this.isDone = true;
+            this.hasDoctor = false;
+            break;
+          case null:
+            this.hasDoctor = false;
+            this.isDone = false;
+            break;
+          default:
+            this.doctorName = jsonDoctorName;
+            this.hasDoctor = true;
+            this.isDone = false;
+      }
+    }
 
     determineTriage(jsonPriority){
         switch (jsonPriority){
@@ -360,22 +347,19 @@ var triageStatus = {
     red : "red"
 };
 
+/*
+grid [row,col,roomString]
+*/
 var card_holders = {
-  leftCol: {
-    20 : "B20",
-    19 : "B19"
-  },
-  topRow : {
-    21 : "B21",
-    22 : "B22",
-    23 : "B23",
-    24 : "B24",
-    25 : "B25"
-  },
-  rightCol:{
-    26 : "B26",
-    27 : "B27"
-  }
+    19:[2,0,"B19"],
+    20:[1,0,"B20"],
+    21:[0,0,"B21"],
+    22:[0,1,"B22"],
+    23:[0,2,"B23"],
+    24:[0,3,"B24"],
+    25:[0,4,"B25"],
+    26:[1,4,"B26"],
+    27:[2,4,"B27"]
 }
 
 //determines where

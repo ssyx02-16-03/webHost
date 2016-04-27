@@ -29,7 +29,8 @@ export class Coordinator implements OnInit{
         var border = "border:solid 1px #E0E0E0;";
 
         var placehold = d3.select("placeholder_coordinator");
-        placehold.attr("style","display:block; width:1920px; height:1080px;" +backgroundC );
+        placehold.attr("style","display:block;" );
+        placehold.attr("class","placeholder");
 
         var barChart = placehold.select("coordbarchart");
         barChart.attr("style", "display:block; float:left; width:40%; height:50%;" +border);
