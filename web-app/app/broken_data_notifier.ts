@@ -35,6 +35,7 @@ class BrokenBox{
     public static lastTimeStamp:number = 0;
     private static i = 0;
     private static div:HTMLElement;
+    private static timeTilError = 5;
 
     public static start(){
       BrokenBox.div = document.getElementById(BrokenNotifier.divName);
@@ -53,7 +54,6 @@ class BrokenBox{
         status = true;
       }
       BrokenBox.alertStatus(status);
-      console.log("statusMessage:",data);
     }
 
     public static alertStatus(connected:boolean){
@@ -69,13 +69,13 @@ class BrokenBox{
     private static startBrokenTimer(){
         var currentTimeStamp:number = BrokenBox.lastTimeStamp;
         BrokenBox.i = 0;
-        console.log("timer!");
-        //window.setInterval(this.compare(currentTimeStamp),1000);
+        window.setInterval(function(){
+          BrokenBox.compare(currentTimeStamp);
+        },1000);
     }
 
-    public compare(currentTime:number){
-      console.log("test");
-      if(BrokenBox.i>4 && currentTime >= BrokenBox.lastTimeStamp ){
+    public static compare(currentTime:number){
+      if(BrokenBox.i>BrokenBox.timeTilError && currentTime >= BrokenBox.lastTimeStamp ){
         BrokenBox.alertStatus(false);
         BrokenBox.i = 0;
       }

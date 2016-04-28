@@ -30,8 +30,8 @@ import {TrendDiagram} from './trend_diagram.ts';
 
 export class TTKDiagram extends TrendDiagram {
     selector = ".ttk-chart";
-    ttk_ylims = [5, 3];  //TTK – (1) < 3h 30 min = BRA,  3h 30 min – 4h = OK, >4h = Inte bra
-    //ttk_ylims = [300, 100]; //test
+    ttk_ylims = [5, 3];
+
 
     data: any = {
         'trend': [
@@ -54,8 +54,9 @@ export class TTKDiagram extends TrendDiagram {
         super.draw(this.data,this.selector,this.ttk_ylims);
     }
 
-    draw(data){
-        super.draw(data,this.selector,this.ttk_ylims);
+    draw(data){ //real data
+        var ttk_ylims = [300, 100];  //TTK – (1) < 3h 30 min = BRA,  3h 30 min – 4h = OK, >4h = Inte bra
+        super.draw(data,this.selector,ttk_ylims);
     }
 }
 
@@ -65,8 +66,8 @@ export class TTKDiagram extends TrendDiagram {
 })
 
 export class TTDDiagram extends TrendDiagram {
-    ttd_ylims = [120, 60]; //TTL – (1) < 1h = BRA, 1h-2h = OK, >2h = Inte bra
-    //ttd_ylims = [30, 20]; //test
+
+    ttd_ylims = [30, 20]; //test
     selector = ".ttd-chart";
 
     data: any = {
@@ -91,7 +92,8 @@ export class TTDDiagram extends TrendDiagram {
     }
 
     draw(data){
-        super.draw(data,this.selector,this.ttd_ylims);
+        var ttd_ylims = [120, 60];  //TTL – (1) < 1h = BRA, 1h-2h = OK, >2h = Inte bra
+        super.draw(data,this.selector,ttd_ylims);
     }
 }
 
@@ -101,8 +103,7 @@ export class TTDDiagram extends TrendDiagram {
 })
 
 export class TTTDiagram extends TrendDiagram {
-    ttt_ylims = [40, 20]; //   TTT - < 20 min = BRA, 20-40 min = OK, >40 min = Inte bra
-    //ttt_ylims = [60, 50]; //test
+    ttt_ylims = [60, 50]; //test
     selector = ".ttt-chart";
 
     data: any = {
@@ -127,12 +128,14 @@ export class TTTDiagram extends TrendDiagram {
     }
 
     draw(data){
+        var ttt_ylims = [40, 20]; //   TTT - < 20 min = BRA, 20-40 min = OK, >40 min = Inte bra
         super.draw(data,this.selector,this.ttt_ylims);
     }
 }
 
 function MarkerColors() {
     return {
+        'median': 'gray',
         'Gul': 'yellow',
         'Bla' : 'blue',
         'Ki': 'red',

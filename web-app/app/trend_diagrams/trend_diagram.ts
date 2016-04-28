@@ -6,11 +6,64 @@ import {Component, OnInit} from 'angular2/core';
 
 import * as d3 from 'd3';
 
+var dataKey = {
+  times : 'times',
+  hist : 'trend',
+  pred  : 'prediction'
+};
+
+
 export abstract class TrendDiagram {
 
     abstract getMarkerColors();
 
+    scaleData(data,minMinutes:number,maxMinutes:number){
+      //get rid of datapoints beyond and before -minMinutes and +maxMinutes
+        console.log(data);
+        if(data['current_value']){
+            var median = data['current_value'];
+            data[dataKey.times] = median;
+        }
+
+        var newHistData = Array();
+        var nowKey = data[dataKey.hist].length-1;
+        var xNow = data[dataKey.hist][nowKey].x;
+
+        console.log(xNow);
+        var xMin_minutes = xNow - minMinutes
+
+        for(var i = nowKey; i>=0; i--){
+          if(data[dataKey.hist][i].x < xMin_minutes){
+            break;
+          }
+          newHistData.unshift(data[dataKey.hist][i]);
+        }
+        newHistData.unshift({x:xMin_minutes,y:0});
+
+
+        var newPredData = Array();
+        var nowKey = 0;
+        var xMax_minutes = xNow + maxMinutes;
+
+
+        for(var i = 0; i<data[dataKey.pred].length; i++){
+          if(data[dataKey.pred][i].x > xMax_minutes){
+            break;
+          }
+          newPredData.push(data[dataKey.pred][i]);
+        }
+        newPredData.push({x:xMax_minutes,y:0});
+
+
+        data[dataKey.hist] = newHistData;
+        data[dataKey.pred] = newPredData;
+
+        console.log(data);
+        return data;
+    }
+
     draw(data,selector,ylims: number[]) {
+      data = this.scaleData(data,120,60);
 
         var bgGreen = "#c5f9a9";
         var bgYellow = "#fcf49f";
@@ -65,6 +118,7 @@ export abstract class TrendDiagram {
 
         var allData = data['trend'].concat(data['prediction']);
         x.domain(d3.extent(allData, function(d: any) { return d.x; }));
+
         var maxValue = d3.max(allData, function (d) { return d['y']; });
         var minValue = d3.min(allData, function (d) { return d['y']; });
 
@@ -98,6 +152,7 @@ export abstract class TrendDiagram {
         var back = svg.append("svg").attr("class","background")
             .attr("width",width)
             .attr("height", height);
+
 
         //bad line
         //var hasRed = ylims[0] < maxValue ? 1 : 0;
@@ -204,24 +259,25 @@ export abstract class TrendDiagram {
          var smallR = 5;
          var bigR = 8;
          var colors = this.getMarkerColors();
-
          var circles = svg.append("svg").attr("class","circles");
-         var dataPoints = data['trend'].length
-         var nowX = dataPoints*2/3;
 
-         for (var key in data['times']) {
+         var dataPoints = data[dataKey.hist].length;
+         var nowTimeKey = dataPoints-1;
+
+         for (var key in data[dataKey.times]) {
             var radius = smallR;
             if(key != undefined) {
               var circle = circles.append("circle")
-              .attr("cx", x(data['trend'][nowX].x))
-              .attr("cy", y(data['times'][key]))
+              .attr("cx", x(data[dataKey.hist][nowTimeKey].x))
+              .attr("cy", y(data[dataKey.times][key]))
               .attr("r",smallR)
               .attr("angle", 360)
               .style("fill", colors[key])
-              .attr("stroke","white","stroke-width",-2);
+              .attr("stroke","white","stroke-width",-2)
+              .attr("class","trend_circle");
 
               if(key == 'median'){
-                circle.attr("r", bigR)
+                circle.attr("r", bigR);
               }
             }
          }
