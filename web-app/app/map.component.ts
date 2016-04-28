@@ -16,27 +16,34 @@ import * as d3 from 'd3';
 @Component({
     selector: 'map',
     template: `
-    <div style="position:relative;">
-        <svg class="map" style="display:block; height:70%; margin:0 auto; "></svg>
-        <abra style="display: block; width: 100%; height:30%; "></abra>
-        <div id="joergen">
-            <h3 id="inf">Infektion</h3>
-            <h3 id="tri">Triage</h3>
-            <h3 id="medyel">Medicin gul</h3>
-            <h3 id="medblu">Medicin blå</h3>
-            <div id="jour">
-                <h3 style="position:relative;">Jour:</h3>
-                <h5 style="position:relative;">ÖNH</h5>
-                <h5 style="position:relative;">Gyn</h5>
-                <h5 style="position:relative;">ÖNH</h5>
-            </div>
-            <h3 id="ort">Ortopedi</h3>
-            <h3 id="acu">Akutrum</h3>
-            <h3 id="surg">Kirurgi</h3>
+    <div style="height:100%; width:100%; position:relative;">
+        <div style="height:70; width:100%;">
+          <svg class="map" style="display:block; margin:0 auto; "></svg>
+          <div id="joergen">
+              <h3 id="inf">Infektion</h3>
+              <h3 id="tri">Triage</h3>
+              <h3 id="medyel">Medicin gul</h3>
+              <h3 id="medblu">Medicin blå</h3>
+              <div id="jour">
+                  <h3 style="position:relative;">Jour:</h3>
+                  <h5 style="position:relative;">ÖNH</h5>
+                  <h5 style="position:relative;">Gyn</h5>
+                  <h5 style="position:relative;">ÖNH</h5>
+              </div>
+              <h3 id="ort">Ortopedi</h3>
+              <h3 id="acu">Akutrum</h3>
+              <h3 id="surg">Kirurgi</h3>
+          </div>
+
         </div>
+        <abra style="display: block; width: 100%; height:30%; "></abra>
     </div>
         `,
     styles: [`
+        .map{
+          height:100%;
+          width:100%;
+        }
         #joergen h3 {
             position: absolute;
             width:50%;
