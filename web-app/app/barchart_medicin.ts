@@ -28,13 +28,14 @@ export class barchart_medicin extends Barchart{
     }
 
     public static draw(rawData){
-        var rawData= rawData.bars;
+        var rawData = rawData.bars;
         for(var i=0; i< rawData.length; i++){
             if(rawData[i].division == "Medicin Blå"){
                 this.drawWithRefinedData(rawData[i]);
                 return;
             }
         }
+        console.log("Barchar_medicine: ERROR, could not find data");
     }
 
     public static drawWithRefinedData(jsonData) {
