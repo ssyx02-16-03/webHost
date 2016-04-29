@@ -29,8 +29,6 @@ export class barchart_coordinator {
         var header = d3.select('.barchart_coord_header');
         header.text('Patienter totalt: ' + total);
 
-        var color_hash = Barchart.getCoordColors();
-
         var max = d3.max(jsonData, function (d) {
             return d['total_patients'];
         });
@@ -103,7 +101,7 @@ export class barchart_coordinator {
             .attr("height", 100)
             .attr("width", 100);
 
-        legend.selectAll('g').data(color_hash)
+        legend.selectAll('g').data(Barchart.getCoordLegend())
             .enter()
             .append('g')
             .each(function (d, i) {
@@ -114,19 +112,16 @@ export class barchart_coordinator {
                     .attr("width", legendSize)
                     .attr("height", legendSize);
                 if (i == 0) {
-                    rect.style("fill", "none")
-                        .style("stroke", color_hash[0][1])
-                        .style("stroke-dasharray", ("2, 2"))
-                        .style("stroke-width", "1.5px");
+                    Barchart.svgStroke(rect,Barchart.color_hash_incoming[0][1]);
                 }
                 else {
-                    rect.style("fill", color_hash[i][1]);
+                    rect.style("fill", d[1]);
                 }
                 g.append("text")
                     .attr("x", chartWidth + barSpace + legendSize * 3)
                     .attr("y", i * legendSpace + (height - chartHeight) * 1.12)
                     .style("fill", "black")
-                    .text(color_hash[i][0]);
+                    .text(d[0]);
             });
 
         var barBox = bar.append("g")
@@ -152,36 +147,36 @@ export class barchart_coordinator {
         var noTriage = [];
         noTriage[0] = jsonData[i]['untriaged'];
         var xCoord = (2*i+1) * barSpace - barWidth;
-        var lastBox = Block.drawPile(noTriage,barBox,y, chartHeight, barWidth*2, xCoord, 9,color_hash);
+        var lastBox = Block.drawPile(noTriage,barBox,y, chartHeight, barWidth*2, xCoord, Barchart.color_hash_noTriage);
         lastBox.setFontColor("white");
 
         //the rest
         for(var i=1; i<jsonData.length; i++){
-          paintBlocks(jsonData,i,barBox,y,chartHeight,barWidth,color_hash,middleSpacer);
+          paintBlocks(jsonData,i,barBox,y,chartHeight,barWidth,middleSpacer);
         }
 
-        function paintBlocks(jsonData,i:number,parent,y,chartHeight,barWidth,color_hash,middleSpacer){
+        function paintBlocks(jsonData,i:number,parent,y,chartHeight,barWidth,middleSpacer){
           var medBlue_triage = [];
           var medBlue_status = [];
           var xCoord = (2*i+1) * barSpace -barWidth;
 
           jsonData = jsonData[i];
-          medBlue_status[0] = jsonData.no_doctor;
+          medBlue_status[2] = jsonData.no_doctor;
           medBlue_status[1] = jsonData.has_doctor;
-          medBlue_status[2] = jsonData.klar;
-          var firstBox = Block.drawPile(medBlue_status,parent,y, chartHeight, barWidth, xCoord, 1, color_hash);
+          medBlue_status[0] = jsonData.klar;
+          var firstBox = Block.drawPile(medBlue_status,parent,y, chartHeight, barWidth, xCoord, Barchart.color_hash_status);
 
           xCoord = (2*i+1) * barSpace + middleSpacer;
-          medBlue_triage[0] = jsonData.blue;
-          medBlue_triage[1] = jsonData.green;
+          medBlue_triage[4] = jsonData.blue;
+          medBlue_triage[3] = jsonData.green;
           medBlue_triage[2] = jsonData.yellow;
-          medBlue_triage[3]  = jsonData.orange;
-          medBlue_triage[4]  = jsonData.red;
-          Block.drawPile(medBlue_triage,parent,y, chartHeight, barWidth, xCoord, 4, color_hash);
+          medBlue_triage[1]  = jsonData.orange;
+          medBlue_triage[0]  = jsonData.red;
+          Block.drawPile(medBlue_triage,parent,y, chartHeight, barWidth, xCoord, Barchart.color_hash_triage);
 
           var strokeHeight = chartHeight-y(jsonData.incoming);
           var block = new Block(parent, firstBox.x, firstBox.y-strokeHeight, barWidth*2+middleSpacer, strokeHeight, "none", jsonData.incoming);
-          block.stroke("#333333");
+          block.stroke(Barchart.color_hash_incoming[0][1]);
         }
 
     }

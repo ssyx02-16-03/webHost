@@ -17,7 +17,6 @@ import * as d3 from 'd3';
 })
 
 export class barchart_medicin extends Barchart{
-  static color_hash = Barchart.getMedColors();
   static staplar = (["Priofärg", "Läkarstatus", "Plats"]);
 
 
@@ -34,7 +33,6 @@ export class barchart_medicin extends Barchart{
         for(var i=0; i< rawData.length; i++){
             if(rawData[i].division == "Medicin Blå"){
                 this.drawWithRefinedData(rawData[i]);
-
                 return;
             }
         }
@@ -42,7 +40,6 @@ export class barchart_medicin extends Barchart{
     }
 
     public static drawWithRefinedData(jsonData) {
-        var color_hash = this.color_hash;
         var svg = d3.select(".barchart_medicine");
         this.scaleSVG(svg,90,90,[0,30,400,300]);
 
@@ -111,12 +108,11 @@ export class barchart_medicin extends Barchart{
         var legend = chart.append("g")
             .attr("class", "legend")
             .attr("x", chartWidth+barWidth*4)
-            .attr("y", 25)
+            .attr("y", 50)
             .attr("height", 100)
             .attr("width", 100);
 
-        var keys = Object.keys(color_hash);
-        legend.selectAll('g').data(keys)
+        legend.selectAll('g').data(Barchart.getMedLegend())
             .enter()
             .append('g')
             .each(function(d, i) {
@@ -128,15 +124,15 @@ export class barchart_medicin extends Barchart{
                     .attr("width", legendSize)
                     .attr("height", legendSize);
                 if(i == 0) {
-                      //strokeEffect(rect);
+                    Barchart.svgStroke(rect,Barchart.color_hash_incoming[0][1]);
                 } else {
-                    rect.style("fill", color_hash[i][1]);
+                    rect.style("fill", d[1]);
                 }
                 g.append("text")
                     .attr("x", x+15)
                     .attr("y", i * legendSpace * 1.01 + (height - chartHeight) / 2 * 1.12)
                     .style("fill", "black")
-                    .text(color_hash[i][0]);
+                    .text(d[0]);
             });
 
         var barBox = bar.append("g")
@@ -151,7 +147,7 @@ export class barchart_medicin extends Barchart{
         triage[4]  = jsonData.red;
 
         var xCoord = 1 * barSpace - barWidth;
-        var lastBox = Block.drawPile(triage,barBox,y, chartHeight,barWidth, xCoord, 4,color_hash);
+        var lastBox = Block.drawPile(triage,barBox,y, chartHeight,barWidth, xCoord, Barchart.color_hash_triage);
 
         //---------- INKOMMANDE
         var incoming:number = jsonData.incoming;
@@ -160,7 +156,7 @@ export class barchart_medicin extends Barchart{
         var incColor = "";
 
         var block = new Block(barBox, lastBox.x, lastBox.y-incHeight, incWidth, incHeight, incColor, incoming);
-        block.stroke("white");
+        block.stroke(Barchart.color_hash_incoming[0][1]);
 
         //----------------------PATIENTSTATUS--------------------------
         var patientStatus = [];
@@ -169,7 +165,7 @@ export class barchart_medicin extends Barchart{
         patientStatus[2] = jsonData.klar;
 
         var xCoord = 2 * barSpace - barWidth;
-        Block.drawPile(patientStatus, barBox, y,chartHeight,barWidth ,xCoord,1,color_hash);
+        Block.drawPile(patientStatus, barBox, y,chartHeight,barWidth ,xCoord,Barchart.color_hash_status);
 
         // -----------RUMSFÖRDELNING ----------------------
         var roomArray = [];
@@ -179,6 +175,6 @@ export class barchart_medicin extends Barchart{
         roomArray[3] = jsonData.rooms_elsewhere;
 
         var xCoord = 3 * barSpace - barWidth;
-        Block.drawPile(roomArray, barBox, y, chartHeight, barWidth ,xCoord,9,color_hash);
+        Block.drawPile(roomArray, barBox, y, chartHeight, barWidth ,xCoord,Barchart.color_hash_rooms);
     }//draw()
 }

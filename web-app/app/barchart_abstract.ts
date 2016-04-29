@@ -1,36 +1,52 @@
-
+/*
+*  Oskar
+*/
 
 export class Barchart{
-    private static color_hash_default = [
-        ["inkommande", "black"],
+    public static color_hash_incoming = [
+      ["inkommande", "#333333"]
+    ];
+
+    public static color_hash_status = [
         ["opåtittade", "#808080"],
         ["påtittade", "#C0C0C0"],
-        ["klara", "#fbfbfb"],
-        ["röd", "#FF0000"],
-        ["orange", "#FF8C00"],
-        ["gul", "#FFFF00"],
-        ["grön", "#5FCC00"],
-        ["blå", "#0040FF"],
+        ["klara", "#fbfbfb"]
     ];
 
-    private static color_hash_rooms = [
-      ["annan plats", "#c9e1ec"],
-      ["undersökning", "#9fc7d3"],
+    public static color_hash_triage = [
+      ["blå", "#0040FF"],
+      ["grön", "#5FCC00"],
+      ["gul", "#FFFF00"],
+      ["orange", "#FF8C00"],
+      ["röd", "#FF0000"]
+    ];
+
+    public static color_hash_rooms = [
+      ["rum", "#34749d"],
       ["inre väntrum", "#6ca1bc"],
-      ["rum", "#34749d"]
+      ["undersökning", "#9fc7d3"],
+      ["annan plats", "#c9e1ec"]
     ];
 
-    private static color_hash_noTriage = [["ej triagerade", "#333333"]];
+    public static color_hash_noTriage = [
+      ["ej triagerade", "#333333"]
+    ];
 
-    public static getMedColors(){
-      var array = this.color_hash_default.concat(this.color_hash_rooms);
-      //console.log(array);
-      return array;
+    public static getMedLegend(){
+      return this.color_hash_incoming.concat(this.color_hash_status,this.color_hash_rooms);
     }
 
-    public static getCoordColors(){
-      var array = this.color_hash_default.concat(this.color_hash_noTriage);
-      return array;
+    public static getCoordLegend(){
+      return this.color_hash_incoming.concat(this.color_hash_status,this.color_hash_noTriage);
+    }
+
+    public static svgStroke(svg,color){
+      if(svg){
+         svg.style("fill", "none")
+             .style("stroke", color)
+             .style("stroke-dasharray", ("2, 2"))
+             .style("stroke-width", "1.75px");
+        }
     }
 }
 
@@ -98,25 +114,18 @@ export class Block{
     }
 
     stroke(color:string){
-      //console.log(this);
-      if(this.svgBlock){
-         this.svgBlock.style("fill", "none")
-             .style("stroke", color)
-             .style("stroke-dasharray", ("2, 2"))
-             .style("stroke-width", "1.75px");
-        }
-      }
+      Barchart.svgStroke(this.svgBlock,color);
+    }
 
-    static drawPile(dataArray:number[], parent, yAxis, chartHeight:number, barWidth:number, xCoord:number, colorOffset:number, color_hash){
-          var yCoord = yAxis(dataArray[dataArray.length-1]);
+    static drawPile(dataArray:number[], parent, yAxis, chartHeight:number, barWidth:number, xCoord:number, color_hash:string[][]){
+          var yCoord;
           var lastY = chartHeight;
-          for(var i=dataArray.length-1; i >= 0; i--){
+          for(var i=0; i<dataArray.length; i++){
               var boxHeight = chartHeight-yAxis(dataArray[i]);
               yCoord = lastY-boxHeight;
-              Block lastBlock = new Block(parent, xCoord, yCoord, barWidth, boxHeight, color_hash[i+colorOffset][1], dataArray[i]);
+              var lastBlock = new Block(parent, xCoord, yCoord, barWidth, boxHeight, color_hash[i][1], dataArray[i]);
               lastY = lastBlock.y;
           }
           return lastBlock;
       }
-  }
 }

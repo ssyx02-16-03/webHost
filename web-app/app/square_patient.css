@@ -133,14 +133,14 @@ ul.cardList{
   padding:0px;
 }
 
-.cardList li{
-  margin:0;
-  display:inline-block;
-  float:left;
-}
+  .cardList li{
+    margin:0;
+    display:inline-block;
+    float:left;
+  }
 
-.cardList li.headCard{
-  padding-left:5%;
-  font-size:200%;
-  font-weight:bold;
-}
+  .cardList li.headCard{
+    padding-left:5%;
+    font-size:200%;
+    font-weight:bold;
+  }
