@@ -38,8 +38,8 @@ what the data will look like
 
 export class room_table{
     static divName = "map_tableContainer";
-    static tdStyle1 = "padding: 0% 0% 0% 0.5%;"; //left cell
-    static tdStyle2 = "padding: 0% 0% 0% 0%;"; //right cell
+    static tdStyle1 = "padding: 0% 0.5% 1% 1%;"; //left cell
+    static tdStyle2 = "padding: 0% 0.5% 1% 1%;"; //right cell
     static thStyle = "padding: 0 0% 0% 0; text-align:center;"
 
     static color1 = "#C9C9C9";
@@ -96,7 +96,7 @@ export class room_table{
             var th = thead.select("tr")
                 .append("th")
                 .attr("style", this.thStyle)
-                .attr("colspan",3)
+                .attr("colspan",2)
                 .text(department_translator[columnKeys[i]]);
             if(i % 2 == 0) {
                 th.style("background-color", this.color1);
@@ -115,7 +115,6 @@ export class room_table{
             for (var col=0; col < columnKeys.length; col++) {
               var room1 = emptyrooms[col].pop();
               var room2 = emptyrooms[col].pop();
-              var room3 = emptyrooms[col].pop()
                 var tr1 = tr.append("td")
                     .attr("style", this.tdStyle1)
                     .text(room1)
@@ -124,18 +123,12 @@ export class room_table{
                     .attr("style", this.tdStyle2)
                     .text(room2)
                     .style("font-size", "18px");
-                var tr3 = tr.append("td")
-                    .attr("style", this.tdStyle2)
-                    .text(room3)
-                    .style("font-size", "18px");
                 if(col % 2 === 0) {
                     tr1.style("background-color", this.color1);
                     tr2.style("background-color", this.color1);
-                    tr3.style("background-color", this.color1);
                 } else {
                     tr1.style("background-color", this.color2);
                     tr2.style("background-color", this.color2);
-                    tr3.style("background-color", this.color2);
                 }
               if(room1 != undefined || room2 != undefined){
                 thereIsMore = true;
