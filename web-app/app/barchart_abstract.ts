@@ -36,8 +36,8 @@ export class Barchart{
 
 export class Block{
     parent; //parent Div
-    x:number
-    y:number
+    x:number;
+    y:number;
     width:number;
     height:number;
     fontSize:number;
@@ -54,12 +54,12 @@ export class Block{
         this.parent = parent;
         this.width = width;
         this.height = height;
-        this.fontSize = 11;
+        this.fontSize = 15;
         this.color = color;
         this.nOfPatients = nOfPatients;
         this.fontColor = "black";
 
-        if(this.color == this.fontColor){
+        if(this.color ==  this.fontColor){
           this.fontColor = "white";
         }
         //console.log(this);
@@ -86,6 +86,7 @@ export class Block{
           .attr("y", y + fontSize)
           .attr("font-size", fontSize)
           .attr("fill", fontColor)
+          .attr("dx", ".5em")
           .text(text);
       return textField;
     }

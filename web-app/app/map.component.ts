@@ -17,7 +17,7 @@ import * as d3 from 'd3';
     selector: 'map',
     template: `
     <div style="height:100%; width:100%; position:relative;">
-        <div style="height:70; width:100%;">
+        <div style="height:75%; width:100%;">
           <svg class="map" style="display:block; margin:0 auto; "></svg>
           <div id="joergen">
               <h3 id="inf">Infektion</h3>
@@ -49,37 +49,37 @@ import * as d3 from 'd3';
             width:50%;
         }
         #inf {
-            left: 6%;
+            left: 7.75%;
             top: -2.5%;
         }
         #tri {
-            left: 15%;
+            left: 17.25%;
             top: -2.5%;
         }
         #medyel {
-            left: 27%;
-            top: 8.5%;
+            left: 31.5%;
+            top: 9.5%;
         }
         #medblu {
-            left: 27%;
-            top: 24.5%;
+            left: 31.5%;
+            top: 28%;
         }
         #jour {
             position: absolute;
-            left: 51.8%;
-            top: 10%;
+            left: 58%;
+            top: 12%;
         }
         #ort {
-            left: 58.5%;
-            top: 10%;
+            left: 67.5%;
+            top: 12%;
         }
         #acu {
-            left: 35%;
-            top: 51%;
+            left: 38%;
+            top: 56%;
         }
         #surg {
-            left: 58%;
-            top: 49%;
+            left: 65.75%;
+            top: 55%;
         }
         `],
     providers: [SocketIO],
@@ -97,7 +97,7 @@ export class MapComponent implements OnInit {
 
     static setStyles() {
         var map = d3.select(".map");
-        this.scaleSVG(map,90,100,[0,0,1000,700]);
+        this.scaleSVG(map,90,100,[0,0,940,630]);
     }
 
 
@@ -740,7 +740,7 @@ class Room{
             .style("fill", color);
 
         var text = svg.append("text")
-            .attr("x", x + width / 2)
+            .attr("x", x + width / 2 - 7.5)
             .attr("y", y + height / 2)
             .attr("dy", ".35em")
             .text(jsonRoomObject['room']);

@@ -41,7 +41,7 @@ export class barchart_coordinator {
             chartHeight = height * 0.8,
             barSpace = chartWidth / (jsonData.length * 2),
             barWidth = barSpace * 0.8,
-            middleSpacer = 5;
+            middleSpacer = 3;
             //fontSize = chartHeight / max,
             fontSize = 10,
             legendSpace = height / 20,
@@ -118,8 +118,8 @@ export class barchart_coordinator {
                 if (i == 0) {
                     rect.style("fill", "none")
                         .style("stroke", color_hash[0][1])
-                        .style("stroke-dasharray", ("3, 3"))
-                        .style("stroke-width", "1.75px");
+                        .style("stroke-dasharray", ("2, 2"))
+                        .style("stroke-width", "1.5px");
                 }
                 else {
                     rect.style("fill", color_hash[i][1]);
@@ -146,7 +146,7 @@ export class barchart_coordinator {
             .text(function (d) {
                 return d['total_patients'];
             })
-            .attr("font-size", fontSize * 1.2)
+            .attr("font-size", fontSize * 2)
             .attr("font-weight", "bold");
 
         //untriaged
@@ -183,7 +183,7 @@ export class barchart_coordinator {
 
           var strokeHeight = chartHeight-y(jsonData.incoming);
           var block = new Block(parent, firstBox.x, firstBox.y-strokeHeight, barWidth*2+middleSpacer, strokeHeight, "none", jsonData.incoming);
-          block.stroke("white");
+          block.stroke("#333333");
         }
 
     }
