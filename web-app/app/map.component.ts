@@ -17,7 +17,7 @@ import * as d3 from 'd3';
     selector: 'map',
     template: `
     <div style="height:100%; width:100%; position:relative;">
-        <div style="height:70; width:100%;">
+        <div style="height:75%; width:100%;">
           <svg class="map" style="display:block; margin:0 auto; "></svg>
           <div id="joergen">
               <h3 id="inf">Infektion</h3>
