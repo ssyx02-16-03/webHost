@@ -58,7 +58,6 @@ export class barchart_medicinComponent implements OnInit {
         barchart_medicin.drawWithRefinedData(barchart_medicinComponent.jsonData);
         SocketIO.subscribe('bar_graphs', function(data){
             barchart_medicin.draw(data);
-
         })
     }
 }

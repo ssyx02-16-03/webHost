@@ -56,7 +56,7 @@ export class Faces implements OnInit {
         var face1X = 30, faceY = 25, faceR = radius * 0.4;
         var arrow1X = 15, arrowY = 50;
 
-        this.drawCircle(circle1X, circleY, radius, data['ttd'],'TTD');
+        this.drawCircle(circle1X, circleY, radius, data['ttd'],'TTL');
         this.drawFace(face1X, faceY, faceR, data['ttd']);
         this.drawArrow(arrow1X, arrowY, data['ttd']);
 

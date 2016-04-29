@@ -305,7 +305,6 @@ export abstract class TrendDiagram {
          var nowTimeKey = dataPoints-1;
 
          for (var key in data[dataKey.times]) {
-           console.log(data[dataKey.times][key]);
             if(key != undefined) {
               var color = colors[key];
               if(colors[key]==undefined){

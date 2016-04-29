@@ -12,7 +12,7 @@ import * as d3 from 'd3';
 @Component({
     selector: 'barchart_coordinator',
     template: `
-        <h2 id="barchart_coord_header">Patienter totalt: </h2>
+        <h2 class="barchart_coord_header">Patienter totalt: </h2>
 		    <svg class='baarchart' style="width:100%; height:90%;" viewBox="0 25 650 380"></svg>
 		`,
     styleUrls: ['app/globalcss/style.css']
@@ -26,8 +26,8 @@ export class barchart_coordinator {
         for (var i = 0; i < data.length; i++) {
             total += data[i]['total_patients'];
         }
-        var header:HTMLElement = document.getElementById('barchart_coord_header');
-        header.innerText = "Patienter totalt: " + total;
+        var header = d3.select('.barchart_coord_header');
+        header.text('Patienter totalt: ' + total);
 
         var color_hash = Barchart.getCoordColors();
 
@@ -41,9 +41,8 @@ export class barchart_coordinator {
             chartHeight = height * 0.8,
             barSpace = chartWidth / (jsonData.length * 2),
             barWidth = barSpace * 0.8,
-            middleSpacer = 3;
-            //fontSize = chartHeight / max,
-            fontSize = 10,
+            middleSpacer = 3,
+            fontSize = 10,  //fontSize = chartHeight / max,
             legendSpace = height / 20,
             legendSize = legendSpace / 2;
 
@@ -74,7 +73,6 @@ export class barchart_coordinator {
             .outerTickSize(2);
 
         //clear all before
-        d3.select(".header").selectAll("*").remove();
         d3.select(".baarchart").selectAll("*").remove();
 
         //Chart
@@ -154,7 +152,7 @@ export class barchart_coordinator {
         var noTriage = [];
         noTriage[0] = jsonData[i]['untriaged'];
         var xCoord = (2*i+1) * barSpace - barWidth;
-        Block lastBox = Block.drawPile(noTriage,barBox,y, chartHeight, barWidth*2, xCoord, 9,color_hash);
+        var lastBox = Block.drawPile(noTriage,barBox,y, chartHeight, barWidth*2, xCoord, 9,color_hash);
         lastBox.setFontColor("white");
 
         //the rest
@@ -171,7 +169,7 @@ export class barchart_coordinator {
           medBlue_status[0] = jsonData.no_doctor;
           medBlue_status[1] = jsonData.has_doctor;
           medBlue_status[2] = jsonData.klar;
-          Block firstBox = Block.drawPile(medBlue_status,parent,y, chartHeight, barWidth, xCoord, 1, color_hash);
+          var firstBox = Block.drawPile(medBlue_status,parent,y, chartHeight, barWidth, xCoord, 1, color_hash);
 
           xCoord = (2*i+1) * barSpace + middleSpacer;
           medBlue_triage[0] = jsonData.blue;

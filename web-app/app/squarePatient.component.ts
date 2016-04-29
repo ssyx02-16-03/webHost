@@ -36,7 +36,7 @@ export class SquarePatients implements OnInit{
 
 
 var cardWidth = 20; //percentage of the whole bottom area, total of 5 columns
-var waitDivWidth = 40;
+var waitDivWidth = 3/5*100;
 var otherDivWidth = 100-waitDivWidth;
 var waitCols = waitDivWidth/cardWidth;
 var otherCols = otherDivWidth/cardWidth;
@@ -128,10 +128,7 @@ function paintRoomCards(grid,roomCards){
 function paintCardsLoop(grandParent,nColumns:number,title:string,cards ){
   grandParent.selectAll("*").remove(); //remove old stuff
 
-  var cardStyle = "height: 23%; width:" +100 +"%;"
-      + "margin-bottom: 5%;"
-      + "display:inline-block; "
-      + "float:left;";
+  var cardStyle = "height: 23%; width:" +100 +"%;";
 
   var maxCards = nColumns*4;
   var columns = [];
@@ -143,7 +140,8 @@ function paintCardsLoop(grandParent,nColumns:number,title:string,cards ){
   //print the cards, start with placeholder
   var parent = columns[0];
     parent.append("li")
-      .attr("style", cardStyle + "font-size:200%; font-weight:bold;")
+      .attr('class','headCard')
+      .attr("style", cardStyle)
       .text(title);
 
   for(var paintedCards = 1; cards.length>0 && paintedCards < maxCards; paintedCards++) {
@@ -193,20 +191,15 @@ function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside 
       .text(patientCard.room)
       .attr("style", "float:left; display:block; padding:5px; margin:0px; max-width:40%");
 
-  //patient name
-  var nameAndNumberStyle = "text-align:right; font-size:150%; min-width: 50%;"
-      +"float:right; display: block;";
-
+  //patient name and number
   upperContainer.append("p")
       .text(patientCard.name)
-      .attr("style", nameAndNumberStyle
-          + "margin: 5px 2px 0 0;");
-
-  //patient number
+      .attr('class', 'nameAndNumber')
+      .attr("style","margin: 5px 2px 0 0;");
   upperContainer.append("p")
       .text(patientCard.careNumber)
-      .attr("style", nameAndNumberStyle
-          +" margin: 2px 2px 0 0;"); //margin: top right bot left
+      .attr('class', 'nameAndNumber')
+      .attr("style"," margin: 2px 2px 0 0;"); //margin: top right bot left
 
   //info table: styles
   var rowStyle = "height:50%;";

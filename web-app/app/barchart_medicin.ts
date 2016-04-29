@@ -11,15 +11,15 @@ import * as d3 from 'd3';
 @Component({
     selector: '.medbarchart',
     template: `
-        <h3 id="barchart_totNumber" style="margin: 0 auto; height:10%; width:50%">Patientantal: </h3>
+        <h3 class="barchart_totNumber" style="margin: 0 auto; height:10%; width:50%">Patientantal: </h3>
 		    <svg class='barchart_medicine' style="display:block; margin:0 auto;"></svg>
 		`
 })
 
-
 export class barchart_medicin extends Barchart{
   static color_hash = Barchart.getMedColors();
   static staplar = (["Priofärg", "Läkarstatus", "Plats"]);
+
 
     private static scaleSVG(svg,width,height,endpoints){
         svg.attr("viewBox", endpoints[0] +" " +endpoints[1] +" " +endpoints[2] +" " +endpoints[3]);
@@ -30,9 +30,11 @@ export class barchart_medicin extends Barchart{
 
     public static draw(rawData){
         var rawData = rawData.bars;
+        console.log("barchart:draw!",rawData);
         for(var i=0; i< rawData.length; i++){
             if(rawData[i].division == "Medicin Blå"){
                 this.drawWithRefinedData(rawData[i]);
+
                 return;
             }
         }
@@ -43,12 +45,11 @@ export class barchart_medicin extends Barchart{
         var color_hash = this.color_hash;
         var svg = d3.select(".barchart_medicine");
         this.scaleSVG(svg,90,90,[0,30,400,300]);
-        d3.select(".barchart_p").style("width","80%");
 
         var nPatients = jsonData.total_patients;
 
-        var h3_number = document.getElementById("barchart_totNumber");
-        h3_number.textContent = "Patientantal: "+nPatients;
+        var h3_number = d3.select('.barchart_totNumber');
+        h3_number.text("Patientantal: "+nPatients);
 
         var max = nPatients;
         var width = 500,

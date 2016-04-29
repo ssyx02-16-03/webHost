@@ -31,7 +31,7 @@ export class BrokenNotifier implements OnInit{
 
 }
 class BrokenBox{
-    private static connected:boolean = false;
+    private static connected:boolean;
     public static lastTimeStamp:number = 0;
     private static i = 0;
     private static div:HTMLElement;
@@ -47,7 +47,6 @@ class BrokenBox{
     }
 
     public static newData(data){
-      console.log("StatusData!");
       var status = false;
       BrokenBox.lastTimeStamp = data.timestamp/1000;
       if(data.status=='alive'){
@@ -57,6 +56,9 @@ class BrokenBox{
     }
 
     public static alertStatus(connected:boolean){
+      if(this.connected == connected){
+        return;
+      }
       if(connected){
         BrokenBox.connected = true
         BrokenBox.div.style.display ='none';
