@@ -73,7 +73,7 @@ export class Faces implements OnInit {
             .attr("cy", circleY)
             .attr("r", circleR)
             .attr("angle", 360)
-            .style("fill", "#a9daea")
+            .style("fill", "#bfbfbf")
             .style("stroke-width",2)
             .style("stroke","rgb(95, 95, 95)");
 
@@ -99,7 +99,9 @@ export class Faces implements OnInit {
                     .attr("cy", faceY)
                     .attr("r", faceR)
                     .attr("angle", 360)
-                    .style("fill", "green");;
+                    .style("stroke-width",1)
+                    .style("stroke","rgb(95, 95, 95)")
+                    .style("fill", "c7e0ae");;
 
                 var arc = d3.svg.arc()
                     .innerRadius(faceR * 0.5)
@@ -117,7 +119,9 @@ export class Faces implements OnInit {
                     .attr("cy", faceY)
                     .attr("r", faceR)
                     .attr("angle", 360)
-                    .style("fill", "orange");;
+                    .style("stroke-width",1)
+                    .style("stroke","rgb(95, 95, 95)")
+                    .style("fill", "fcf0b4");;
 
                 var arc = d3.svg.arc()
                     .innerRadius(faceR * 1)
@@ -135,7 +139,9 @@ export class Faces implements OnInit {
                     .attr("cy", faceY)
                     .attr("r", faceR)
                     .attr("angle", 360)
-                    .style("fill", "red");;
+                    .style("stroke-width",1)
+                    .style("stroke","rgb(95, 95, 95)")
+                    .style("fill", "f9b9b9");;
 
                 var arc = d3.svg.arc()
                     .innerRadius(faceR * 0.5)
@@ -185,7 +191,9 @@ export class Faces implements OnInit {
 
         var arrow = chart
             .append("polygon")
-            .attr("points", points);
+            .attr("points", points)
+            .style("stroke-width",1)
+            .style("stroke","rgb(95, 95, 95)");
 
 
         var midX = arrowX + headWidth / 2.0, midY = arrowY + length / 2.0;
@@ -193,15 +201,15 @@ export class Faces implements OnInit {
         switch(datattx['trend']) {
             case -1:
                 rotation = 0;
-                color = "green";
+                color = "#c7e0ae";
                 break;
             case 0:
                 rotation = 270;
-                color = "orange";
+                color = "#a9daea";
                 break;
             case 1:
                 rotation = 180;
-                color = "red";
+                color = "#f9b9b9";
                 break;
         }
         arrow.attr("transform", "rotate(" + rotation + "," + midX + "," + midY + ")");

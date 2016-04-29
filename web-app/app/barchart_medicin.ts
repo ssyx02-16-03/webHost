@@ -11,7 +11,7 @@ import * as d3 from 'd3';
 @Component({
     selector: '.medbarchart',
     template: `
-        <h3 class="barchart_totNumber" style="margin: 0 auto; height:10%; width:50%">Patientantal: </h3>
+        <h2 class="barchart_totNumber" style="font-weight: bold; margin: 0 auto; height:10%; width:50%">Patientantal: </h2>
 		    <svg class='barchart_medicine' style="display:block; margin:0 auto;"></svg>
 		`
 })
@@ -96,8 +96,12 @@ export class barchart_medicin extends Barchart{
             .attr("class", "x axis")
             .attr("transform", "translate(0," + chartHeight + ")")
             .call(xAxis)
-            .selectAll("text")
-            .attr("font-size", fontSize * 1.0);
+              .selectAll("text")
+              .attr("font-size", fontSize * 1.30)
+              .attr("dx", ".2m")
+              .attr("dy", ".5em")
+              .attr("transform", "rotate(-15)")
+              .style("text-anchor","end");
 
         bar.append("g")
             .attr("class", "y axis")

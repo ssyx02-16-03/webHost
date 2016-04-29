@@ -297,7 +297,7 @@ export abstract class TrendDiagram {
         //---------------------------------------------------//
         //-------------------- circles ----------------------//
          var smallR = 5;
-         var bigR = 8;
+         var bigR = 0.1;            //Fel median - gömmer denna!
          var colors = this.getMarkerColors();
          var circles = svg.append("svg").attr("class","circles");
 
@@ -316,7 +316,7 @@ export abstract class TrendDiagram {
               .attr("r",smallR)
               .attr("angle", 360)
               .style("fill", color)
-              .attr("stroke","white","stroke-width",-2)
+              .attr("stroke","black","stroke-width",-2)
               .attr("class","trend_circle");
 
               if(key == 'median'){
