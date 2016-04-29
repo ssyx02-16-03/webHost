@@ -742,7 +742,9 @@ class Room{
         var text = svg.append("text")
             .attr("x", x + width / 2)
             .attr("y", y + height / 2)
-            .attr("dy", ".35em")
+            .attr("dy", ".20em")
+            .attr("dx", "-.7em")
+            .attr("font-size", 16)
             .text(jsonRoomObject['room']);
 
         if (this.occupied) {
