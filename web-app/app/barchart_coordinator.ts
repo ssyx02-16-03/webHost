@@ -118,8 +118,8 @@ export class barchart_coordinator {
                 if (i == 0) {
                     rect.style("fill", "none")
                         .style("stroke", color_hash[0][1])
-                        .style("stroke-dasharray", ("3, 3"))
-                        .style("stroke-width", "1.75px");
+                        .style("stroke-dasharray", ("2, 2"))
+                        .style("stroke-width", "1.5px");
                 }
                 else {
                     rect.style("fill", color_hash[i][1]);

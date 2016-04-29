@@ -86,6 +86,7 @@ export class Block{
           .attr("y", y + fontSize)
           .attr("font-size", fontSize)
           .attr("fill", fontColor)
+          .attr("dx", ".5em")
           .text(text);
       return textField;
     }

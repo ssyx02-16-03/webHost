@@ -760,7 +760,8 @@ class Room{
             */
             //rect.style("opacity", 0.65);
         //}else{
-            text.attr("font-weight","bold")
+            text.attr("font-weight","bold");
+            text.attr("fill", "white")
         }
     }
 }
