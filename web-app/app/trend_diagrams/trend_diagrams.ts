@@ -137,7 +137,7 @@ function MarkerColors() {
     return {
         'median': 'gray',
         'Gul': 'yellow',
-        'Bla' : 'blue',
+        'Blue' : 'blue',
         'Ki': 'red',
         'Ort': 'green',
         'Jour': 'purple'

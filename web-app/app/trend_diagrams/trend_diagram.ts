@@ -13,8 +13,17 @@ var dataKey = {
 };
 
 
-export abstract class TrendDiagram {
+var xAxisLimits = {
+  min:0,
+  max:0
+};
 
+var yAxisLimits = {
+  min:0,
+  max:0
+};
+
+export abstract class TrendDiagram {
     abstract getMarkerColors();
 
     scaleData(data,minMinutes:number,maxMinutes:number){
@@ -22,38 +31,42 @@ export abstract class TrendDiagram {
         console.log(data);
         if(data['current_value']){
             var median = data['current_value'];
-            data[dataKey.times] = median;
+            data[dataKey.times] = {'median': median.y};
         }
 
         var newHistData = Array();
         var nowKey = data[dataKey.hist].length-1;
-        var xNow = data[dataKey.hist][nowKey].x;
+        var xNow = data[dataKey.pred][0].x;
 
         console.log(xNow);
-        var xMin_minutes = xNow - minMinutes
+        var xMin_minutes = xNow - minMinutes;
+        xAxisLimits.min = xMin_minutes;
 
         for(var i = nowKey; i>=0; i--){
+          this.checkYLimit(data[dataKey.hist][i]);
           if(data[dataKey.hist][i].x < xMin_minutes){
+            newHistData.unshift(data[dataKey.hist][i]);
             break;
+          }else if(data[dataKey.hist][i].x <= xNow){
+              newHistData.unshift(data[dataKey.hist][i]);
           }
-          newHistData.unshift(data[dataKey.hist][i]);
         }
-        newHistData.unshift({x:xMin_minutes,y:0});
-
+        newHistData.push(data[dataKey.pred][0]); //add first prediction point to history
+        //newHistData.unshift({x:xMin_minutes,y:0});
 
         var newPredData = Array();
         var nowKey = 0;
         var xMax_minutes = xNow + maxMinutes;
-
+        xAxisLimits.max = xMax_minutes;
 
         for(var i = 0; i<data[dataKey.pred].length; i++){
+          this.checkYLimit(data[dataKey.pred][i]);
+          newPredData.push(data[dataKey.pred][i]);
           if(data[dataKey.pred][i].x > xMax_minutes){
             break;
           }
-          newPredData.push(data[dataKey.pred][i]);
         }
-        newPredData.push({x:xMax_minutes,y:0});
-
+        //newPredData.push({x:xMax_minutes,y:0});
 
         data[dataKey.hist] = newHistData;
         data[dataKey.pred] = newPredData;
@@ -62,8 +75,21 @@ export abstract class TrendDiagram {
         return data;
     }
 
+    checkYLimit(dataPoint){
+      if(dataPoint.y >yAxisLimits.max){
+        yAxisLimits.max = dataPoint.y;
+      }if(dataPoint.y < yAxisLimits.min){
+        yAxisLimits.min = dataPoint.y;
+      }
+    }
+
     draw(data,selector,ylims: number[]) {
-      data = this.scaleData(data,120,60);
+      xAxisLimits.min=0;
+      xAxisLimits.max=0;
+      yAxisLimits.min=0;
+      yAxisLimits.max=0;
+      data = this.scaleData(data,120,30);
+      console.log(xAxisLimits,yAxisLimits);
 
         var bgGreen = "#c5f9a9";
         var bgYellow = "#fcf49f";
@@ -79,21 +105,24 @@ export abstract class TrendDiagram {
         //vIndraw = 0.2 * height;
 
         var x = d3.scale.linear()
-            .range([0, width]);
+            .range([0,width]);
+            //.range([xAxisLimits.min,xAxisLimits.max]);
         //.range([hIndraw, width - hIndraw]);
 
         var xstr = d3.scale.ordinal()
-            .domain(["-2 timmar", "-1 timme", "nu", "+1 timme"])
+            .domain([ String(xAxisLimits.min), "-1.5","-1","0.5","0", String(xAxisLimits.max)])
             .rangePoints([0, width]);
+                      //.domain(["-2 timmar", "-1 timme", "nu", "+1 timme"])
 
 
         var xAxis = d3.svg.axis()
             .scale(xstr)
             //.tickValues(['ett', 'two', 'three'])
-            .orient("bottom")
+            .orient("bottom");
 
         var y = d3.scale.linear()
-            .range([0, height]);
+        .range([0,height])
+            //.range([yAxisLimits.min, yAxisLimits.max]);
         //.range([height - vIndraw, vIndraw]);
 
         var yAxis = d3.svg.axis()
@@ -117,8 +146,18 @@ export abstract class TrendDiagram {
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         var allData = data['trend'].concat(data['prediction']);
-        x.domain(d3.extent(allData, function(d: any) { return d.x; }));
+        x.domain(d3.extent(allData, function(d: any) {
+          if(d.x > xAxisLimits.max) {
+            return xAxisLimits.max;
+          }else if(d.x < xAxisLimits.min) {
+              return xAxisLimits.min;
+          } else {
+            return d.x;
+          }
+        }));
 
+        //var maxValue = yAxisLimits.max;
+        //var minValue = yAxisLimits.min;
         var maxValue = d3.max(allData, function (d) { return d['y']; });
         var minValue = d3.min(allData, function (d) { return d['y']; });
 
@@ -252,7 +291,7 @@ export abstract class TrendDiagram {
 
     }
 
-    private drawCircles(parent,data,x,y){
+    drawCircles(parent,data,x,y){
         var svg = parent;
         //---------------------------------------------------//
         //-------------------- circles ----------------------//
@@ -265,14 +304,18 @@ export abstract class TrendDiagram {
          var nowTimeKey = dataPoints-1;
 
          for (var key in data[dataKey.times]) {
-            var radius = smallR;
+           console.log(data[dataKey.times][key]);
             if(key != undefined) {
+              var color = colors[key];
+              if(colors[key]==undefined){
+                color = "black";
+              }
               var circle = circles.append("circle")
-              .attr("cx", x(data[dataKey.hist][nowTimeKey].x))
+              .attr("cx", x(data[dataKey.pred][0].x))
               .attr("cy", y(data[dataKey.times][key]))
               .attr("r",smallR)
               .attr("angle", 360)
-              .style("fill", colors[key])
+              .style("fill", color)
               .attr("stroke","white","stroke-width",-2)
               .attr("class","trend_circle");
 
