@@ -75,8 +75,8 @@ export class changeTable implements OnInit {
         var thead = table.select('thead');
         var tbody = table.select('tbody');
 
-        var columns = ["patient_id", "patient_name", "modification_field", "minutes_since", "current_location"];
-        var colNames = ["Patient id", "Namn", "Ändring", "Tid", "Plats"];
+        var columns = ["modification_field", "minutes_since", "current_location"];
+        var colNames = ["Ändring", "Tid sedan", "Plats"];
 
         thead.selectAll("*").remove();
         tbody.selectAll("*").remove();
@@ -129,7 +129,7 @@ export class changeTable implements OnInit {
                 if(d.value == null){
                     return ".";
                 }else if(d.column == "minutes_since"){
-                    return d.value + " min";
+                    return d.value +" min";
                 }
                 return d.value;
             });
