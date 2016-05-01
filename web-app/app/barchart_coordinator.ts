@@ -161,17 +161,17 @@ export class barchart_coordinator {
           var xCoord = (2*i+1) * barSpace -barWidth;
 
           jsonData = jsonData[i];
-          medBlue_status[2] = jsonData.no_doctor;
+          medBlue_status[0] = jsonData.no_doctor;
           medBlue_status[1] = jsonData.has_doctor;
-          medBlue_status[0] = jsonData.klar;
+          medBlue_status[2] = jsonData.klar;
           var firstBox = Block.drawPile(medBlue_status,parent,y, chartHeight, barWidth, xCoord, Barchart.color_hash_status);
 
           xCoord = (2*i+1) * barSpace + middleSpacer;
-          medBlue_triage[4] = jsonData.blue;
-          medBlue_triage[3] = jsonData.green;
+          medBlue_triage[0] = jsonData.blue;
+          medBlue_triage[1] = jsonData.green;
           medBlue_triage[2] = jsonData.yellow;
-          medBlue_triage[1]  = jsonData.orange;
-          medBlue_triage[0]  = jsonData.red;
+          medBlue_triage[3]  = jsonData.orange;
+          medBlue_triage[4]  = jsonData.red;
           Block.drawPile(medBlue_triage,parent,y, chartHeight, barWidth, xCoord, Barchart.color_hash_triage);
 
           var strokeHeight = chartHeight-y(jsonData.incoming);
