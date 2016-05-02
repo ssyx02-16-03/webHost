@@ -101,7 +101,7 @@ export class Faces implements OnInit {
                     .attr("angle", 360)
                     .style("stroke-width",1)
                     .style("stroke","rgb(95, 95, 95)")
-                    .style("fill", "c7e0ae");;
+                    .style("fill", "#c7e0ae");;
 
                 var arc = d3.svg.arc()
                     .innerRadius(faceR * 0.5)
@@ -121,7 +121,7 @@ export class Faces implements OnInit {
                     .attr("angle", 360)
                     .style("stroke-width",1)
                     .style("stroke","rgb(95, 95, 95)")
-                    .style("fill", "fcf0b4");;
+                    .style("fill", "#fcf0b4");;
 
                 var arc = d3.svg.arc()
                     .innerRadius(faceR * 1)
@@ -141,7 +141,7 @@ export class Faces implements OnInit {
                     .attr("angle", 360)
                     .style("stroke-width",1)
                     .style("stroke","rgb(95, 95, 95)")
-                    .style("fill", "f9b9b9");;
+                    .style("fill", "#f9b9b9");;
 
                 var arc = d3.svg.arc()
                     .innerRadius(faceR * 0.5)
