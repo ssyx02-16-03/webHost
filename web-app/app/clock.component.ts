@@ -18,7 +18,7 @@ import {SocketIO} from './socket-io';
               <td id="clock_minutes1"> </td>
               <td id="clock_minutes2"> </td>
               </tr>
-            <tbody>
+            </tbody>
           </table>
         </div> `,
     providers: [SocketIO]

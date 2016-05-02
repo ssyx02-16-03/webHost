@@ -12,8 +12,8 @@ import * as d3 from 'd3';
 @Component({
     selector: 'barchart_coordinator',
     template: `
-        <h2 class="barchart_coord_header">Patienter totalt: </h2>
-		    <svg class='baarchart' style="width:100%; height:90%;" viewBox="0 25 650 380"></svg>
+        <h2 class="barchart_coord_header" style="height:10%;">Patienter totalt: </h2>
+		    <svg class='baarchart' style="width:100%; height:90%; padding-bottom:1%;" viewBox="0 25 650 380"></svg>
 		`,
     styleUrls: ['app/globalcss/style.css']
 })

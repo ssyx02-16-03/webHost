@@ -12,8 +12,7 @@ import {BrokenNotifier} from './broken_data_notifier';
 @Component({
     template: `
         <placeholder_coordinator>
-            <coordbarchart>
-            </coordbarchart>
+            <coordbarchart></coordbarchart>
             <clock_coord></clock_coord>
             <map></map>
             <trend-diagrams></trend-diagrams>

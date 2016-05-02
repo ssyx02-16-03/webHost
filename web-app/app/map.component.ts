@@ -19,7 +19,7 @@ import * as d3 from 'd3';
     <div style="height:100%; width:100%; position:relative;">
         <div style="height:75%; width:100%;">
           <svg class="map" style="display:block; margin:0 auto; "></svg>
-          <div id="joergen">
+          <div id="joergen" style="width: 100%; height: 100%; position: absolute; top: 0px; left: 0px;">
               <h3 id="inf">Infektion</h3>
               <h3 id="tri">Triage</h3>
               <h3 id="medyel">Medicin gul</h3>
@@ -46,7 +46,6 @@ import * as d3 from 'd3';
         }
         #joergen h3 {
             position: absolute;
-            width:50%;
         }
         #inf {
             left: 7.75%;
