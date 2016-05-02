@@ -651,6 +651,7 @@ class Room{
     width:number;
     height:number;
     occupied:boolean;
+    overview:boolean;
 
     constructor(htmlObject:string, x:number, y:number,
                 width:number, height:number, roomDep:string, jsonRoomObject) {
@@ -660,6 +661,19 @@ class Room{
         this.width = width;
         this.height = height;
         this.occupied = jsonRoomObject['occupied'];
+
+        // ful-hård-kod, detta egentligen lite av en python-uppgift amirite?
+        var rNbr = jsonRoomObject['room'];
+        this.overview = (rNbr == 13 ||
+                         rNbr == 14 ||
+                         rNbr == 15 ||
+                         rNbr == 24 ||
+                         rNbr == 26 ||
+                         rNbr == 36 ||
+                         rNbr == 37 ||
+                         rNbr == 53 ||
+                         rNbr == 60 ||
+                        rNbr == 61);
 
         var color = "black";
 
@@ -739,13 +753,30 @@ class Room{
             .attr("stroke-width", 2)
             .style("fill", color);
 
-        var text = svg.append("text")
-            .attr("x", x + width / 2 - 7.5)
-            .attr("y", y + height / 2)
-            .attr("dy", ".35em")
-            .text(jsonRoomObject['room']);
+        if(this.overview) {
+            var iconPath: string;
+            if(this.occupied) {
+                iconPath = "app/icons/Övervakning_tagen.svg";
+            } else {
+                iconPath = "app/icons/Övervakning_ledig.svg";
+            }
+            svg.append("svg:image")
+                .attr("x", x + width * 0.08)
+                .attr("y", y + height - 27)
+                .attr("width", 40)
+                .attr("height", 35)
+                .attr("xlink:href", iconPath);
+        }
 
-        if (this.occupied) {
+        var text = svg.append("text")
+            .attr("x", x + width / 2)
+            .attr("y", y + height / 2 - 4)
+            .attr("dy", ".35em")
+            .text(jsonRoomObject['room'])
+            .style("font-size", "19px")
+            .attr("text-anchor", "middle");
+
+        if (true) { // previously if this.occupied
             /*
             svg.append("circle")
                 .attr("cx", x + width / 2 - 15)
