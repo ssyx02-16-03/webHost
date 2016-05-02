@@ -129,9 +129,9 @@
 
 /* patient waiting and others */
 ul.cardList{
-  padding:0px;
   float:left;
   padding:0px;
+  margin:0px;
 }
 
   .cardList li{
