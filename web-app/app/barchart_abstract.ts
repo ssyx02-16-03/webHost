@@ -17,32 +17,32 @@ export class Barchart{
     }
 
     public static color_hash_incoming = [
-      ["inkommande", "#333333"]
+      ["Inkommande", "#333333"]
     ];
 
     public static color_hash_status = [
-        ["opåtittade", "#808080"],
-        ["påtittade", "#C0C0C0"],
-        ["klara", "#fbfbfb"]
+        ["Opåtittade", "#808080"],
+        ["Påtittade", "#C0C0C0"],
+        ["Klara", "#fbfbfb"]
     ];
 
     public static color_hash_triage = [
-      ["blå", "#0040FF"],
-      ["grön", "#5FCC00"],
-      ["gul", "#FFFF00"],
-      ["orange", "#FF8C00"],
-      ["röd", "#FF0000"]
+      ["Blå", "#0040FF"],
+      ["Grön", "#5FCC00"],
+      ["Gul", "#FFFF00"],
+      ["Orange", "#FF8C00"],
+      ["Röd", "#FF0000"]
     ];
 
     public static color_hash_rooms = [
-      ["rum", "#285078"],
-      ["inre väntrum", "#328CA5"],
-      ["undersökning", "#97D2C8"],
-      ["annan plats", "#C3E6BE"]
+      ["Rum", "#285078"],
+      ["Inre väntrum", "#328CA5"],
+      ["Undersökning", "#97D2C8"],
+      ["Annan plats", "#C3E6BE"]
     ];
 
     public static color_hash_noTriage = [
-      ["ej triagerade", "#333333"]
+      ["Ej triagerade", "#333333"]
     ];
 
     public static getMedLegend(){

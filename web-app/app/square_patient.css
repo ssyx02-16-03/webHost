@@ -83,11 +83,12 @@
 
     /*table styling*/
   li.patientCard td{
-    border:none;
+    border: 1px solid #b0b0b0;
+    //border-color: black;
     width:50%;
     padding:0px;
     font-size:120%;
-    background-color:rgba(255,255,255,0.5);
+    background-color:rgba(255,255,255,0.6);
   }
 
   .patientCard img.done{
