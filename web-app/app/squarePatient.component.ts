@@ -309,6 +309,18 @@ class Card{
 
     determineLocation(jsonLocation){
         this.room = jsonLocation;
+        var room_nr = parseInt( this.room.substr(1,3) );
+        if(this.room == "Biv" || this.room == "Bvr"){
+            this.loc = Location.innerWaitRoom;
+        }else if(this.isNumeric(room_nr)) {
+            this.room_nr = room_nr;
+            this.loc = Location.square;
+        } else {
+            this.loc = Location.other;
+        }
+
+        /*
+        this.room = jsonLocation;
         var letter = this.room.substr(0,1);
         var room_nr = parseInt( this.room.substr(1,3) );
         if(letter == "b" || letter == "B" ) {
@@ -319,13 +331,14 @@ class Card{
           this.loc = Location.square;
         }else {
             switch(this.room) {
-                case 'ivr':
+                case 'Bvr':
                     this.loc = Location.innerWaitRoom;
                     break;
                 default:
                     this.loc = Location.other;
             }
         }
+        */
     }
 
     private isNumeric(num){ //is the object numeric?
