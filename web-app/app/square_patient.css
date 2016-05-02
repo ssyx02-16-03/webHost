@@ -33,6 +33,7 @@
 .grid .row .cell{
   float:left;
   height:100%;
+  padding: 0.15%;
   /* border: gray solid 1px; */
 }
 
