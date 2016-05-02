@@ -36,7 +36,7 @@ import * as d3 from 'd3';
           </div>
 
         </div>
-        <abra style="display: block; width: 100%; height:30%; "></abra>
+        <abra style="display: block; width: 100%; height:25%; "></abra>
     </div>
         `,
     styles: [`
