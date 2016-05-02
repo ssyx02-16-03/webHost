@@ -22,10 +22,10 @@ export class Barchart{
     ];
 
     public static color_hash_rooms = [
-      ["rum", "#34749d"],
-      ["inre väntrum", "#6ca1bc"],
-      ["undersökning", "#9fc7d3"],
-      ["annan plats", "#c9e1ec"]
+      ["rum", "#285078"],
+      ["inre väntrum", "#328CA5"],
+      ["undersökning", "#97D2C8"],
+      ["annan plats", "#C3E6BE"]
     ];
 
     public static color_hash_noTriage = [
