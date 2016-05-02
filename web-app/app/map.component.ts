@@ -28,7 +28,7 @@ import * as d3 from 'd3';
                   <h3 style="position:relative;">Jour:</h3>
                   <h5 style="position:relative;">ÖNH</h5>
                   <h5 style="position:relative;">Gyn</h5>
-                  <h5 style="position:relative;">ÖNH</h5>
+                  <h5 style="position:relative;">Barn</h5>
               </div>
               <h3 id="ort">Ortopedi</h3>
               <h3 id="acu">Akutrum</h3>
@@ -69,7 +69,7 @@ import * as d3 from 'd3';
             top: 12%;
         }
         #ort {
-            left: 67.5%;
+            left: 66%;
             top: 12%;
         }
         #acu {
