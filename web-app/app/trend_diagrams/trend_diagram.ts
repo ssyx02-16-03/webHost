@@ -215,7 +215,8 @@ export abstract class TrendDiagram {
             } else if (ylims[0] < maxValue && ylims[1] < minValue) { // om övre gränsen är med
                 yellowY = y(ylims[0]);
                 yellowHeight = height - y(ylims[0]);
-            } else if (ylims[0] > maxValue && ylims[1] > minValue) { // om nedre gränsen är med
+            } else if ( ylims[1] > minValue) { // om nedre gränsen är med
+                console.log("are we here?");
                 yellowY = 0;
                 yellowHeight = y(ylims[1]);
             } else {
@@ -297,7 +298,7 @@ export abstract class TrendDiagram {
         //---------------------------------------------------//
         //-------------------- circles ----------------------//
          var smallR = 5;
-         var bigR = 8;
+         var bigR = 0.1;            //Fel median - gömmer denna!
          var colors = this.getMarkerColors();
          var circles = svg.append("svg").attr("class","circles");
 
@@ -316,7 +317,7 @@ export abstract class TrendDiagram {
               .attr("r",smallR)
               .attr("angle", 360)
               .style("fill", color)
-              .attr("stroke","white","stroke-width",-2)
+              .attr("stroke","black","stroke-width",-2)
               .attr("class","trend_circle");
 
               if(key == 'median'){

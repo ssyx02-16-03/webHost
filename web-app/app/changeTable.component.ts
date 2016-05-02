@@ -129,7 +129,11 @@ export class changeTable implements OnInit {
                 if(d.value == null){
                     return ".";
                 }else if(d.column == "minutes_since"){
-                    return d.value +" min";
+                    return d.value + " min";
+                }else if(d.column == "patient_name"){  // Anonymisering
+                    return " __ ";
+                }else if(d.column == "patient_id"){
+                    return " xxx ";
                 }
                 return d.value;
             });

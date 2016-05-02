@@ -85,8 +85,12 @@ export class barchart_coordinator {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + chartHeight + ")")
             .call(xAxis)
-            .selectAll("text")
-            .attr("font-size", fontSize);
+              .selectAll("text")
+              .attr("font-size", fontSize * 1.5)
+              .attr("dx", "-.1em")
+              .attr("dy", ".5em")
+              .attr("transform", "rotate(-20)")
+              .style("text-anchor","end");
 
         bar.append("g")
             .attr("class", "y axis")
