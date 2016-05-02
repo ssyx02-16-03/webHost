@@ -3,6 +3,19 @@
 */
 
 export class Barchart{
+    public static jsonKeys = {
+      red: 'red',
+      orange: 'orange',
+      yellow: 'yellow',
+      green: 'green',
+      blue: 'blue',
+      incoming : 'incoming',
+      noDoc: 'no_doctor',
+      hasDoc: 'has_doctor',
+      doneDoc: 'klar',
+      noTriage : 'untriaged'
+    }
+
     public static color_hash_incoming = [
       ["inkommande", "#333333"]
     ];

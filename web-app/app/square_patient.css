@@ -33,6 +33,7 @@
 .grid .row .cell{
   float:left;
   height:100%;
+  padding: 0.15%;
   /* border: gray solid 1px; */
 }
 
@@ -128,9 +129,9 @@
 
 /* patient waiting and others */
 ul.cardList{
-  padding:0px;
   float:left;
   padding:0px;
+  margin:0px;
 }
 
   .cardList li{

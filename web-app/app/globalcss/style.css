@@ -23,7 +23,9 @@ h2 {
 .placeholder{
   margin:0 auto;
   height:1080px;
-  width:1920px;
+  width:100%;
+  max-width: 1920px;
+   /* width:1920px; */
   background-color: #e6e6e6;
 }
 
