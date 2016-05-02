@@ -9,12 +9,48 @@ import {SocketIO} from './socket-io';
 @Component({
     selector: 'faces',
     template: `
+        <div style="position:relative;">
         <svg class="face_chart" style="display: block; margin:0 auto; font-weight:bold;" ></svg>
+            <img id="bertil" class="fejsss" src="app/icons/Nyckeltal_bra.svg"
+                width="45%"
+                height="45%" />
+            <img id="lotta" class="fejsss" src="app/icons/Nyckeltal_ok.svg"
+                width="45%"
+                height="45%" />
+            <img id="bertilpil" class="fejsss" src="app/icons/Trend_ok.svg"
+                width="45%"
+                height="45%" />
+            <img id="lottapil" class="fejsss" src="app/icons/Trend_bra.svg"
+                width="45%"
+                height="45%" />
+        </div>
         `,
+    styles: [`
+        .fejsss {
+            position:absolute;
+        }
+        #bertil {
+            top: 37%;
+            left: -10.5%;
+        }
+        #lotta {
+            top: 37%;
+            left: 65%;
+        }
+        #bertilpil {
+            top: 70%;
+            left: 2.5%;
+        } 
+        #lottapil {
+            top: 70%;
+            left: 53%;
+        } 
+        `],
     providers: [SocketIO]
 })
 
 export class Faces implements OnInit {
+
     private static scaleSVG(svg,width,height,endpoints){
         svg.attr("viewBox", endpoints[0] +" " +endpoints[1] +" " +endpoints[2] +" " +endpoints[3]);
         svg.attr("preserveAspectRatio","xMaxYMax");
@@ -36,7 +72,7 @@ export class Faces implements OnInit {
             'ttk': {
                 'value': 329,
                 'trend': 0,
-                'mood': -1
+                'mood': 1
             }
         };
 
@@ -52,19 +88,54 @@ export class Faces implements OnInit {
         this.scaleSVG(this.chart,90,100,[0,0,250,105]);
         this.chart.selectAll("*").remove();
 
-        var distance = 105, radius = 50, circle1X = radius + 20, circleY = radius;
+        var distance = 105, radius = 50, circle1X = radius + 20, circleY = radius + 2;
         var face1X = 30, faceY = 25, faceR = radius * 0.4;
         var arrow1X = 15, arrowY = 50;
 
         this.drawCircle(circle1X, circleY, radius, data['ttd'],'TTL');
-        this.drawFace(face1X, faceY, faceR, data['ttd']);
-        this.drawArrow(arrow1X, arrowY, data['ttd']);
+        var picPath1 = this.moodPic(data['ttd']['mood']);
+        d3.select("#bertil").attr("src", picPath1);
+        var arrowPicPath1 = this.arrowPic(data['ttd']['trend']);
+        d3.select("#bertilpil").attr("src", arrowPicPath1);
 
         this.drawCircle(circle1X + distance, circleY, radius, data['ttk'],'TTK');
-        this.drawFace(circle1X + distance + (circle1X - face1X), faceY, faceR, data['ttk']);
-        this.drawArrow(circle1X + distance + (circle1X - arrow1X) - 20, arrowY, data['ttk']);
+        var picPath2 = this.moodPic(data['ttk']['mood']);
+        d3.select("#lotta").attr("src", picPath2);
+        var arrowPicPath2 = this.arrowPic(data['ttd']['trend']);
+        d3.select("#lottapil").attr("src", arrowPicPath2);
     }
 
+    static moodPic(mood: number) {
+        var picPath: string;
+        switch(mood) {
+            case 1:
+                picPath = "app/icons/Nyckeltal_bra.svg";
+                break;
+            case 0:
+                picPath = "app/icons/Nyckeltal_ok.svg";
+                break;
+            case -1:
+                picPath = "app/icons/Nyckeltal_bad.svg";
+                break;
+        }
+        return picPath;
+    }
+
+    static arrowPic(trend: number) {
+        var picPath: string;
+        switch(trend) {
+            case 1:
+                picPath = "app/icons/Trend_bra.svg";
+                break;
+            case 0:
+                picPath = "app/icons/Trend_ok.svg";
+                break;
+            case -1:
+                picPath = "app/icons/Trend_bad.svg";
+                break;
+        }
+        return picPath;
+    }
     static drawCircle(circleX, circleY, circleR, datattx, typeText:string) { // datattx är data['ttd'] eller data['ttk']
         var chart = this.chart;
 
@@ -78,9 +149,9 @@ export class Faces implements OnInit {
             .style("stroke","rgb(95, 95, 95)");
 
         chart.append("text")
-            .attr('x', circleX - circleR * 0.23)
+            .attr('x', circleX - circleR * 0.465)
             .attr('y', circleY - circleR * 0.2)
-            .text(datattx['value']); //was: text(Math.round(datattx['value']));
+            .text(datattx['value'] + "min"); //was: text(Math.round(datattx['value']));
 
         chart.append("text")
             .attr('x', circleX - circleR * 0.23)
