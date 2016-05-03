@@ -17,32 +17,37 @@ export class Barchart{
     }
 
     public static color_hash_incoming = [
-      ["Inkommande", "#333333"]
+        ["Ej tragestatus", "#333333"],
+        ["", "#E6E6E6"] // this is a silly method to put spacing between the groups. #e6e6e6 is the background colour
     ];
 
     public static color_hash_status = [
         ["Opåtittade", "#808080"],
         ["Påtittade", "#C0C0C0"],
-        ["Klara", "#fbfbfb"]
+        ["Klara", "#fbfbfb"],
+        ["", "#E6E6E6"]
     ];
 
     public static color_hash_triage = [
-      ["Blå", "#0040FF"],
-      ["Grön", "#5FCC00"],
-      ["Gul", "#FFFF00"],
-      ["Orange", "#FF8C00"],
-      ["Röd", "#FF0000"]
+        ["Blå", "#0040FF"],
+        ["Grön", "#5FCC00"],
+        ["Gul", "#FFFF00"],
+        ["Orange", "#FF8C00"],
+        ["Röd", "#FF0000"],
+        ["", "#E6E6E6"]
     ];
 
     public static color_hash_rooms = [
-      ["Rum", "#285078"],
-      ["Inre väntrum", "#328CA5"],
-      ["Undersökning", "#97D2C8"],
-      ["Annan plats", "#C3E6BE"]
+        ["I rum här", "#285078"],
+        ["Inre väntrum", "#328CA5"],
+        ["På Undersökning", "#97D2C8"],// we do not actually support this at the moment
+        ["Annan plats", "#C3E6BE"],
+        ["", "#E6E6E6"]
     ];
 
     public static color_hash_noTriage = [
-      ["Ej triagerade", "#333333"]
+        ["Ej triage", "#333333"],
+        ["", "#E6E6E6"]
     ];
 
     public static getMedLegend(){
