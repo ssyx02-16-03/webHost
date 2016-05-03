@@ -318,27 +318,6 @@ class Card{
         } else {
             this.loc = Location.other;
         }
-
-        /*
-        this.room = jsonLocation;
-        var letter = this.room.substr(0,1);
-        var room_nr = parseInt( this.room.substr(1,3) );
-        if(letter == "b" || letter == "B" ) {
-            this.loc = Location.square;
-            this.room_nr = room_nr;
-        }else if(this.isNumeric(this.room)){
-          this.room_nr = parseInt(this.room);
-          this.loc = Location.square;
-        }else {
-            switch(this.room) {
-                case 'Bvr':
-                    this.loc = Location.innerWaitRoom;
-                    break;
-                default:
-                    this.loc = Location.other;
-            }
-        }
-        */
     }
 
     private isNumeric(num){ //is the object numeric?

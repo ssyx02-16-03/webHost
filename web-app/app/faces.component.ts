@@ -11,12 +11,6 @@ import {SocketIO} from './socket-io';
     template: `
         <div style="position:relative;">
         <svg class="face_chart" style="display: block; margin:0 auto; font-weight:bold;" ></svg>
-            <img id="bertil" class="fejsss" src="app/icons/Nyckeltal_bra.svg"
-                width="45%"
-                height="45%" />
-            <img id="lotta" class="fejsss" src="app/icons/Nyckeltal_ok.svg"
-                width="45%"
-                height="45%" />
             <img id="bertilpil" class="fejsss" src="app/icons/Trend_ok.svg"
                 width="45%"
                 height="45%" />
