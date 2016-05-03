@@ -17,7 +17,7 @@ export class Barchart{
     }
 
     public static color_hash_incoming = [
-        ["Ej tragestatus", "#333333"],
+        ["Yttre väntrum", "#333333"],
         ["", "#E6E6E6"] // this is a silly method to put spacing between the groups. #e6e6e6 is the background colour
     ];
 
