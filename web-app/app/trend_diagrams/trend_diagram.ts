@@ -289,8 +289,7 @@ export abstract class TrendDiagram {
             .style("text-anchor", "end")
             .text(""); // stod här "någoooot" förut
 
-        this.drawCircles(svg,data,x,y)
-
+        //this.drawCircles(svg,data,x,y); //plupparna tenderar att vara fel fel fel.
     }
 
     drawCircles(parent,data,x,y){
@@ -304,6 +303,7 @@ export abstract class TrendDiagram {
 
          var dataPoints = data[dataKey.hist].length;
          var nowTimeKey = dataPoints-1;
+
 
          for (var key in data[dataKey.times]) {
             if(key != undefined) {
