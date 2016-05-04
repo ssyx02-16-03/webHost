@@ -49,6 +49,9 @@ export class barchart_coordinator {
 
         var x = d3.scale.ordinal()
             .domain(jsonData.map(function (d) {
+                if(d['division'] == 'incoming'){
+                  return 'ej påb. triage';
+                }
                 return d['division'];
             }))
             .rangeRoundBands([0, chartWidth], .1);
@@ -116,7 +119,7 @@ export class barchart_coordinator {
                     .attr("width", legendSize)
                     .attr("height", legendSize);
                 if (i == 0) {
-                    Barchart.svgStroke(rect,Barchart.color_hash_incoming[0][1]);
+                    Barchart.svgStroke(rect,d[1]);
                 }
                 else {
                     rect.style("fill", d[1]);
@@ -149,9 +152,9 @@ export class barchart_coordinator {
         //untriaged
         var i = 0;
         var noTriage = [];
-        noTriage[0] = jsonData[i][Barchart.jsonKeys.noTriage];
+        noTriage[0] = 'noTriage';
         var xCoord = (2*i+1) * barSpace - barWidth;
-        var lastBox = Block.drawPile(noTriage,barBox,y, chartHeight, barWidth*2, xCoord, Barchart.color_hash_noTriage);
+        var lastBox = Block.drawPile(jsonData[i],noTriage,barBox,y, chartHeight, barWidth*2, xCoord);
         lastBox.setFontColor("white");
 
         //the rest
@@ -164,24 +167,23 @@ export class barchart_coordinator {
           var medBlue_status = [];
           var xCoord = (2*i+1) * barSpace -barWidth;
 
-
-          medBlue_triage[0] = jsonData[Barchart.jsonKeys.red];
-          medBlue_triage[1] = jsonData[Barchart.jsonKeys.orange];
-          medBlue_triage[2] = jsonData[Barchart.jsonKeys.yellow];
-          medBlue_triage[3]  = jsonData[Barchart.jsonKeys.green];
-          medBlue_triage[4]  = jsonData[Barchart.jsonKeys.blue];
-          var firstBox = Block.drawPile(medBlue_triage,parent,y, chartHeight, barWidth, xCoord, Barchart.color_hash_triage);
+          medBlue_triage[4] = 'red';//Barchart.jsonKeys.red
+          medBlue_triage[3] = 'orange'; //Barchart.jsonKeys.orange;
+          medBlue_triage[2] = 'yellow';
+          medBlue_triage[1]  = 'green';
+          medBlue_triage[0]  = 'blue';
+          var firstBox = Block.drawPile(jsonData, medBlue_triage,parent,y, chartHeight, barWidth, xCoord);
 
           xCoord = (2*i+1) * barSpace + middleSpacer;
-          medBlue_status[0] = jsonData[Barchart.jsonKeys.noDoc];
-          medBlue_status[1] = jsonData[Barchart.jsonKeys.hasDoc];
-          medBlue_status[2] = jsonData[Barchart.jsonKeys.doneDoc];
-          Block.drawPile(medBlue_status,parent,y, chartHeight, barWidth, xCoord, Barchart.color_hash_status);
+          medBlue_status[2] = 'noDoc';
+          medBlue_status[1] = 'hasDoc';
+          medBlue_status[0] = 'doneDoc';
+          Block.drawPile(jsonData, medBlue_status,parent,y, chartHeight, barWidth, xCoord);
 
-          var incoming:number = jsonData[Barchart.jsonKeys.incoming];
+          var incoming:number = jsonData['incoming'];
           var strokeHeight = chartHeight-y(incoming);
           var block = new Block(parent, firstBox.x, firstBox.y-strokeHeight, barWidth*2+middleSpacer, strokeHeight, "none", incoming);
-          block.stroke(Barchart.color_hash_incoming[0][1]);
+          block.stroke(Barchart.color_hash['incoming'][1]);
         }
 
     }

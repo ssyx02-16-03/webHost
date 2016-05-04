@@ -128,7 +128,7 @@ export class barchart_medicin extends Barchart{
                     .attr("width", legendSize)
                     .attr("height", legendSize);
                 if(i == 0) {
-                    Barchart.svgStroke(rect,Barchart.color_hash_incoming[0][1]);
+                    Barchart.svgStroke(rect,d[1]);
                 } else {
                     rect.style("fill", d[1]);
                 }
@@ -144,41 +144,41 @@ export class barchart_medicin extends Barchart{
 
         // -----------TRIAGE STATUS ----------------------
         var triage = [];
-        triage[0] = jsonData.blue;
-        triage[1] = jsonData.green;
-        triage[2] = jsonData.yellow;
-        triage[3]  = jsonData.orange;
-        triage[4]  = jsonData.red;
+        triage[4] = 'red';//Barchart.jsonKeys.red
+        triage[3] = 'orange'; //Barchart.jsonKeys.orange;
+        triage[2] = 'yellow';
+        triage[1]  = 'green';
+        triage[0]  = 'blue';
 
         var xCoord = 1 * barSpace - barWidth;
-        var lastBox = Block.drawPile(triage,barBox,y, chartHeight,barWidth, xCoord, Barchart.color_hash_triage);
+        var lastBox = Block.drawPile(jsonData, triage,barBox,y, chartHeight,barWidth, xCoord);
 
         //---------- INKOMMANDE
-        var incoming:number = jsonData.incoming;
+        var incoming:number = jsonData['incoming'];
         var incWidth = barWidth+2*barSpace;
         var incHeight = chartHeight -y(incoming);
         var incColor = "";
 
         var block = new Block(barBox, lastBox.x, lastBox.y-incHeight, incWidth, incHeight, incColor, incoming);
-        block.stroke(Barchart.color_hash_incoming[0][1]);
+        block.stroke(Barchart.color_hash['incoming'][1]);
 
         //----------------------PATIENTSTATUS--------------------------
         var patientStatus = [];
-        patientStatus[0] = jsonData.no_doctor;
-        patientStatus[1] = jsonData.has_doctor;
-        patientStatus[2] = jsonData.klar;
+        patientStatus[2] = 'noDoc';
+        patientStatus[1] = 'hasDoc';
+        patientStatus[0] = 'doneDoc';
 
         var xCoord = 2 * barSpace - barWidth;
-        Block.drawPile(patientStatus, barBox, y,chartHeight,barWidth ,xCoord,Barchart.color_hash_status);
+        Block.drawPile(jsonData, patientStatus, barBox, y,chartHeight,barWidth ,xCoord);
 
         // -----------RUMSFÖRDELNING ----------------------
         var roomArray = [];
-        roomArray[0] = jsonData.rooms_here;
-        roomArray[1] = jsonData.inner_waiting_room;
-        roomArray[2] = jsonData.at_examination;
-        roomArray[3] = jsonData.rooms_elsewhere;
+        roomArray[0] = 'roomsHere';
+        roomArray[1] = 'innerWaiting';
+        roomArray[2] = 'atExam';
+        roomArray[3] = 'roomsElse';
 
         var xCoord = 3 * barSpace - barWidth;
-        Block.drawPile(roomArray, barBox, y, chartHeight, barWidth ,xCoord,Barchart.color_hash_rooms);
+        Block.drawPile(jsonData, roomArray, barBox, y, chartHeight, barWidth ,xCoord);
     }//draw()
 }

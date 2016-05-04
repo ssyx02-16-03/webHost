@@ -3,6 +3,7 @@
 */
 
 export class Barchart{
+
     public static jsonKeys = {
       red: 'red',
       orange: 'orange',
@@ -13,49 +14,50 @@ export class Barchart{
       noDoc: 'no_doctor',
       hasDoc: 'has_doctor',
       doneDoc: 'klar',
-      noTriage : 'untriaged'
+      noTriage : 'untriaged',
+      innerWaiting : 'inner_waiting_room',
+      atExam : 'at_examination',
+      roomsHere : 'rooms_here',
+      roomsElse : 'rooms_elsewhere'
     }
 
-    public static color_hash_incoming = [
-        ["Yttre väntrum", "#333333"],
-        ["", "#E6E6E6"] // this is a silly method to put spacing between the groups. #e6e6e6 is the background colour
-    ];
+    public static color_hash = {
+        noDoc:  ["Opåtittade", "#808080"],
+        hasDoc: ["Påtittade", "#C0C0C0"],
+        doneDoc: ["Klara", "#fbfbfb"],
+        blue: ["Blå", "#0040FF"],
+        green: ["Grön", "#5FCC00"],
+        yellow: ["Gul", "#FFFF00"],
+        orange: ["Orange", "#FF8C00"],
+        red: ["Röd", "#FF0000"],
+        roomsHere: ["I rum här", "#285078"],
+        innerWaiting: ["Inre väntrum", "#328CA5"],
+        atExam: ["På Undersökning", "#97D2C8"],// we do not actually support this at the moment
+        roomsElse: ["Annan plats", "#C3E6BE"],
+        noTriage: ["Ej triage", "#333333"],
+        incoming: ["Ej triagefärg", "#333333"]
+    };
 
-    public static color_hash_status = [
-        ["Opåtittade", "#808080"],
-        ["Påtittade", "#C0C0C0"],
-        ["Klara", "#fbfbfb"],
-        ["", "#E6E6E6"]
-    ];
-
-    public static color_hash_triage = [
-        ["Blå", "#0040FF"],
-        ["Grön", "#5FCC00"],
-        ["Gul", "#FFFF00"],
-        ["Orange", "#FF8C00"],
-        ["Röd", "#FF0000"],
-        ["", "#E6E6E6"]
-    ];
-
-    public static color_hash_rooms = [
-        ["I rum här", "#285078"],
-        ["Inre väntrum", "#328CA5"],
-        ["På Undersökning", "#97D2C8"],// we do not actually support this at the moment
-        ["Annan plats", "#C3E6BE"],
-        ["", "#E6E6E6"]
-    ];
-
-    public static color_hash_noTriage = [
-        ["Ej triage", "#333333"],
-        ["", "#E6E6E6"]
-    ];
 
     public static getMedLegend(){
-      return this.color_hash_incoming.concat(this.color_hash_status,this.color_hash_rooms);
+      var legendKeys = [];
+      legendKeys = this.getCoordLegend();
+      legendKeys.push(["","none"]);
+      legendKeys.push(this.color_hash['roomsElse']);
+      legendKeys.push(this.color_hash['atExam']);
+      legendKeys.push(this.color_hash['innerWaiting']);
+      legendKeys.push(this.color_hash['roomsHere']);
+      return legendKeys;
     }
 
     public static getCoordLegend(){
-      return this.color_hash_incoming.concat(this.color_hash_status,this.color_hash_noTriage);
+      var legendKeys = [];
+      legendKeys.push(this.color_hash['incoming']);
+      legendKeys.push(["","none"]);
+      legendKeys.push(this.color_hash['noDoc']);
+      legendKeys.push(this.color_hash['hasDoc']);
+      legendKeys.push(this.color_hash['doneDoc']);
+      return legendKeys;
     }
 
     public static svgStroke(svg,color){
@@ -135,13 +137,17 @@ export class Block{
       Barchart.svgStroke(this.svgBlock,color);
     }
 
-    static drawPile(dataArray:number[], parent, yAxis, chartHeight:number, barWidth:number, xCoord:number, color_hash:string[][]){
+    static drawPile(jsonData, keyArray, parent, yAxis, chartHeight:number, barWidth:number, xCoord:number){
+          console.log(jsonData);
           var yCoord;
           var lastY = chartHeight;
-          for(var i=0; i<dataArray.length; i++){
-              var boxHeight = chartHeight-yAxis(dataArray[i]);
+          for(var i=0; i<keyArray.length; i++){
+            console.log(keyArray[i]);
+              var data = jsonData[Barchart.jsonKeys[keyArray[i]]];
+              console.log(data);
+              var boxHeight = chartHeight-yAxis(data);
               yCoord = lastY-boxHeight;
-              var lastBlock = new Block(parent, xCoord, yCoord, barWidth, boxHeight, color_hash[i][1], dataArray[i]);
+              var lastBlock = new Block(parent, xCoord, yCoord, barWidth, boxHeight, Barchart.color_hash[keyArray[i]][1], data);
               lastY = lastBlock.y;
           }
           return lastBlock;
