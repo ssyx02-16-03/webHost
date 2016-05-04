@@ -103,7 +103,7 @@ export class TTDDiagram extends TrendDiagram {
 })
 
 export class TTTDiagram extends TrendDiagram {
-    ttt_ylims = [60, 50]; //test
+    ttt_ylims = [40, 20]; //test
     selector = ".ttt-chart";
 
     data: any = {
