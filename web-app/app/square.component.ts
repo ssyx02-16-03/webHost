@@ -13,7 +13,7 @@ import {BrokenNotifier} from './broken_data_notifier';
 @Component({
     template: `
         <placeholder>
-                  <faces></faces>
+            <faces></faces>
             <squareCards></squareCards>
             <rightDiv>
                 <clock_coord></clock_coord>
@@ -44,10 +44,8 @@ export class SquareComponent implements OnInit{
 
         //--faces
         var faces = placehold.select("faces");
-        faces.attr("style", "display:block; position:absolute; width:20%; height: 15%; top:20%; left:20%;");
-        //--INSIDE LEFT DIV
-        var faces = squareCards.select('faces')
-            .attr("style", "display:block; margin:auto; margin-top:20%; height: 20%; width:40%;"+border);
+        faces.attr("style", "display:block; position:absolute; width:20%; height: 15%; top:20%; left:15%;");
+
 
         //--INSIDE RIGHT DIV
         var clock = rightDiv.select('clock_coord')

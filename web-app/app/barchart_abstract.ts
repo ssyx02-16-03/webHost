@@ -138,13 +138,10 @@ export class Block{
     }
 
     static drawPile(jsonData, keyArray, parent, yAxis, chartHeight:number, barWidth:number, xCoord:number){
-          console.log(jsonData);
           var yCoord;
           var lastY = chartHeight;
           for(var i=0; i<keyArray.length; i++){
-            console.log(keyArray[i]);
               var data = jsonData[Barchart.jsonKeys[keyArray[i]]];
-              console.log(data);
               var boxHeight = chartHeight-yAxis(data);
               yCoord = lastY-boxHeight;
               var lastBlock = new Block(parent, xCoord, yCoord, barWidth, boxHeight, Barchart.color_hash[keyArray[i]][1], data);

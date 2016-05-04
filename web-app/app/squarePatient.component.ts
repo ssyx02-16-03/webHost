@@ -22,11 +22,8 @@ import {SocketIO} from './socket-io';
 export class SquarePatients implements OnInit{
     ngOnInit(){
         var divs = styleCardHolders();
-
         //listen to data
         SocketIO.subscribe('blue_side_overview', function(data){
-          console.log(data);
-          console.log('test worked! SocketIO!');
           refreshCards(divs,data);
         });
         //for testing purposes
@@ -34,11 +31,46 @@ export class SquarePatients implements OnInit{
     }
 }
 
+class squareGrid{
+  public static card_holders = {
+      19  :[2,0,"B19",false],
+      20  :[1,0,"B20",false],
+      21  :[0,0,"B21",false],
+      22  :[0,1,"B22",false],
+      23  :[0,2,"B23",false],
+      24  :[0,3,"B24",false],
+      25  :[0,4,"B25",false],
+      26  : [1,4,"B26",false],
+      27  : [2,4,"B27",false],
+      241 : [1,3,"B24",false]
+  };
+
+  public static exist(roomNr:number){
+    if(this.card_holders[roomNr] != undefined){
+      return true;
+    }
+    return false;
+  }
+
+  private static isOccupied(roomNr:number){
+    return this.card_holders[roomNr][3];
+  }
+
+  private static doOccupation(roomNr:number){
+    this.card_holders[roomNr][3] = true;
+  }
+
+  public static occupy(roomNr:number){
+      if(roomNr == 24 && this.isOccupied(24) && !this.isOccupied(241)){
+        roomNr = 241;
+      }
+      this.doOccupation(roomNr);
+      return roomNr;
+  }
+}
 
 var cardWidth = 20; //percentage of the whole bottom area, total of 5 columns
-var waitDivWidth = 3/5*100;
-var otherDivWidth = 100-waitDivWidth;
-var waitCols = waitDivWidth/cardWidth;
+var otherDivWidth = 100
 var otherCols = otherDivWidth/cardWidth;
 
 //print the base layout
@@ -47,12 +79,6 @@ function styleCardHolders(){
   divs['squareDiv'] = d3.select(".squarePatients");
           //+"width:" + cardWidth*5 +"px;"
           //+"height:" +cardHeight*3 +"px;"
-
-  divs['waitingDiv'] = d3.select(".waitingPatients")
-      .attr("style", ""
-          +"width:" +waitDivWidth + "%;");
-          //+"width: "+cardWidth*4 +"px;"
-          //+"height:"+cardHeight*4 +"px;"
 
   divs['othersDiv'] = d3.select(".otherPatients")
       .attr("style", "width:" +otherDivWidth + "%;");
@@ -82,7 +108,6 @@ function refreshCards(divs,data){
   var cards = updateCards(data);
   var grid = paintGrid(3,5);
   paintRoomCards(grid,cards[Location.square]);
-  paintCardsLoop(divs.waitingDiv,waitCols,"Väntrum",cards[Location.innerWaitRoom]);
   paintCardsLoop(divs.othersDiv,otherCols,"Övriga",cards[Location.other]);
 }
 
@@ -91,11 +116,11 @@ function updateCards(data){
   var cards = [];
   cards[Location.other] = [];
   cards[Location.square] = [];
-  cards[Location.innerWaitRoom] = [];
 
   //noinspection TsLint
   for(var i=0; i < data.length; i++){
       var patienti =  new Card(data[i]);
+      console.log(patienti);
       cards[patienti.loc].push(patienti);
   }
   console.log("updated cards! ",cards);
@@ -109,12 +134,13 @@ function paintRoomCards(grid,roomCards){
       sortedCards[card.room_nr] = card;
   }
 
-  var keys = Object.keys(card_holders);
+
+  var keys = Object.keys(squareGrid.card_holders);
   for(var i=0; i<keys.length; i++){
     var key = keys[i];
-    var roomName = card_holders[key][2];
-    var cell = card_holders[key][1];
-    var row = card_holders[key][0];
+    var roomName = squareGrid.card_holders[key][2];
+    var cell = squareGrid.card_holders[key][1];
+    var row = squareGrid.card_holders[key][0];
     grid[row][cell].selectAll("*").remove(); //remove old stuff
     paintCardOrDummy(roomName, sortedCards[key], grid[row][cell],"");
   }
@@ -129,7 +155,6 @@ function paintCardsLoop(grandParent,nColumns:number,title:string,cards ){
   grandParent.selectAll("*").remove(); //remove old stuff
 
   var cardStyle = "height: 23%; width:" +100 +"%;";
-
   var maxCards = nColumns*4;
   var columns = [];
 
@@ -177,6 +202,7 @@ function paintDummyCard(roomName:string,parent,cardStyle){
 }
 
 function paintCard(patientCard:Card,parent,cardStyle) { //paint one card inside parent
+
   var card1 = parent.append("li")
       .attr("style", cardStyle)
       .attr("class","patientCard "+patientCard.triage);
@@ -308,16 +334,18 @@ class Card{
     }
 
     determineLocation(jsonLocation){
-        this.room = jsonLocation;
-        var room_nr = parseInt( this.room.substr(1,3) );
-        if(this.room == "Biv" || this.room == "Bvr"){
-            this.loc = Location.innerWaitRoom;
-        }else if(this.isNumeric(room_nr)) {
-            this.room_nr = room_nr;
+      this.room = jsonLocation;
+      var room_letter:string = this.room.substr(0,1);
+      console.log(room_letter);
+      if(room_letter ==  'b' || room_letter == 'B'){
+        var room_nr:number = parseInt( this.room.substr(1,3) );
+          if(squareGrid.exist(room_nr)){
             this.loc = Location.square;
-        } else {
-            this.loc = Location.other;
+            this.room_nr = squareGrid.occupy(room_nr);
+            return;
+          }
         }
+      this.loc = Location.other;
     }
 
     private isNumeric(num){ //is the object numeric?
@@ -336,22 +364,10 @@ var triageStatus = {
 /*
 grid [row,col,roomString]
 */
-var card_holders = {
-    19:[2,0,"B19"],
-    20:[1,0,"B20"],
-    21:[0,0,"B21"],
-    22:[0,1,"B22"],
-    23:[0,2,"B23"],
-    24:[0,3,"B24"],
-    25:[0,4,"B25"],
-    26:[1,4,"B26"],
-    27:[2,4,"B27"]
-}
 
 //determines where
 enum Location{
     square,
-    innerWaitRoom,
     other
 }
 
@@ -439,6 +455,36 @@ var patients =
             "arrival_time_of_day":"07:08",
             "room":"B27",
             "name":"Sjöko Ekström",
+            "last_event":{
+                "guidelines_exceeded":false,
+                "minutes_since":"32",
+                "name":"Omv\u00e5rdnad"
+            },
+            "has_doctor":true,
+            "id":3971342,
+            "doctor_name":"HELLU17",
+            "side":"yellow_side"
+        },
+        {
+            "Priority":"Green",
+            "arrival_time_of_day":"07:08",
+            "room":"B24",
+            "name":"Slappar Stina",
+            "last_event":{
+                "guidelines_exceeded":false,
+                "minutes_since":"32",
+                "name":"Omv\u00e5rdnad"
+            },
+            "has_doctor":true,
+            "id":3971342,
+            "doctor_name":"HELLU17",
+            "side":"yellow_side"
+        },
+        {
+            "Priority":"Green",
+            "arrival_time_of_day":"07:08",
+            "room":"B24",
+            "name":"Slappar Stina",
             "last_event":{
                 "guidelines_exceeded":false,
                 "minutes_since":"32",
