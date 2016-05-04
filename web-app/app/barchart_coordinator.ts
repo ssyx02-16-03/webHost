@@ -49,7 +49,7 @@ export class barchart_coordinator {
 
         var x = d3.scale.ordinal()
             .domain(jsonData.map(function (d) {
-                if(d['division'] == 'incoming'){
+                if(d['division'] == 'incoming' || d['division'] == 'Inkommande'){
                   return 'ej påb. triage';
                 }
                 return d['division'];
