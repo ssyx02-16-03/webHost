@@ -45,6 +45,13 @@ class squareGrid{
       241 : [1,3,"B24",false]
   };
 
+  public static emptyAllRooms(){
+    for(var v in this.card_holders){
+      var room = this.card_holders[v];
+      room[3] = false;
+    }
+  }
+
   public static exist(roomNr:number){
     if(this.card_holders[roomNr] != undefined){
       return true;
@@ -116,6 +123,7 @@ function paintGrid(rows:number,cells:number){
 function refreshCards(divs,data){
   var cards = updateCards(data);
   var grid = paintGrid(3,5);
+  squareGrid.emptyAllRooms();
   paintRoomCards(grid,cards[Location.square]);
   paintCardsLoop(divs.othersDiv,otherCols,"Övriga",cards[Location.other]);
 }
