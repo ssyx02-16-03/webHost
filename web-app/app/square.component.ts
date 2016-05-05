@@ -23,7 +23,7 @@ import {BrokenNotifier} from './broken_data_notifier';
         </placeholder>
         <brokenData><brokenData>
         `,
-    directives: [Clock, Faces, SquarePatients, changeTable, barchart_medicinComponent,BrokenNotifier]
+    directives: [Clock, SquarePatients, changeTable, barchart_medicinComponent,BrokenNotifier] // Faces hidden
 })
 
 export class SquareComponent implements OnInit{
