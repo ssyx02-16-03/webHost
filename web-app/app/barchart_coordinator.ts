@@ -175,9 +175,9 @@ export class barchart_coordinator {
           var firstBox = Block.drawPile(jsonData, medBlue_triage,parent,y, chartHeight, barWidth, xCoord);
 
           xCoord = (2*i+1) * barSpace + middleSpacer;
-          medBlue_status[2] = 'noDoc';
+          medBlue_status[0] = 'noDoc';
           medBlue_status[1] = 'hasDoc';
-          medBlue_status[0] = 'doneDoc';
+          medBlue_status[2] = 'doneDoc';
           Block.drawPile(jsonData, medBlue_status,parent,y, chartHeight, barWidth, xCoord);
 
           var incoming:number = jsonData['incoming'];

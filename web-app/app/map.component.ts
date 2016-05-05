@@ -668,6 +668,7 @@ class Room{
                          rNbr == 15 ||
                          rNbr == 24 ||
                          rNbr == 26 ||
+                         rNbr == 33 ||
                          rNbr == 36 ||
                          rNbr == 37 ||
                          rNbr == 53 ||

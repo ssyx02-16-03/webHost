@@ -164,9 +164,9 @@ export class barchart_medicin extends Barchart{
 
         //----------------------PATIENTSTATUS--------------------------
         var patientStatus = [];
-        patientStatus[2] = 'noDoc';
+        patientStatus[0] = 'noDoc';
         patientStatus[1] = 'hasDoc';
-        patientStatus[0] = 'doneDoc';
+        patientStatus[2] = 'doneDoc';
 
         var xCoord = 2 * barSpace - barWidth;
         Block.drawPile(jsonData, patientStatus, barBox, y,chartHeight,barWidth ,xCoord);

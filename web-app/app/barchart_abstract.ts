@@ -11,9 +11,9 @@ export class Barchart{
       green: 'green',
       blue: 'blue',
       incoming : 'incoming',
-      noDoc: 'no_doctor',
-      hasDoc: 'has_doctor',
       doneDoc: 'klar',
+      hasDoc: 'has_doctor',
+      noDoc: 'no_doctor',
       noTriage : 'untriaged',
       innerWaiting : 'inner_waiting_room',
       atExam : 'at_examination',
@@ -22,9 +22,9 @@ export class Barchart{
     }
 
     public static color_hash = {
-        noDoc:  ["Opåtittade", "#808080"],
-        hasDoc: ["Påtittade", "#C0C0C0"],
         doneDoc: ["Klara", "#fbfbfb"],
+        hasDoc: ["Påtittade", "#C0C0C0"],
+        noDoc:  ["Opåtittade", "#808080"],
         blue: ["Blå", "#0040FF"],
         green: ["Grön", "#5FCC00"],
         yellow: ["Gul", "#FFFF00"],
@@ -54,9 +54,9 @@ export class Barchart{
       var legendKeys = [];
       legendKeys.push(this.color_hash['incoming']);
       legendKeys.push(["","none"]);
-      legendKeys.push(this.color_hash['noDoc']);
-      legendKeys.push(this.color_hash['hasDoc']);
       legendKeys.push(this.color_hash['doneDoc']);
+      legendKeys.push(this.color_hash['hasDoc']);
+      legendKeys.push(this.color_hash['noDoc']);
       return legendKeys;
     }
 
