@@ -52,8 +52,17 @@ class squareGrid{
     return false;
   }
 
-  private static isOccupied(roomNr:number){
+  private static isFull(roomNr:number){
     return this.card_holders[roomNr][3];
+  }
+
+  public static isOccupied(roomNr:number){
+    if(roomNr == 24 && this.isFull(24)){
+      return this.isFull(241);
+    }
+    else{
+      return this.isFull(roomNr);
+    }
   }
 
   private static doOccupation(roomNr:number){
@@ -61,7 +70,7 @@ class squareGrid{
   }
 
   public static occupy(roomNr:number){
-      if(roomNr == 24 && this.isOccupied(24) && !this.isOccupied(241)){
+      if(roomNr == 24 && this.isFull(24) && !this.isFull(241)){
         roomNr = 241;
       }
       this.doOccupation(roomNr);
@@ -339,7 +348,7 @@ class Card{
       console.log(room_letter);
       if(room_letter ==  'b' || room_letter == 'B'){
         var room_nr:number = parseInt( this.room.substr(1,3) );
-          if(squareGrid.exist(room_nr)){
+          if(squareGrid.exist(room_nr) && !squareGrid.isOccupied(room_nr)){
             this.loc = Location.square;
             this.room_nr = squareGrid.occupy(room_nr);
             return;
@@ -453,7 +462,7 @@ var patients =
         {
             "Priority":"Yellow",
             "arrival_time_of_day":"07:08",
-            "room":"B27",
+            "room":"B24",
             "name":"Sjöko Ekström",
             "last_event":{
                 "guidelines_exceeded":false,

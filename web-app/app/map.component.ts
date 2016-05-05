@@ -672,7 +672,7 @@ class Room{
                          rNbr == 37 ||
                          rNbr == 53 ||
                          rNbr == 60 ||
-                        rNbr == 61);
+                         rNbr == 61);
 
         var color = "black";
 
@@ -680,6 +680,7 @@ class Room{
         if (this.occupied && jsonRoomObject['patient_department'] != "default"){
             var department = jsonRoomObject['patient_department'];
             color = departments[department];
+            console.log(color);
             //determine color
         }else{
             if(this.occupied) {
