@@ -18,11 +18,11 @@
   },
   "homepage": "https://github.com/ssyx02-16-03/webHost#readme",
   "dependencies": {
-    "elasticsearch": "^10.1.3",
-    "events": "^1.1.0",
-    "express": "^4.13.4",
-    "requirejs": "^2.1.22",
-    "socket.io": "^1.4.5",
-    "stomp-client": "^0.8.1"
+    "elasticsearch": "~10.1.3",
+    "events": "~1.1.0",
+    "express": "~4.13.4",
+    "requirejs": "~2.1.22",
+    "socket.io": "~1.4.5",
+    "stomp-client": "~0.8.1"
   }
 }
