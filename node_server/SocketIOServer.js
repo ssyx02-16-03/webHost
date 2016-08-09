@@ -13,7 +13,7 @@ define(['express', 'http', 'socket.io'], function(express, http, socketIO) {
 	}
 
   var path = require('path');
-  var __dirname = path.resolve(path.dirname());
+  var __dirname = path.resolve();
 
 	// här var det __dirname + '/client' som argument förut
 	//app.use(express.static('./client'));
